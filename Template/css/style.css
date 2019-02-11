@@ -50,9 +50,7 @@ body {
     padding-right: 0;
 }
 
-.my-content {
-    padding: 0 20px;
-}
+
 
 .main-container {
     padding: 100px 15px;
@@ -1751,6 +1749,9 @@ multi slider respon
     .rangeslider__labels__label {
         padding-top: 11% !important;
     }
+	.portfolio_item{
+		padding: 0 0px 5px 0px;
+	}
 }
 
 @media only screen and (max-width: 850px) {
