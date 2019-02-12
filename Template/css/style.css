@@ -6,11 +6,11 @@
 */
 /* Table of Content
 ==================================================
-	- Google fonts & font family -
-	- General -
+    - Google fonts & font family -
+    - General -
     - typography -
     - Preloader -
-	- Header -
+    - Header -
     - box intro section -
     - Portfoilo section -
     - Range Slider for Age
@@ -24,7 +24,7 @@
 */
 /* Google fonts & font family
 ==================================================*/
-@import url(https://fonts.googleapis.com/css?family=Poppins:400,500,600,700);
+@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500,600,700);
 
 /* General
 ==================================================*/
@@ -34,7 +34,7 @@ html {
 
 body {
     height: 100%;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     line-height: 1.8;
     color: #999;
     font-size: 1.4rem;
@@ -1084,7 +1084,8 @@ b i:last-child {
 .rangeslider__handle__value {
     transition: background-color 0.2s, box-shadow 0.1s, transform 0.1s;
     box-sizing: border-box;
-    width: 40px;
+    min-width: 40px;
+    max-width: 80px;
     text-align: center;
     padding: 2px;
     background-color: #ffbf00;
@@ -1140,7 +1141,13 @@ b i:last-child {
     color: #999;
 }
 
-.rangeslider__labels__label:first-child:before, .rangeslider__labels__label:last-child:before {
+span.rangeslider__labels__label:first-child {
+    width: 100%;
+    margin: 2% 0% 1% -50%;
+}
+
+.rangeslider__labels__label:first-child:before,
+.rangeslider__labels__label:last-child:before {
     height: 12px;
     width: 2px;
 }
@@ -1155,13 +1162,16 @@ b i:last-child {
 
 .rangeslider__labels__label:first-child {
     transform: translateX(-48%);
+    display: : none;
 }
 
 .rangeslider__labels__label:last-child {
     transform: translateX(48%);
+    display: none;
 }
 
-.rangeslider.rangeslider--active .rangeslider__handle, .rangeslider.rangeslider--active .rangeslider__handle * {
+.rangeslider.rangeslider--active .rangeslider__handle,
+.rangeslider.rangeslider--active .rangeslider__handle * {
     background-color: #ffbf00;
 }
 
@@ -1548,7 +1558,8 @@ textarea:focus {
     box-sizing: border-box
 }
 
-.mySlides1, .mySlides2 {
+.mySlides1,
+.mySlides2 {
     display: none
 }
 
@@ -1567,7 +1578,8 @@ img {
 }
 
 /* Next & previous buttons */
-.previmg, .nextimg {
+.previmg,
+.nextimg {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -1589,7 +1601,8 @@ img {
 }
 
 /* On hover, add a grey background color */
-.previmg:hover, .nextimg:hover {
+.previmg:hover,
+.nextimg:hover {
     background-color: #f1f1f1;
     color: black;
 }
@@ -1749,9 +1762,10 @@ multi slider respon
     .rangeslider__labels__label {
         padding-top: 11% !important;
     }
-	.portfolio_item{
-		padding: 0 0px 5px 0px;
-	}
+
+    .portfolio_item {
+        padding: 0 0px 5px 0px;
+    }
 }
 
 @media only screen and (max-width: 850px) {
