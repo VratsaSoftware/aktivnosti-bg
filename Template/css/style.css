@@ -6,11 +6,11 @@
 */
 /* Table of Content
 ==================================================
-	- Google fonts & font family -
-	- General -
+    - Google fonts & font family -
+    - General -
     - typography -
     - Preloader -
-	- Header -
+    - Header -
     - box intro section -
     - Portfoilo section -
     - Range Slider for Age
@@ -24,7 +24,7 @@
 */
 /* Google fonts & font family
 ==================================================*/
-@import url(https://fonts.googleapis.com/css?family=Poppins:400,500,600,700);
+@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500,600,700);
 
 /* General
 ==================================================*/
@@ -34,7 +34,7 @@ html {
 
 body {
     height: 100%;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     line-height: 1.8;
     color: #999;
     font-size: 1.4rem;
@@ -50,12 +50,10 @@ body {
     padding-right: 0;
 }
 
-.my-content {
-    padding: 0 20px;
-}
+
 
 .main-container {
-    padding: 100px 15px;
+    padding: 50px 0px;
 }
 
 .center {
@@ -953,7 +951,22 @@ b i:last-child {
     overflow: hidden;
     display: block;
 }
-
+.portfolio_item .offert {
+	display: none;
+    position: absolute;
+    top: -5%;
+    left: -20%;
+    transform: rotate(315deg);
+    padding: 2.5% 0 2.5% 17%;
+    background: #e70e0e;
+    width: 100%;
+    opacity: 0.5;
+    color: #fff;
+	font-size:1.7rem;
+}
+.free .portfolio_item .offert {
+	display: block
+}
 .portfolio_item .portfolio_item_hover {
     position: absolute;
     top: 0px;
@@ -990,7 +1003,15 @@ b i:last-child {
     transition: all .2s ease-in-out .2s;
     opacity: 0;
 }
-
+.portfolio_item .portfolio_item_hover .item_info .description{
+	font-size: 12px;
+}
+.portfolio_item .portfolio_item_hover .item_info .name{
+	letter-spacing: 1px;
+	font-size: 10px;
+	margin-top: 5px;
+	padding: 5px 5px;
+}
 .portfolio_item .portfolio_item_hover .item_info em {
     font-style: normal;
     display: inline-block;
@@ -1007,7 +1028,15 @@ b i:last-child {
     font-size: 10px;
     letter-spacing: 2px;
 }
-
+.item_logo{
+	position: absolute;
+	bottom: 5%;
+	left: 10%;
+}
+.item_logo img{
+	width: 40px;
+	padding-right: 10px;
+}
 .portfolio_item:hover .portfolio_item_hover {
     opacity: 1;
     -webkit-transform: translateX(0);
@@ -1048,7 +1077,7 @@ b i:last-child {
 ==================================================*/
 .range_fancybox-wrap {
     width: 100%;
-    padding-bottom: 7%;
+    padding-bottom: 3%;
     position: relative;
 }
 
@@ -1086,7 +1115,8 @@ b i:last-child {
 .rangeslider__handle__value {
     transition: background-color 0.2s, box-shadow 0.1s, transform 0.1s;
     box-sizing: border-box;
-    width: 40px;
+    min-width: 40px;
+    max-width: 80px;
     text-align: center;
     padding: 2px;
     background-color: #ffbf00;
@@ -1142,7 +1172,13 @@ b i:last-child {
     color: #999;
 }
 
-.rangeslider__labels__label:first-child:before, .rangeslider__labels__label:last-child:before {
+span.rangeslider__labels__label:first-child {
+    width: 100%;
+    margin: 2% 0% 1% -50%;
+}
+
+.rangeslider__labels__label:first-child:before,
+.rangeslider__labels__label:last-child:before {
     height: 12px;
     width: 2px;
 }
@@ -1157,13 +1193,16 @@ b i:last-child {
 
 .rangeslider__labels__label:first-child {
     transform: translateX(-48%);
+    display: : none;
 }
 
 .rangeslider__labels__label:last-child {
     transform: translateX(48%);
+    display: none;
 }
 
-.rangeslider.rangeslider--active .rangeslider__handle, .rangeslider.rangeslider--active .rangeslider__handle * {
+.rangeslider.rangeslider--active .rangeslider__handle,
+.rangeslider.rangeslider--active .rangeslider__handle * {
     background-color: #ffbf00;
 }
 
@@ -1510,9 +1549,7 @@ textarea:focus {
     margin: 0;
 }
 
-.main-container {
-    padding: 100px 0px;
-}
+
 
 .single-project {
     padding: 50px 0 50px 0;
@@ -1521,7 +1558,10 @@ textarea:focus {
 .org span {
     color: #33bada;
 }
-
+.task{
+	
+	font-weight: 700;
+}
 .cat-ul {
     padding-left: 0;
     list-style: none
@@ -1550,7 +1590,8 @@ textarea:focus {
     box-sizing: border-box
 }
 
-.mySlides1, .mySlides2 {
+.mySlides1,
+.mySlides2 {
     display: none
 }
 
@@ -1569,7 +1610,8 @@ img {
 }
 
 /* Next & previous buttons */
-.previmg, .nextimg {
+.previmg,
+.nextimg {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -1591,105 +1633,321 @@ img {
 }
 
 /* On hover, add a grey background color */
-.previmg:hover, .nextimg:hover {
+.previmg:hover,
+.nextimg:hover {
     background-color: #f1f1f1;
     color: black;
 }
 
+/* Tooltip */
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 15%;
+  margin-left: -50px;
+  opacity: .95;
+  
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 15%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+  z-index:9;
+}
+.popup span{
+	background: #ffbf00;
+	font-size:16px;
+	border: none;
+}
+
+.popup span:hover{
+	background:#ffa700;
+}
+.popup span i{
+	padding-right: 5px;
+	font-size:20px;
+}
 /*=============================
 multi slider respon
 =============================*/
-#resource-slider {
+/* Slider */
+
+.slider_item{
+	padding: 0 30px;
+	margin: 0 auto;
+}
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
+
+.slick-slider
+{
+    position: relative;
+
+    display: block;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list
+{
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.slick-list:focus
+{
+    outline: none;
+}
+.slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list
+{
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+         -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+}
+
+.slick-track
+{
     position: relative;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 13em;
-    margin: auto;
-    border-radius: 3px;
-    background: #fff;
-    overflow: hidden;
-}
 
-#resource-slider .arrow {
-    cursor: pointer;
-    position: absolute;
-    width: 2em;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    outline: 0;
-    color: #000;
-    background: none;
-    border: none;
-    font-size: 26px;
+    display: block;
+    
 }
+.slick-track:before,
+.slick-track:after
+{
+    display: table;
 
-#resource-slider .arrow:hover {
-    font-size: 32px;
-}
-
-#resource-slider .arrow:before {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 0.75em;
-    height: 0.75em;
-    margin: auto;
-    border-style: none;
+}
+.slick-track:after
+{
+    clear: both;
+}
+.slick-loading .slick-track
+{
+    visibility: hidden;
 }
 
-#resource-slider .prev {
-    left: -20px;
-    bottom: 0;
-}
+.slick-slide
+{
+    display: none;
+    float: left;
 
-#resource-slider .prev:before {
-    left: 0.25em;
-    transform: rotate(-45deg);
-}
-
-#resource-slider .next {
-    right: -20px;
-    bottom: 0;
-}
-
-#resource-slider .next:before {
-    right: 0.25em;
-    transform: rotate(45deg);
-}
-
-#resource-slider .resource-slider-frame {
-    position: absolute;
-    top: 0;
-    left: 2em;
-    right: 2em;
-    bottom: 0;
-    overflow: hidden;
-}
-
-#resource-slider .resource-slider-item {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 50%;
     height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+.slick-slide img
+{
+	
+    display: block;
+}
+.slick-slide.slick-loading img
+{
+    display: none;
+}
+.slick-slide.dragging img
+{
+    pointer-events: none;
+}
+.slick-initialized .slick-slide
+{
+    display: block;
+}
+.slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+.slick-vertical .slick-slide
+{
+    display: block;
+
+    height: auto;
+
+    border: 1px solid transparent;
+}
+.slick-arrow.slick-hidden {
+    display: none;
+}
+@charset 'UTF-8';
+/* Slider */
+.slick-loading .slick-list
+{
+    background: #fff url('./ajax-loader.gif') center center no-repeat;
 }
 
-#resource-slider .resource-slider-inset {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0.5em 0.25em;
-    overflow: hidden;
+/* Icons */
+@font-face
+{
+    font-family: 'slick';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('../fonts/slick.eot');
+    src: url('../fonts/slick.eot?#iefix') format('embedded-opentype'), url('../fonts/slick.woff') format('woff'), url('../fonts/slick.ttf') format('truetype'), url('../fonts/slick.svg#slick') format('svg');
 }
+/* Arrows */
+.slick-prev,
+.slick-next
+{
+    font-size: 0;
+    line-height: 0;
+
+    position: absolute;
+    top: 45%;
+
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+
+    cursor: pointer;
+
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus
+{
+    color: transparent;
+    outline: none;
+    background: transparent;
+}
+.slick-prev:hover:before,
+.slick-prev:focus:before,
+.slick-next:hover:before,
+.slick-next:focus:before
+{
+    opacity: 1;
+}
+.slick-prev.slick-disabled:before,
+.slick-next.slick-disabled:before
+{
+    opacity: .25;
+}
+
+.slick-prev:before,
+.slick-next:before
+{
+    font-family: 'slick';
+    font-size: 30px;
+    line-height: 1;
+
+    opacity: .75;
+    color: #ffbf00;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev
+{
+    left: -35px;
+}
+[dir='rtl'] .slick-prev
+{
+    right: -35px;
+    left: auto;
+}
+.slick-prev:before
+{
+    content: '←';
+}
+[dir='rtl'] .slick-prev:before
+{
+    content: '→';
+}
+
+.slick-next
+{
+    right: -25px;
+}
+[dir='rtl'] .slick-next
+{
+    right: auto;
+    left: -25px;
+}
+.slick-next:before
+{
+    content: '→';
+}
+[dir='rtl'] .slick-next:before
+{
+    content: '←';
+}
+
 
 @media (max-width: 60em) {
     #resource-slider .resource-slider-item {
@@ -1750,6 +2008,10 @@ multi slider respon
 
     .rangeslider__labels__label {
         padding-top: 11% !important;
+    }
+
+    .portfolio_item {
+        padding: 0 0px 5px 0px;
     }
 }
 
