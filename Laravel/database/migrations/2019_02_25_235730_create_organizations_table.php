@@ -18,6 +18,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('address');
+            $table->string('phone');
             $table->timestamps();
             $table->string('updated_by')->nullable();
             $table->dateTime('approved_at')->nullable();

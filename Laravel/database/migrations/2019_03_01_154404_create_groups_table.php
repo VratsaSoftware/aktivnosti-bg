@@ -23,6 +23,8 @@ class CreateGroupsTable extends Migration
             $table->string('deleted_by')->nullable();
             $table->unsignedInteger('activity_id');
             $table->foreign('activity_id')->references('activity_id')->on('activities')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

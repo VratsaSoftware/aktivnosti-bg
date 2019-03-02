@@ -17,12 +17,12 @@ class CreateProfilesTable extends Migration
             $table->increments('profile_id');
             $table->string('first_name',50);
             $table->string('family',50);
-            $table->string('photo',255);
             $table->text('description');
             $table->string('address');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedInteger('city_id')->references('city_id')->on('cities');
+            $table->string('phone');
             $table->timestamps();
             $table->string('updated_by')->nullable();
         });

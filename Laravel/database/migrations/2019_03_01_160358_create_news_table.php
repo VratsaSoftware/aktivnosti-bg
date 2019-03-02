@@ -26,8 +26,7 @@ class CreateNewsTable extends Migration
             $table->string('updated_by')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->string('deleted_by')->nullable();
-            $table->unsignedInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('set null')->onUpdate('cascade');
+            $table->morphs('article');
         });
     }
 

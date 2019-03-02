@@ -15,7 +15,7 @@ class CreatePurposesTable extends Migration
     {
         Schema::create('purposes', function (Blueprint $table) {
             $table->increments('purpose_id');
-            $table->string('purpose',50);
+            $table->string('description',50);
             $table->timestamps();
         });
     }

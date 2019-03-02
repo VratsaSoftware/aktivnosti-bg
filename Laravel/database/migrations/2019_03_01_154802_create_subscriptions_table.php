@@ -17,7 +17,7 @@ class CreateSubscriptionsTable extends Migration
             $table->increments('subscription_id');
             $table->string('email');
             $table->string('name')->nullable();
-            $table->boolean('unsubscribed');
+            $table->boolean('unsubscribed_global');
             $table->timestamps();
             $table->string('updated_by')->nullable();
             $table->dateTime('deleted_at')->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubscriptionCategoriesTable extends Migration
+class CreateNewslettersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateSubscriptionCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription__categories', function (Blueprint $table) {
-            $table->increments('subscription_category_id');
+        Schema::create('newsletters', function (Blueprint $table) {
+            $table->increments('newsletter_id');
+            $table->morphs('desired');
+            $table->boolean('unsubscribed');
+            $table->timestamps();
             $table->unsignedInteger('subscription_id');
             $table->foreign('subscription_id')->references('subscription_id')->on('subscriptions')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedInteger('category_id');
-            $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
-       });
+        });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -29,6 +30,6 @@ class CreateSubscriptionCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscription__categories');
+        Schema::dropIfExists('newsletters');
     }
 }
