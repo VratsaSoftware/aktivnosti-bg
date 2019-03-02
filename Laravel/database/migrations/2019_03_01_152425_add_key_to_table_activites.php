@@ -14,7 +14,7 @@ class AddKeyToTableActivites extends Migration
     public function up()
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->unsignedInteger('subcategory_id');
+            $table->unsignedInteger('subcategory_id')->nullable();
             $table->foreign('subcategory_id')->references('subcategory_id')->on('subcategories');
         });
     }
