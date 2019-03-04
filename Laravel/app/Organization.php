@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
 {
-    protected $primarykey = 'organization_id';
+    use SoftDeletes;
+    
+    protected $primaryKey = 'organization_id';
     protected $guarded = ['organization_id', 'created_at', 'updated_at'];
 
     public function users(){

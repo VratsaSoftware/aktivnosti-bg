@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Schedule extends Model
 {
-    protected $primarykey = 'shedule_id';
+	use SoftDeletes;
+	
+    protected $primaryKey = 'shedule_id';
     protected $guarded = ['schedule_id', 'created_at', 'updated_at'];
 
     public function group(){

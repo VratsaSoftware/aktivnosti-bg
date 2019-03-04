@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    protected $primarykey = 'activity_id';
-    protected $guarded = ['activity_id', 'created_at', 'updated_at'];
+    use SoftDeletes;
+    
+    protected $primaryKey = 'activity_id';
+    protected $guarded = ['activity_id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function organization(){
     	return $this->belongsTo('App\Organization');

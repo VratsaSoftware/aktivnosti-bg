@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    protected $primarykey = 'category_id';
-    protected $guarded = ['category_id', 'created_at', 'updated_at'];
+    use SoftDeletes;
+    
+    protected $primaryKey = 'category_id';
+    protected $guarded = ['category_id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function subcategories(){
     	return $this->hasMany('App\Category');

@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class City extends Model
 {
-	protected $primarykey = 'city_id';
-
-    protected $guarded = ['city_id', 'created_at', 'updated_at'];
+   
+	protected $primaryKey = 'city_id';
+    protected $guarded = ['city_id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function country(){
     	return $this->belongsTo('App\Country');

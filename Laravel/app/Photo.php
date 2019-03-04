@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Photo extends Model
 {
-    protected $primarykey = 'photo_id';
+	use SoftDeletes;
+
+    protected $primaryKey = 'photo_id';
     protected $guarded = ['photo_id', 'created_at', 'updated_at'];
 
     public function image(){

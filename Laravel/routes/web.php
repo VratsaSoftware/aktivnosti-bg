@@ -11,6 +11,27 @@
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+
+Route::group(['middleware' => 'App\Http\Middleware\Citadel'], function(){
+	Route::resource('/citadel/users' , 'UsersController');
+});
+
+Auth::routes();
+
+Route::get('/citadel', function () {
+
+    return view('auth.login');
+});
+
 Route::get('/', function () {
+
     return view('welcome');
 });
+
+
+
