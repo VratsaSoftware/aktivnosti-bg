@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Profile;
-use App\Role;
-use App\Photo;
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Role;
+use App\Models\Photo;
 
 class UsersController extends Controller
 {
@@ -17,9 +17,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users_r=User::all();
-        var_dump($users_r);
-        //return view('userrights.index',compact('users_r'));
         
     }
 

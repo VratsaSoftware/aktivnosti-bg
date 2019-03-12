@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Closure;
 use Response;
 
@@ -16,10 +17,12 @@ class Citadel
      */
     public function handle($request, Closure $next)
     {
-        // if (is_null($request->user()) || $request->user() && $request->user()->role->role != 'administrator')
-        //     {
-        //         abort(403);
-        //     }
+        if ((is_null($request->user()) || ((!is_null($request->user()) && $request->user()->role->role == 'guest'))))
+        {
+          
+            throw new HttpException(403);
+           
+        }
         return $next($request);
     }
 }

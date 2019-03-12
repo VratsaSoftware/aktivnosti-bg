@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,10 +13,10 @@ class Group extends Model
     protected $guarded = ['group_id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function activity(){
-    	return $this->belongsTo('App\Activity');
+    	return $this->belongsTo('App\Models\Activity','activity_id');
     }
 
     public function schedules(){
-    	return $this->hasMany('App\Schedule');
+    	return $this->hasMany('App\Models\Schedule','group_id');
     }
 }

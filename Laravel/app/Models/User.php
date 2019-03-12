@@ -1,13 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class User extends Authenticatable
 {
@@ -36,23 +35,23 @@ class User extends Authenticatable
     ];
 
     public function role(){
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\Models\Role','role_id');
     }
 
     public function organization(){
-        return $this->belongsTo('App\Organization');
+        return $this->belongsTo('App\Models\Organization','organization_id');
     }
 
     public function groups(){
-        return $this->hasMany('App\Group');
+        return $this->hasMany('App\Models\Group','user_id');
     }
 
     public function city(){
-        return $this->belongsTo('App\City');
+        return $this->belongsTo('App\Models\City','city_id');
     }
 
     public function photo(){
-        return $this->morphOne('App\Photo','image');
+        return $this->morphOne('App\Models\Photo','image');
     }
 
 }

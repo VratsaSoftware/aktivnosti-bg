@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +17,7 @@ class Photo extends Model
     }
 
     public function purpose(){
-    	return $this->belongsTo('App\Purpose');
+    	return $this->belongsTo('App\Models\Purpose','purpose_id');
     }
 }
 

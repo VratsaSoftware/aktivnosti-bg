@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +17,6 @@ class Newsletter extends Model
     }
 
     public function subscription(){
-    	return $this->belongsTo('App\Subscription');
+    	return $this->belongsTo('App\Models\Subscription','subscription_id');
     }
 }

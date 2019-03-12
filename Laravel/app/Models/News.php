@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +18,6 @@ class News extends Model
     }
 
     public function photos(){
-    	return $this->morphMany('App\Photo','image');
+    	return $this->morphMany('App\Models\Photo','image');
     }
 }

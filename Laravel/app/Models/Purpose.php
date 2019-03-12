@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +13,6 @@ class Purpose extends Model
     protected $guarded = ['purpose_id', 'created_at', 'updated_at'];
 
     public function photos(){
-    	return $this->hasMany('App\Photo');
+    	return $this->morphMany('App\Models\Photo','image');
     }
 }
