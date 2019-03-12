@@ -11,6 +11,30 @@
 |
 */
 
+
+
+//authentication 
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('/home', 'HomeController@index')->name('home');
+
+	//logged users access control
+    Route::group(['middleware' => 'citadel.entry'], function () {
+		Route::get('/citadel','CitadelController@index');
+	});
+
+});
+
+Auth::routes();
+
+//main page
 Route::get('/', function () {
     return view('welcome');
 });
+
+//for test purposes, will be deleted later
+Route::get('/test','TestController@index');
+
+
+
+
+

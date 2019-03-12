@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\City;
+use App\Models\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,6 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'family' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
@@ -63,10 +67,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $default_country = Country::firstOrCreate(['name' => 'България', 'country_id' => '1']);
+        $default_role = Role::firstOrCreate(['role' => 'guest']);
+        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
+      
         return User::create([
             'name' => $data['name'],
+            'family' => $data['family'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+            'role_id' => $default_role->role_id,
+            'address' => $data['address'],
+            'city_id' => $default_city->city_id,
+            'phone' => $data['phone'],
+        ]);     
     }
 }
