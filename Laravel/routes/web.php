@@ -31,6 +31,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('/users', 'UsersController');
+
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index');
 
