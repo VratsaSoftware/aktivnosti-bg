@@ -26,10 +26,17 @@ Route::group(['middleware' => 'auth'], function () {
 
 Auth::routes();
 
-//main page
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::resource('/', 'ActivityController');
+Route::get('/', 'ActivityController@showAllActivities');
+Route::get('/1', 'ActivityController@showSingleActivity');
+Route::get('/calendar', 'ActivityController@showCalendar');
+
+// Route::resource('organization', 'OrganizationController');
+Route::get('organization', 'OrganizationController@showOrganization');
+
+// Route::resource('news', 'NewsController');
+Route::get('news', 'NewsController@showAllNews');
+Route::get('/news', 'NewsController@showAllNews');
 
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index');
