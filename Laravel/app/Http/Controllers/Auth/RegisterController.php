@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Organization;
+use App\Models\Photo;
+use App\Models\Purpose;
 
 class RegisterController extends Controller
 {
@@ -43,6 +46,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $organizations=Organization::select('organization_id','name')->pluck('name','organization_id')->toArray();
+        return view('auth.register',compact('organizations'));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,14 +60,30 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages=[
+            'name.required' => 'Моля въведете име',
+            'name.string' => 'Моля въведете валидно име',
+            'family.required' => 'Моля въведете фамилно име',
+            'family.string' => 'Моля въведете валидно фамилно име',
+            'email.required' => 'Моля въведете E-mail адрес', 
+            'email.email' => 'Моля въведете валиден E-mail адрес',
+            'email.unique' => 'Потребител с такъв E-mail адрес вече съществува',     
+            'password:required' => 'Въведете парола',  
+            'password:min' => 'Паролата трябва да има минимум шест символа',
+            'password:confirmed' => 'Повторението на паролата не съвпада',
+            'address.required' => 'Моля въведете адрес',
+            'phone.regex' => 'Моля въведете валиден телефонен номер'
+        ];
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'family' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            // 'street' => ['required', 'string', 'max:255'],
-            // 'phone' => ['required', 'string', 'max:100'],
-        ]);
+            'address' => ['required', 'string', 'max:255'],
+            'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'],
+            'photo'=> ['mimes:jpg,png,jpeg'],
+        ],$messages);
     }
 
     /**
@@ -69,19 +94,51 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //set default country and city
         $default_country = Country::firstOrCreate(['name' => 'България', 'country_id' => '1']);
         $default_role = Role::firstOrCreate(['role' => 'guest']);
         $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
-      
-        return User::create([
-            'name' => $data['name'],
-            'family' => $data['family'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role_id' => $default_role->role_id,
-            'address' => $data['address'],
-            'city_id' => $default_city->city_id,
-            'phone' => $data['phone'],
-        ]);     
+
+        $user = new User;
+        $user->name = $data['name'];
+        $user->family = $data['family'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->role_id = $default_role->role_id;
+        $user->address = $data['address'];
+        $user->city_id = $default_city->city_id;
+        $user->phone = $data['phone'];
+        $user->save();
+
+        //store profile image in public\user_files\images\profile
+        if(isset($data['photo'])){
+            $file_name = $data['photo']->getClientOriginalName();
+            $store_file=$data['photo']->move('user_files/images/profile', $file_name);
+            $path_to_image = public_path().'/user_files/images/profile'.$file_name;
+            //add profile image to DB
+            //prepare purposes table if not ready
+            $photo_purpose = Purpose::where('description','profile')->first();
+            if(!$photo_purpose){
+                $photo_purpose=Purpose::firstOrCreate(['description' => 'profile']);
+            }
+
+            //store image in photos table
+            $user->photo()->create([
+                'image_path' => $path_to_image,
+                'alt' => 'user photo',
+                'description' => 'profile photo' ,
+                'purpose_id' => $photo_purpose->purpose_id,
+            ]);
+        }
+
+        //Set User organization
+        if($data['organization']!=0){
+        $user->organizations()->attach($data['organization']);
+        return $user;
+        }
+        //Handover to Organizations controller
+        else{
+            dd('Create new Organization');
+        }
     }
 }

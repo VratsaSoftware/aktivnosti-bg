@@ -13,7 +13,7 @@ class Organization extends Model
     protected $guarded = ['organization_id', 'created_at', 'updated_at'];
 
     public function users(){
-    	return $this->hasMany('App\Models\User','organization_id');
+    	return $this->belongsToMany('App\Models\User','organization_user','organization_id','user_id');
 	}
 
 	public function activities(){
@@ -21,7 +21,7 @@ class Organization extends Model
     }
 
     public function photos(){
-    	return $this->morphMany('App\Models\Models\Photo','image');
+    	return $this->morphMany('App\Models\Photo','image');
     }
 
     public function news(){

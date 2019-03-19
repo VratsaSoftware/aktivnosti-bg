@@ -34,7 +34,7 @@ Users Admin Panel
 		<td>{{ $user->email }}</td>
 		<td>{{ $user->address }}</td>
 		<td>{{ $user->phone }}</td>
-		<td>{{ $user->photo }}</td>
+		<td><img src="{{ public_path().$user->photo->image_path }}"></td>
 		<td>{{ ($user->approved_at) ? 'Approved': 'Not Approved' }}</td>
 		<td>{{ $user->role->role }}</td>
 		<td><a class="btn btn-success" href="{{ route('users.edit',$user->user_id)}}">Edit</a></td>

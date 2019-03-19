@@ -17,7 +17,7 @@ class Category extends Model
     }
 
     public function activities(){
-    	return $this->hasMany('App\Models\Activity','category_id');
+    	return $this->belongsToMany('App\Models\Activity','activity_category','category_id','activity_id');
     }
 
     public function news(){
@@ -29,6 +29,6 @@ class Category extends Model
     }
 
     public function users(){
-    	return $this->belongsToMany('App/User','user_id');
+    	return $this->belongsToMany('App/User','category_user','category_id','user_id');
     }
 }

@@ -17,7 +17,7 @@ class Activity extends Model
     }
 
     public function photos(){
-    	return $this->morphMany('App\Models\Photos','image');
+    	return $this->morphMany('App\Models\Photo','image');
     }
 
     public function groups(){

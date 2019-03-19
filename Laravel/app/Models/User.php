@@ -38,8 +38,8 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Role','role_id');
     }
 
-    public function organization(){
-        return $this->belongsTo('App\Models\Organization','organization_id');
+    public function organizations(){
+        return $this->belongsToMany('App\Models\Organization','organization_user','user_id','organization_id');
     }
 
     public function groups(){
@@ -54,4 +54,7 @@ class User extends Authenticatable
         return $this->morphOne('App\Models\Photo','image');
     }
 
+    public function categories(){
+        return $this->belongsToMany('App\Model\Category','category_user','user_id','category_id');
+    }
 }
