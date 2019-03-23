@@ -17,12 +17,12 @@ class Citadel
      */
     public function handle($request, Closure $next)
     {
-        if ((is_null($request->user()) || ((!is_null($request->user()) && $request->user()->role->role == 'guest'))))
-        {
-          
+        if (is_null($request->user()))
+        { 
             throw new HttpException(403);
-           
         }
-        return $next($request);
+        else{
+            return $next($request);
+        }
     }
 }

@@ -16,13 +16,27 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+
+
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    //  */
+    
+    public function index(Request $request)
     {
-        return view('home');
+        if(!$request->user()->isApproved()){
+
+            return view('home');
+
+        }
+        elseif($request->user()->hasRole('admin') && $request->user()->isApproved()){
+
+            return redirect()->action('UsersController@index');
+
+        }
+
     }
+  
 }

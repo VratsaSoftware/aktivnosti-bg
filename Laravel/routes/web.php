@@ -20,6 +20,12 @@ Route::group(['middleware' => 'auth'], function () {
 	//logged users access control
     Route::group(['middleware' => 'citadel.entry'], function () {
 		Route::get('/citadel','CitadelController@index');
+
+		//users management
+		Route::resource('/citadel/users', 'UsersController');
+
+		//dispatch approve method in Users Controller 
+		Route::get('citadel/users/approve/{id}', 'UsersController@approve')->name('users.approve');
 	});
 
 });
@@ -38,10 +44,9 @@ Route::get('organization', 'OrganizationController@showOrganization');
 Route::get('news', 'NewsController@showAllNews');
 Route::get('/news', 'NewsController@showAllNews');
 
-Route::resource('/users', 'UsersController');
-
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index');
+
 
 
 

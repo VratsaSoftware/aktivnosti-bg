@@ -101,6 +101,14 @@ class UsersController extends Controller
     {
         $users = User::find($id);
         $users->delete();
-        return redirect()->back()->with('message', 'Done!');
+        return redirect()->back()->with('message', 'Потребителят е изтрит');
+    }
+
+    public function approve($id)
+    {
+        $user = User::find($id);
+        $user->approved_at = (date('Y-m-d H:i:s'));
+        $user->save();
+        return redirect()->back()->with('message', 'Потребителят '.$user->email.' е одобрен!');
     }
 }

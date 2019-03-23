@@ -8,36 +8,38 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Organization extends Model
 {
     use SoftDeletes;
-    
+
     protected $primaryKey = 'organization_id';
-    protected $guarded = ['organization_id', 'created_at', 'updated_at'];
+    protected $guarded    = ['organization_id', 'created_at', 'updated_at'];
 
-    public function users(){
-    	return $this->belongsToMany('App\Models\User','organization_user','organization_id','user_id');
-	}
-
-	public function activities(){
-    	return $this->hasMany('App\Models\Activity','organization_id');
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'organization_user', 'organization_id', 'user_id');
     }
 
-    public function photos(){
-    	return $this->morphMany('App\Models\Photo','image');
+    public function activities()
+    {
+        return $this->hasMany('App\Models\Activity', 'organization_id');
     }
 
-    public function news(){
-    	return $this->morphMany('App\Models\Models\News','article');
+    public function photos()
+    {
+        return $this->morphMany('App\Models\Photo', 'image');
     }
 
-    public function newsletters(){
-    	return $this->morphMany('App\Models\Newsletters','desired');
+    public function news()
+    {
+        return $this->morphMany('App\Models\Models\News', 'article');
     }
 
-    public function city(){
-    	return $this->belongsTo('App\Models\City','city_id');
+    public function newsletters()
+    {
+        return $this->morphMany('App\Models\Newsletters', 'desired');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City', 'city_id');
     }
 
 }
-
-	
-
-	

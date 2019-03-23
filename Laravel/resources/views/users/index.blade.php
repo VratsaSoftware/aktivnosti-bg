@@ -1,60 +1,76 @@
-@extends('layouts.adminMaster')
+@extends('layouts.admin')
 
-@section('pageheader')
-Users Admin Panel
-@endsection
+@section('title', 'Администриране на потребители')
 
 @section('content')
-@if(session()->has('message'))
-    <div class="alert alert-success">
-        {{ session()->get('message') }}
-    </div>   
-@endif
-<div style="width: 95%; margin:auto;">
-<table id="table_id" class="display compact hover cell-border"  style="width:100%">
-<thead>
-	<tr>
-		<th>Name</th>
-		<th>Family</th>
-		<th>Email</th>
-		<th>Address</th>
-		<th>Phone</th>
-		<th>Photo</th>
-		<th>Approved</th>
-		<th>Role</th>
-<th colspan=2>Manage</th>
-	</tr>
-</thead>
-<tbody>
-
-	@foreach($users as $user)
-	<tr>
-		<td><a>{{ $user->name }}</a></td>
-		<td>{{ $user->family }}</td>
-		<td>{{ $user->email }}</td>
-		<td>{{ $user->address }}</td>
-		<td>{{ $user->phone }}</td>
-		<td><img src="{{ public_path().$user->photo->image_path }}"></td>
-		<td>{{ ($user->approved_at) ? 'Approved': 'Not Approved' }}</td>
-		<td>{{ $user->role->role }}</td>
-		<td><a class="btn btn-success" href="{{ route('users.edit',$user->user_id)}}">Edit</a></td>
-		<td>
-			<form method="POST" action="{{ route('users.destroy',$user->user_id) }}">
-				{{ csrf_field() }}
-				{{ method_field('DELETE') }}
-			<input class="btn btn-danger" type="submit" name="submit" value="Remove">
-			</form>
-		</td>
-	</tr>
-	@endforeach
-</tbody>
-
-</table>
-
-	<a class="btn btn-primary" href="{{ route('users.create')}}">Create</a>
-	<a class="btn btn-primary" href="{{ url()->previous() }}">Back</a>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Всички потребители
+            </div>
+        <div class="panel-body">
+	<div class="table-responsive">
+		@if(session()->has('message'))
+    		<div class="alert alert-success">
+       			 {{ session()->get('message') }}
+    		</div>   
+		@endif
+        <table class="table table-striped table-bordered table-hover" id="table_users">
+            <thead>
+                <tr>
+            		<th>Име</th>
+					<th>Фамилия</th>
+					<th>Поща</th>
+					<th>Адрес</th>
+					<th>Телефон</th>
+					<th>Снимка</th>
+					<th>Одобрен</th>
+					<th>Роля</th>
+					<th colspan=2>Управление</th>
+				</tr>
+            </thead>
+			<tbody>
+				@foreach($users as $user)
+				<tr>
+					<td>{{ $user->name }}</td>
+					<td>{{ $user->family }}</td>
+					<td>{{ $user->email }}</td>
+					<td>{{ $user->address }}</td>
+					<td>{{ $user->phone }}</td>
+					<td>
+					@if(isset($user->photo->image_path))
+						<img src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'
+						width="50" height="30">
+					@else
+						<span>Няма снимка</span>
+					@endif
+					</td>
+					<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
+					<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+					<td>
+					<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+					@if(!$user->approved_at)
+					<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+					@endif
+					<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+						<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+					</form>
+					</td>
+				</tr>
+				@endforeach
+			</tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+    <!--End Advanced Tables -->
+    </div>
 </div>
 
-@endsection
 
-	
+
+@endsection

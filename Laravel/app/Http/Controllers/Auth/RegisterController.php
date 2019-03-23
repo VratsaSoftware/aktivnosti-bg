@@ -72,7 +72,10 @@ class RegisterController extends Controller
             'password:min' => 'Паролата трябва да има минимум шест символа',
             'password:confirmed' => 'Повторението на паролата не съвпада',
             'address.required' => 'Моля въведете адрес',
-            'phone.regex' => 'Моля въведете валиден телефонен номер'
+            'phone.regex' => 'Моля въведете валиден телефонен номер',
+            'photo.mimes' => 'Формата на изображението не се поддържа',
+            'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
+
         ];
 
         return Validator::make($data, [
@@ -82,7 +85,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'],
-            'photo'=> ['mimes:jpg,png,jpeg'],
+            'photo'=> ['mimes:jpg,png,jpeg,gif,svg','max:2048'],
         ],$messages);
     }
 
@@ -96,7 +99,7 @@ class RegisterController extends Controller
     {
         //set default country and city
         $default_country = Country::firstOrCreate(['name' => 'България', 'country_id' => '1']);
-        $default_role = Role::firstOrCreate(['role' => 'guest']);
+        // $default_role = Role::firstOrCreate(['role' => 'guest']);
         $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
 
         $user = new User;
@@ -104,7 +107,6 @@ class RegisterController extends Controller
         $user->family = $data['family'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
-        $user->role_id = $default_role->role_id;
         $user->address = $data['address'];
         $user->city_id = $default_city->city_id;
         $user->phone = $data['phone'];
@@ -112,10 +114,10 @@ class RegisterController extends Controller
 
         //store profile image in public\user_files\images\profile
         if(isset($data['photo'])){
-            $file_name = $data['photo']->getClientOriginalName();
+            
+            $file_name = (time().'p'.mt_rand(1,99));
             $store_file=$data['photo']->move('user_files/images/profile', $file_name);
-            $path_to_image = public_path().'/user_files/images/profile'.$file_name;
-            //add profile image to DB
+
             //prepare purposes table if not ready
             $photo_purpose = Purpose::where('description','profile')->first();
             if(!$photo_purpose){
@@ -124,7 +126,7 @@ class RegisterController extends Controller
 
             //store image in photos table
             $user->photo()->create([
-                'image_path' => $path_to_image,
+                'image_path' => $file_name,
                 'alt' => 'user photo',
                 'description' => 'profile photo' ,
                 'purpose_id' => $photo_purpose->purpose_id,

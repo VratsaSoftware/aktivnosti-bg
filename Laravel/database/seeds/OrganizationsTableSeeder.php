@@ -29,7 +29,7 @@ class OrganizationsTableSeeder extends Seeder
         		]);    
 
         		$organization->photos()->create([
-           			'image_path' => '/user_files/images/profile/logo.png',
+           			'image_path' => 'logo.png',
            			'alt' => $faker->word,
            			'description' => $faker->sentence,
            			'purpose_id' => $purpose->purpose_id,

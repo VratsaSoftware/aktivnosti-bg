@@ -30,14 +30,14 @@ class UsersTableSeeder extends Seeder
             		'email' => $faker->email,
             		'address' => $faker->streetAddress,
             		'phone' => $faker->e164PhoneNumber,
-            		'role_id' => mt_rand(1,5),
+            		'role_id' => mt_rand(1,4),
             		'city_id' => '1',
             		'approved_at' => $approved,
             		'approved_by' => 'seeder',
         		]);
 
         		$user->photo()->create([
-           			'image_path' => '/user_files/images/profile/logo.png',
+           			'image_path' => 'avatar.jpeg',
            			'alt' => $faker->word,
            			'description' => $faker->sentence,
            			'purpose_id' => $purpose->purpose_id,

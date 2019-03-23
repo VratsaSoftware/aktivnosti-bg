@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        //Main seeders
+        
         $country = App\Models\Country::firstOrCreate(['name' => 'България']);
         $city = App\Models\City::firstOrCreate(['name' => 'Враца','country_id' => '1']);
 
@@ -63,10 +65,7 @@ class DatabaseSeeder extends Seeder
         ]); 
 
         App\Models\Role::insert([
-       		[
-        	'role'=>'guest',
-    		],
-
+            
        		[
         	'role'=>'admin',
     		],

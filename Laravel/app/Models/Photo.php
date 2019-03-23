@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Photo extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
     protected $primaryKey = 'photo_id';
-    protected $guarded = ['photo_id', 'created_at', 'updated_at'];
+    protected $guarded    = ['photo_id', 'created_at', 'updated_at'];
 
-    public function image(){
-    	return $this->morphTo();
+    public function image()
+    {
+        return $this->morphTo();
     }
 
-    public function purpose(){
-    	return $this->belongsTo('App\Models\Purpose','purpose_id');
+    public function purpose()
+    {
+        return $this->belongsTo('App\Models\Purpose', 'purpose_id');
     }
 }
-
-
