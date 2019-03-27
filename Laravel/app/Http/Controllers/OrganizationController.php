@@ -7,6 +7,8 @@ use App\Models\Organization;
 use App\Models\Photo;
 use App\Models\City;
 use App\Models\Purpose;
+use File;
+
 class OrganizationController extends Controller
 {
   
@@ -63,7 +65,8 @@ class OrganizationController extends Controller
 		
 		 //store organization image in public\user_files\images\organization
         if(isset($request['photo'])){
-            $file_name = $request['photo']->getClientOriginalName();
+            $original_name = $request['photo']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
             $store_file = $request['photo']->move('user_files/images/organization', $file_name);
             //$path_to_image = '../public/user_files/images/organization/'.$file_name;
             //add organization image to DB
@@ -152,15 +155,24 @@ class OrganizationController extends Controller
         $organization->save();
 		
 		if(isset($request['photo'])){
-            $file_name = $request['photo']->getClientOriginalName();
+			
+			//delete old photo
+			foreach($organization->photos as $photo){
+				$old_photo = $photo->image_path;
+			}
+			//File::delete(public_path().'user_files/images/organization/'.$old_photo);
+			File::delete('user_files/images/organization/'.$old_photo);
+			
+            $original_name = $request['photo']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
             $store_file = $request['photo']->move('user_files/images/organization', $file_name);
            // $path_to_image = public_path().'/user_files/images/organization'.$file_name;
-		
 		
 			$organization->photos()->update([
 				'image_path' => $file_name
 			]);
 		}
+		
 		//validate organization requests
 		$this->validate($request,[
             'name' => ['required', 'max:255'],
@@ -179,10 +191,9 @@ class OrganizationController extends Controller
             'phone.regex' => 'Моля въведете валиден телефонен номер',
 			//'photo.mimes' => 'Формата на изображението не се поддържа',
 			//'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
-
         ]);
 		
-         return redirect('citadel/organizations')->with('message', 'Организацията '.$organization->name.' е редактирана!');
+        return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
     }
 
     /**

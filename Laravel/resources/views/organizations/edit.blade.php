@@ -105,13 +105,15 @@
                                 @endif
                             </div>
                         </div>
+						@foreach($organization->photos as $photo)
+							@if($photo->image_path)
                         <div class="row">
 							<div class="col-md-6 old-img">
-							@foreach($organization->photos as $photo)
 								<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
-							@endforeach
 							</div>
 						</div>
+							@endif
+						@endforeach
                         <div class="form-group row">
                             <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка') }}</label>
                              <div class="col-md-6">
