@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Aktivnosti-bg') }}</title>
     <!-- BOOTSTRAP STYLES-->
-    <link href="{{asset("admin/css/bootstrap.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/bootstrap.css')}}" rel="stylesheet" />
     <!-- FONTAWESOME STYLES-->
-    <link href="{{asset("admin/css/font-awesome.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/font-awesome.css')}}" rel="stylesheet" />
     <!-- CUSTOM STYLES-->
-    <link href="{{asset("admin/css/custom.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">{{ config('app.name', 'Laravel') }}</a>
+                <a class="navbar-brand" href="index.html">{{ config('app.name', 'Aktivnosti-bg') }}</a>
             </div>
             <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;"> {{-- Last access : 30 May 2014 &nbsp; --}}
                 @guest
@@ -47,14 +47,15 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <img src="{{ isset($user->photo->image_path) ? asset('/user_files/images/profile/').'/'.$user->photo->image_path : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
+                        <img src="{{ (isset(Auth::user()->photo->image_path )) ? asset('/user_files/images/profile/').'/'.Auth::user()->photo->image_path   : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
                         width="100" height="50">
+						<p class="role">{{isset(Auth::user()->role->role) ? Auth::user()->role->role : ''}}</p>
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-users fa-3x"></i> Потребители</a>
+                        <a href="{{route('users.index')}}"><i class="fa fa-users fa-3x"></i> Потребители</a>
                     </li>
                     <li>
-                        <a href="ui.html"><i class="fa fa-building-o fa-3x"></i> Организации</a>
+                        <a href="{{route('organizations.adminOrg')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-dribbble fa-3x"></i> Активности<span class="fa arrow"></span></a>

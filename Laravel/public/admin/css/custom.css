@@ -336,6 +336,9 @@ background-color: #FFF;
 .nav > li > a > i {
     margin-right:10px;
 }
+.role{
+	color: #ffffff;
+}
 /*==============================================
     UI ELEMENTS STYLES     
     =============================================*/
@@ -350,7 +353,21 @@ text-align: center;
 font-size: 12px;
 line-height: 1.428571429;
 }
-
+/*==============================================
+    ORGANIZATION EDIT STYLES     
+    =============================================*/
+.old-img{
+	width:250px;	
+}
+.old-img img{
+	width: 100%;
+}
+.panel-heading a{
+	float: right;
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+}
 /*==============================================
     MEDIA QUERIES     
     =============================================*/
