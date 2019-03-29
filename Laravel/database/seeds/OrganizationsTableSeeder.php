@@ -16,7 +16,7 @@ class OrganizationsTableSeeder extends Seeder
     public function run()
     {   
     	
-    	$purpose = App\Models\Purpose::firstOrCreate(['description' => 'profile']);
+    	$purpose = App\Models\Purpose::firstOrCreate(['description' => 'logo']);
         $faker = Faker::create();
     		for($i = 0; $i < 100; $i++) {
         		$organization = Organization::create([

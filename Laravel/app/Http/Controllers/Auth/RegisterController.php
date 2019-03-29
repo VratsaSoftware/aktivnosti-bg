@@ -49,6 +49,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $organizations=Organization::select('organization_id','name')->pluck('name','organization_id')->toArray();
+
         return view('auth.register',compact('organizations'));
     }
 
@@ -60,6 +61,8 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $organizations=implode(",",array_keys(Organization::select('organization_id','name')->pluck('name','organization_id')->toArray())).',0';
+
         $messages=[
             'name.required' => 'Моля въведете име',
             'name.string' => 'Моля въведете валидно име',
@@ -74,7 +77,8 @@ class RegisterController extends Controller
             'address.required' => 'Моля въведете адрес',
             'phone.regex' => 'Моля въведете валиден телефонен номер',
             'photo.mimes' => 'Формата на изображението не се поддържа',
-            'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
+            'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
+            'organization.in' => 'Невалидна организация',
 
         ];
 
@@ -86,6 +90,7 @@ class RegisterController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'],
             'photo'=> ['mimes:jpg,png,jpeg,gif,svg','max:2048'],
+            'organization' => ['in:'.$organizations],
         ],$messages);
     }
 
@@ -140,7 +145,8 @@ class RegisterController extends Controller
         }
         //Handover to Organizations controller
         else{
-            dd('Create new Organization');
+            dd($user);
+            return view('organizations.create', compact('user'));
         }
     }
 }

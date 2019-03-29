@@ -1,6 +1,5 @@
-<div class='form-group'>
-
- 		{!! Form::label('name', 'Name:') !!}
+	<div class='form-group'>
+ 		{!! Form::label('name', 'Име') !!}
  		{!! Form::text('name', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('name'))
@@ -8,7 +7,7 @@
 	@endif
 
 	<div class='form-group'>
- 		{!! Form::label('family','Family') !!}
+ 		{!! Form::label('family','Фамилия') !!}
  		{!! Form::text('family', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('family'))
@@ -16,7 +15,7 @@
 	@endif
 	
 	<div class='form-group'>
- 		{!! Form::label('email','Email') !!}
+ 		{!! Form::label('email','Поща') !!}
  		{!! Form::text('email', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('email'))
@@ -24,7 +23,7 @@
 	@endif
 
 	<div class='form-group'>
- 		{!! Form::label('address','Address') !!}
+ 		{!! Form::label('address','Адрес') !!}
  		{!! Form::text('address', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('address'))
@@ -32,34 +31,77 @@
 	@endif
 
 	<div class='form-group'>
- 		{!! Form::label('phone','Phone') !!}
+ 		{!! Form::label('phone','Телефон') !!}
  		{!! Form::text('phone', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('phone'))
 	<div class="alert alert-danger">{{ $errors->first('phone') }}</div>
 	@endif
 
-    <div class="alert alert-danger">{{ $errors->first('photo') }}</diphoto<div class='form-group'>
- 		{!! Form::label('photo','Photo') !!}
- 		{!! Form::text('photo', null, ['class' => 'form-control']) !!}
+	<div class='form-group'>
+		<label>Снимка на профила:</label>
+		<span>
+		 		<img src="{{ isset($user->photo->image_path) ? asset('/user_files/images/profile/').'/'.($user->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
+                        width="100" height="50">
+		</span>
+	</div>
+
+    <div class='form-group'>
+ 		{!! Form::label('photo','Промяна на снимката') !!}
+ 		{!! Form::file('photo', array('class'=>'file', 'id'=>'photo')) !!} 		
 	</div>
 	@if ($errors->has('photo'))
 	<div class="alert alert-danger">{{ $errors->first('photo') }}</div>
 	@endif
 
 	<div class='form-group'>
- 		{!! Form::label('approved', 'Approved') !!}
+ 		{!! Form::label('description','Допълнителна информация') !!}
+ 		{!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => 4, 'cols' => 54, 'style' => 'resize:none']) !!}
+	</div>
+	@if ($errors->has('description'))
+    <div class="alert alert-danger">{{ $errors->first('description') }}</div>
+	@endif
+
+	<div class='form-group'>
+ 		{!! Form::label('approved', 'Статус') !!}
 		{!! Form::select('approved',$approvals,null,['class' => 'form-control']) !!}
 	</div>
 
 	<div class='form-group'>
- 		{!! Form::label('role', 'Role') !!}
+ 		{!! Form::label('role', 'Роля') !!}
 		{!! Form::select('role',$roles,null,['class' => 'form-control']) !!}
 	</div>
 
+	@if (Auth::user()->hasRole('admin'))
+
+		<div class="form-group">
+			{!! Form::label('organization', 'Организация') !!}
+    	    {!! Form::select('organization',$organizations,['class' => 'form-control']) !!}         
+    	    @if ($errors->has('organization'))
+    	        <div class="alert alert-danger">{{ $errors->first('organization') }}</div>
+    	    @endif
+    	</div>
+
+	
+		@isset ($categories)
+			<div class='form-group' id='moderator_categories'>
+				<div>
+					<label>Категории (Модератор)</label>
+				</div>	
+			@foreach ($categories as $category_id => $name)
+				<span style="display: inline-block; padding-right: 0.5%;">
+					{{ Form::label($name) }}
+					{{ Form::checkbox( 'categories[]',$category_id, (in_array($category_id, $userCategories) ? true: false)) }}
+				</span>
+			@endforeach    
+			</div>
+		@endisset
+	@endif
+
 <div class='form-group'>
- {!! Form::submit($submitButtonText, ['class' => 'btn btn-lg btn-success form-control']) !!}
+ {!! Form::submit($submitButtonText, ['class' => 'btn btn-warning']) !!}
 </div>
 <div>
-	<a class="btn btn-lg btn-primary form-control" href="{{ url()->previous() }}">Back</a>
+	<a class="btn btn-default" href="{{ url()->previous() }}">Обратно</a>
 </div>
+

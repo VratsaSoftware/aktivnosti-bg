@@ -1,14 +1,12 @@
-@extends('layouts.adminMaster')
+@extends('layouts.admin')
+
+@section('title', 'Редактиране на потребител')
 
 @section('content')
-<div class='col-md-6 col-md-offset-3'>
-  <h3>Edit User</h3>
-
-<hr>
-  
-  {!! Form::model($user, ['method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
-   @include('users.form', ['submitButtonText' => 'Save Changes'])
-  {!! Form::close() !!}
- </div>
-
+<div class="col-md-10">
+    {!! Form::model($user, ['enctype' => 'multipart/form-data', 'method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
+        @include('users.form', ['submitButtonText' => 'Save Changes'])
+    {!! Form::close() !!}
+    </hr>
+</div>
 @endsection

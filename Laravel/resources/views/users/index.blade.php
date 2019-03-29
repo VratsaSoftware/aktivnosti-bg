@@ -64,6 +64,9 @@
 				@endforeach
 			</tbody>
         </table>
+        <div>
+			<a class="btn btn-sm btn-warning" href="{{ url()->previous() }}">Обратно</a>
+		</div>
     </div>
     </div>
     </div>

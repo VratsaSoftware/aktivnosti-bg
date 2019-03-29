@@ -321,10 +321,10 @@ border:0px solid black;
      
 }
 .navbar-header {
-    background: #A70303;
+    background: #ffbf00;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-background-color: #B40101;
+background-color: #ffbf00;
 }
 .navbar-default .navbar-toggle {
 border-color: #fff;

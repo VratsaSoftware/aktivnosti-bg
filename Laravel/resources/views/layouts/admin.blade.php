@@ -19,19 +19,19 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                {{-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button> --}}
                 <a class="navbar-brand" href="index.html">{{ config('app.name', 'Laravel') }}</a>
             </div>
             <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;"> {{-- Last access : 30 May 2014 &nbsp; --}}
                 @guest
-                    <a href="{{ route('login') }}" class="btn btn-primary square-btn-adjust">{{ __('Вход') }}</a>   
+                    <a href="{{ route('login') }}" class="btn btn-warning square-btn-adjust">{{ __('Вход') }}</a>   
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                        <a style="color: #ffbf00;" href="{{ route('register') }}">{{ __('Регистрация') }} </a>
                     @endif
                 @else
                     <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust" onclick="event.preventDefault();
@@ -43,40 +43,40 @@
             </div>
         </nav>
         <!-- /. NAV TOP  -->
+        @if(Auth::user())
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <img src="{{ isset($user->photo->image_path) ? asset('/user_files/images/profile/').'/'.$user->photo->image_path : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
+                        <img src="{{ isset(Auth::user()->photo->image_path) ? asset('/user_files/images/profile/').'/'.(Auth::user()->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
                         width="100" height="50">
                     </li>
+                    @if (Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']))
                     <li>
-                        <a href="index.html"><i class="fa fa-users fa-3x"></i> Потребители</a>
+                        <a class="{{ (Route::currentRouteName() == 'citadel.index') ? 'active-menu' : '' }}" href="{{ route('citadel.index')}}"><i class="fa fa-shield fa-3x"></i> Администрация</a>
                     </li>
+
+                    @if (Auth::user()->hasRole('admin'))
                     <li>
-                        <a href="ui.html"><i class="fa fa-building-o fa-3x"></i> Организации</a>
+                        <a class="{{ (str_contains(Route::currentRouteName(), 'user')) ? 'active-menu' : '' }}" href="{{ route('users.index')}}"><i class="fa fa-users fa-3x"></i> Потребители</a>
                     </li>
+                    @endif
+                    
+                     @if (Auth::user()->hasRole('admin'))
                     <li>
-                        <a href="#"><i class="fa fa-dribbble fa-3x"></i> Активности<span class="fa arrow"></span></a>
+                        <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.index')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
+                    </li>
+                     @endif
+                     
+                    <li>
+                        <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{-- {{ route('activities.index')}} --}}"><i class="fa fa-dribbble fa-3x"></i> Активности<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                        {{--     <li>
-                                <a href="#">Групи</a>
-                            </li>
-                            <li>
-                                <a href="#">Разписания</a>
-                            </li> --}}
                             <li>
                                 <a href="#">Групи<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
                                         <a href="#">Разписания</a>
                                     </li>
-                                    {{-- <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li> --}}
                                 </ul>
                             </li>
                         </ul>
@@ -84,26 +84,29 @@
                     <li>
                         <a href="chart.html"><i class="fa fa-table fa-3x"></i> Новини</a>
                     </li>
+
+                     @if (Auth::user()->hasRole('admin'))
                     <li>
                         <a href="table.html"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
                     </li>
-                    <li>
-                        {{-- <a href="form.html"><i class="fa fa-edit fa-3x"></i> Forms </a> --}}
+                    @endif
+                    
+                    @else
+                     <li>
+                        <a href="chart.html"><i class="fa fa-table fa-3x"></i> Новини</a>
                     </li>
-                   
-{{--                     <li>
-                        <a class="active-menu" href="blank.html"><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
-                    </li> --}}
+                    @endif
                 </ul>
             </div>
         </nav>
+        @endif
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
                         <h2>@yield('title')</h2>
-                        <h5>Здравей {{ isset(Auth::user()->name) ? Auth::user()->name : ''  }}!</h5>
+                        <h5>Здравей {{ isset(Auth::user()->name) ? Auth::user()->name : ' Гост'  }}!</h5>
                     </div>
                 </div>
                 <!-- /. ROW  -->
@@ -138,7 +141,36 @@
             }],
             "sPaginationType" : "full_numbers",
         });
+        $('#table_organizations').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [7],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+        });
     });
+
+
+    //show / hide roles check-box
+    $(function() {
+        $('#moderator_categories').hide();
+        var selectedRole = ($( '#role option:selected').text());
+        if(selectedRole === 'moderator'){
+            $('#moderator_categories').show();
+        }
+       $( "#role" ).change(function () { 
+            selectedRole = ($( '#role option:selected').text());
+             if(selectedRole === 'moderator'){
+                 $('#moderator_categories').show();
+            }
+            else{
+                $('#moderator_categories').hide();
+            }
+        });     
+    });
+    
     </script>
 
     <!-- CUSTOM SCRIPTS -->

@@ -28,7 +28,7 @@ class HomeController extends Controller
     {
         if(!$request->user()->isApproved()){
 
-            return view('home');
+            return view('citadel.home');
 
         }
         elseif($request->user()->hasRole('admin') && $request->user()->isApproved()){

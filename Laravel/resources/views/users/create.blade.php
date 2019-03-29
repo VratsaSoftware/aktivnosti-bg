@@ -1,4 +1,4 @@
-@extends('layouts.adminEditMaster')
+@extends('layouts.admin')
 
 @section('content')
 
