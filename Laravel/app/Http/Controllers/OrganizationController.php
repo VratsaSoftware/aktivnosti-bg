@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Models\Photo;
+use App\Models\User;
 use App\Models\City;
 use App\Models\Purpose;
+use Illuminate\Support\Facades\Auth;
 use File;
 
 class OrganizationController extends Controller
@@ -26,11 +28,23 @@ class OrganizationController extends Controller
 	
 	public function adminOrg()
     {
-		$organizations = Organization::all();
-        return view('organizations.adminOrg', compact('organizations'));
-    }
+		if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
+			
+			$organizations = Organization::all();
+			return view('organizations.adminOrg', compact('organizations'));
+		}
+		elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
+		{
+		
+			$organizations=Auth::user()->organizations()->orderBy('name')->get();
+			
+			if($organizations){
+				
+				return view('organizations.adminOrg', compact('organizations'));
+			}
+		}    
 	
-    
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -74,6 +88,28 @@ class OrganizationController extends Controller
             $photo_purpose = Purpose::where('description','logo')->first();
             if(!$photo_purpose){
                 $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
+            }
+
+            //store image in photos table
+			
+            $organization->photos()->create([
+                'image_path' => $file_name,
+                'alt' => 'organization photo',
+                'description' => 'organization photo' ,
+                'purpose_id' => $photo_purpose->purpose_id,
+            ]);
+        }
+		//store organization image in public\user_files\images\organization\gallery
+        if(isset($request['gallery'])){
+            $original_name = $request['gallery']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
+            $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
+            //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
+            //add organization image to DB
+            //prepare purposes table if not ready
+            $photo_purpose = Purpose::where('description','gallery')->first();
+            if(!$photo_purpose){
+                $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
             }
 
             //store image in photos table

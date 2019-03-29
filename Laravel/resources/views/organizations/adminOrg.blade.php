@@ -54,16 +54,20 @@
 					<td>
 						<a class="btn btn btn-info btn-sm" href="{{ route('organizations.show',$organization->organization_id)}}">Преглед</a>
 						</td>
-					<td>
+					<td colspan="2">
 						<a class="btn btn-success btn-sm" href="{{ route('organizations.edit',$organization->organization_id)}}">Редактирай</a>
-						@if(!$organization->approved_at)
+						@if( Auth::user()->hasRole('admin')||Auth::user()->hasRole('moderator'))
+							@if(!$organization->approved_at)
 						<a class="btn btn-warning btn-sm" href="{{ route('organizations.approve',$organization->organization_id)}}">Одобри</a>
+							@endif
 						@endif
+						@if( Auth::user()->hasRole('admin'))
 						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroy',$organization->organization_id) }}">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
 							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
 						</form>
+						@endif
 					</td>
 				</tr>
 				@endforeach
