@@ -117,7 +117,7 @@ class OrganizationController extends Controller
             $organization->photos()->create([
                 'image_path' => $file_name,
                 'alt' => 'organization photo',
-                'description' => 'organization photo' ,
+                'description' => 'gallery' ,
                 'purpose_id' => $photo_purpose->purpose_id,
             ]);
         }
@@ -154,7 +154,9 @@ class OrganizationController extends Controller
     public function show($id)
     {
         $organization = Organization::findOrFail($id);
-        return view('organizations.show', compact('organization'));
+		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+        return view('organizations.show')->with(compact('organization'))->with(compact('gallery'));
     }
 
     /**
@@ -166,7 +168,9 @@ class OrganizationController extends Controller
     public function edit($id)
     {
         $organization = Organization::findOrFail($id);
-        return view('organizations.edit', compact('organization'));
+		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+        return view('organizations.edit')->with(compact('organization'))->with(compact('gallery'))->with(compact('galleryPhoto'));
     }
 
     /**
@@ -178,6 +182,8 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
+		
+		
         $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
 		
 		$organization = Organization::find($id);;
@@ -208,28 +214,34 @@ class OrganizationController extends Controller
 				'image_path' => $file_name
 			]);
 		}
+		//store organization image in public\user_files\images\organization\gallery
 		
-		//validate organization requests
-		$this->validate($request,[
-            'name' => ['required', 'max:255'],
-            'description' => ['required', 'max:500'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-			'website' => ['string', 'max:255'],
-            'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'], 
-			//'photo'=> ['mimes:jpg,png,jpeg,gif,svg', 'max:2048'],
-        ],
-		[
-            'name.required' => 'Моля въведете име',
-            'email.required' => 'Моля въведете E-mail адрес', 
-            'email.email' => 'Моля въведете валиден E-mail адрес',
-            'address.required' => 'Моля въведете адрес',
-            'phone.regex' => 'Моля въведете валиден телефонен номер',
-			//'photo.mimes' => 'Формата на изображението не се поддържа',
-			//'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
-        ]);
+        if(isset($request['gallery'])){
+            $original_name = $request['gallery']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
+            $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
+            //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
+            //add organization image to DB
+			
+            //prepare purposes table if not ready
+            $photo_purpose = Purpose::where('description','gallery')->first();
+            if(!$photo_purpose){
+                $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+            }
+
+            //store image in photos table
+			
+            $organization->photos()->create([
+                'image_path' => $file_name,
+                'alt' => 'organization photo',
+                'description' => 'gallery' ,
+                'purpose_id' => $photo_purpose->purpose_id,
+            ]);
+        }
 		
-        return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
+		
+		
+	  return redirect()->route('organizations.adminOrg')->with('message', 'Организацията '.$organization->name.' е редактирана!');
     }
 
     /**
@@ -251,4 +263,5 @@ class OrganizationController extends Controller
         $organization->save();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
     }
+	
 }
