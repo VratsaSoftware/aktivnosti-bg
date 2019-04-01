@@ -105,10 +105,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Телефон') }}</label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Телефон (незадължително поле)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required autofocus>
+                                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" autofocus>
 
                                 @if ($errors->has('phone'))
                                     <span class="invalid-feedback" role="alert">
@@ -119,7 +119,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка') }}</label>
+                            <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка (незадължително поле)') }}</label>
                              <div class="col-md-6">
                                 {!! Form::file('photo', array('class'=>'file', 'id'=>'photo')) !!} 
 

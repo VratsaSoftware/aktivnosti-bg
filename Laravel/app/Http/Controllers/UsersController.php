@@ -11,6 +11,7 @@ use App\Models\Purpose;
 use App\Models\Category;
 use App\Models\Organization;
 use App\Http\Requests\UserFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class UsersController extends Controller
@@ -20,10 +21,28 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
+    public function __construct(){
+      //Middleware users
+        $this->middleware('protect.users');
+    } 
+
     public function index()
     {
-        $users = User::all();
-            
+
+        //show different user list for admins and moderators
+        if(Auth::user()->hasRole('admin'))
+        {
+            $users = User::all();
+        }
+        elseif(Auth::user()->hasRole('moderator')){
+            $roleAdmin = Role::select('role_id')->where('role','admin')->first();
+            $users = User::all()->whereNotIn('role_id',[$roleAdmin->role_id]);
+        }
+        else
+        {
+            return view('citadel.home')->with('message', 'Нямате достъп до тази страница!');
+        }     
         return view('users.index',compact('users'));
     }
 
@@ -56,7 +75,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -67,24 +87,32 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //get user
+    //get user
         $user = User::findOrFail($id);
 
-        //prepare data for view
+    //prepare data for view
         $userRole = $user->role_id;
 
+        //prepare roles
         $rolesPluck= (['0' => 'Няма']+Role::pluck('role','role_id')->toArray()); 
         $roles = (isset($userRole) ?  [$userRole => $rolesPluck[$userRole]] + $rolesPluck : $rolesPluck);
 
+        //remove admin option for non-admin users
+        if(!Auth::user()->hasRole('admin'))
+        {
+            unset($roles[array_search('admin',$roles)]);
+        }
+
+        //prepare approved options
         $approvals = ($user->isApproved()) ? $approvals=['1'=> 'Одобрен']+['0' => 'Неодобрен'] : $approvals=['0' => 'Неодобрен']+ ['1'=> 'Одобрен'];
 
         isset($user->photo->image_path) ? $photo = $user->photo->image_path : '';
 
+        //prepare categories
         $categories = Category::pluck('name', 'category_id');
         $userCategories = $user->categories->pluck('category_id')->toArray();
 
         $organizations = ($user->organizations->pluck('name','organization_id')->toArray())+['0' => 'Без Организация']+(Organization::select('organization_id','name')->pluck('name','organization_id')->toArray());
-
 
         return view('users.edit')->with(compact('user'))->with(compact('roles'))->with(compact('approvals'))->with(compact('photo'))->with(compact('categories'))->with(compact('userCategories'))->with(compact('organizations'));
     }
@@ -98,15 +126,10 @@ class UsersController extends Controller
      */
     public function update(UserFormRequest $request, $id)
     {   
-        
+
         $user = User::find($id);
         $categories = $request->get('categories');
 
-        $user->name = $request->get('name');
-        $user->family = $request->get('family');
-        $user->email = $request->get('email');
-        $user->address = $request->get('address');
-        $user->phone = $request->get('phone');
         $user->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
         
         if($request->get('role') == 0)
@@ -117,11 +140,6 @@ class UsersController extends Controller
         {
             $user->role_id = $request->get('role');
         } 
-
-        if(isset($request['description']))
-        {
-            $user->description = $request->get('description');
-        }
 
         if(isset($request['organization']))
         {
@@ -138,43 +156,12 @@ class UsersController extends Controller
         if(!$user->hasRole('moderator')){
             $categories=[];
         }
-
+        $user->updated_by = Auth::user()->email;
         $user->categories()->sync($categories);
         
         $user->save();
 
-        isset($user->photo->image_path) ? $photo = $user->photo->image_path : '';
-
-        if(isset($request['photo'])){
-            
-            $file_name = (time().'p'.mt_rand(1,99));
-            $store_file=$request['photo']->move('user_files/images/profile', $file_name);
-
-            //prepare purposes table if not ready
-            $photo_purpose = Purpose::where('description','profile')->first();
-            if(!$photo_purpose){
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'profile']);
-            }
-
-            //store image in photos table
-            if(!$photo){
-            $user->photo()->create([
-                'image_path' => $file_name,
-                'alt' => 'user photo',
-                'description' => 'profile photo' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-            ]);
-            }
-            else
-            {
-                $user->photo->image_path = $file_name;
-                $user->photo->update();
-                
-            }
-            
-        }//end of photo update
-
-        return redirect('citadel/users')->with('message', 'Done!');
+        return redirect('citadel/users')->with('message', 'Промените са запазени успешно!');
     }
 
     /**
@@ -185,15 +172,24 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $users = User::find($id);
-        $users->delete();
+        $user = User::find($id);
+        if($user->delete())
+        {
+            $user->deleted_by = Auth::user()->email;
+            $user->save();
         return redirect()->back()->with('message', 'Потребителят е изтрит');
+        }
+        else
+        {
+            redirect()->back()->with('message', 'Грешка!');
+        }
     }
 
     public function approve($id)
     {
         $user = User::find($id);
         $user->approved_at = (date('Y-m-d H:i:s'));
+        $user->approved_by = Auth::user()->email;
         $user->save();
         return redirect()->back()->with('message', 'Потребителят '.$user->name.' '.$user->family.' '.$user->email.' е одобрен!');
     }

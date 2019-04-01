@@ -21,18 +21,29 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'citadel.entry'], function () {
 		Route::get('/citadel','CitadelController@index')->name('citadel.index');
 
-		//users management
+		//users management, admin side
 		Route::resource('/citadel/users', 'UsersController');
+
+		//users management
+		Route::resource('/citadel/profile', 'ProfileController');
 
 		//dispatch approve method in Users Controller 
 		Route::get('citadel/users/approve/{id}', 'UsersController@approve')->name('users.approve');
 
-		//organizations managment
+		//organizations management
 		Route::resource('/citadel/organizations', 'OrganizationController');
 
 		//dispatch approve method in Organizations Controller 
 		Route::get('citadel/organizations/approve/{id}', 'OrganizationController@approve')->name('organizations.approve');
-		
+
+		//activities management
+		Route::resource('/citadel/activity', 'ActivityController');	
+
+		//news management
+		Route::resource('/citadel/news', 'NewsController');	
+
+		//subscriptions management
+		Route::resource('/citadel/subscription', 'NewsController');	
 	});
 
 });

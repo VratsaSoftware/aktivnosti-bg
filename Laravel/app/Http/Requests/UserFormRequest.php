@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
+use App\Models\Role;
 
 class UserFormRequest extends FormRequest
 {
@@ -28,20 +29,9 @@ class UserFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Моля въведете име',
-            'name.string' => 'Моля въведете валидно име',
-            'family.required' => 'Моля въведете фамилно име',
-            'family.string' => 'Моля въведете валидно фамилно име',
-            'email.required' => 'Моля въведете E-mail адрес', 
-            'email.email' => 'Моля въведете валиден E-mail адрес',
-            'email.unique' => 'Потребител с такъв E-mail адрес вече съществува',     
-            'address.required' => 'Моля въведете адрес',
-            'phone.regex' => 'Моля въведете валиден телефонен номер',
-            'photo.mimes' => 'Формата на изображението не се поддържа',
-            'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
-            'description.max' => 'Не повече от 255 символа',
             'organization.in' => 'Невалидна организация',
-
+            'role.in' => 'Невалидна роля!',
+            'role.not_in' => 'Невалидна роля!!'
         ];
     }
 
@@ -49,17 +39,21 @@ class UserFormRequest extends FormRequest
     {
         //available organizations
         $organizations = implode(",",Organization::select('organization_id','name')->pluck('organization_id')->toArray()).',0';
+        
+        //available roles
+        $roles = implode(",",Role::select('role_id','role')->pluck('role_id')->toArray()).',0';
+
+        //admin protection
+        $adminRole = '';
+        if(!Auth::user()->hasRole('admin'))
+        {
+            $adminRole=Role::select('role_id')->where('role','admin')->first()->role_id;
+        }
        
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'family' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->user.',user_id'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'],
-            'description' => ['nullable','string', 'max:255'],
-            'photo'=> ['mimes:jpg,png,jpeg,gif,svg','max:2048'],
             'organization' => ['in:'.$organizations],
-            
+            'role' => ['in:'.$roles],
+            'role' => ['not_in:'.$adminRole],
         ];
     }
 }

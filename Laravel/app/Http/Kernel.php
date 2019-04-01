@@ -61,6 +61,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'citadel.entry' => \App\Http\Middleware\Citadel::class,
+        'protect.users' => \App\Http\Middleware\ProtectUsersRoute::class,
+        'protect.profile' => \App\Http\Middleware\ProtectProfileRoute::class,
     ];
 
     /**

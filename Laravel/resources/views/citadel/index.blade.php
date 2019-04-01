@@ -7,10 +7,11 @@
     <div class="col-md-12">
         <!-- Advanced Tables -->
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Потребители чакащи одобрение
-            </div>
-        	<div class="panel-body">
+        	@if(Auth::user()->hasAnyRole(['admin','moderator']))
+            	<div class="panel-heading">
+                	Потребители чакащи одобрение
+            	</div>
+        		<div class="panel-body">
 				<div class="table-responsive">
 					@if(session()->has('message'))
     				<div class="alert alert-success">
@@ -23,45 +24,54 @@
             				<th>Име</th>
 							<th>Фамилия</th>
 							<th>Поща</th>
-							<th>Адрес</th>
-							<th>Телефон</th>
 							<th>Снимка</th>
-							<th>Одобрен</th>
+							<th>Организация</th>
+							<th>Статус</th>
 							<th>Роля</th>
 							<th>Управление</th>
 						</tr>
             		</thead>
 					<tbody>
-						@foreach($users as $user)
-						<tr>
-							<td>{{ $user->name }}</td>
-							<td>{{ $user->family }}</td>
+						@isset ($users)
+							@foreach($users as $user)
+							<tr>
+							<td>
+								<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->name }}</a>
+							</td>
+							<td>
+								<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->family }}</a>
+							</td>
 							<td>{{ $user->email }}</td>
-							<td>{{ $user->address }}</td>
-							<td>{{ $user->phone }}</td>
 							<td>
 							@if(isset($user->photo->image_path))
-								<img src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}' width="50" height="30">
+								<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
 							@else
 								<span>Няма снимка</span>
 							@endif
 							</td>
+							<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
 							<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 							<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
 							<td>
-							<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
-							@if(!$user->approved_at)
-							<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
-							@endif
+								<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+								@if(!$user->approved_at)
+									<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+								@endif
 							</td>
-						</tr>
-						@endforeach
+							</tr>
+							@endforeach
+						@endisset
 					</tbody>
         			</table>
         		</div>
     		</div>
+    		@endif
     		 <div class="panel-heading">
-                Организации чакащи одобрение
+    		 	@if(Auth::user()->hasAnyRole(['admin','moderator']))
+                	Организации чакащи одобрение
+                @else
+                	Вашата организация
+                @endif
             </div>
         	<div class="panel-body">
 				<div class="table-responsive">
@@ -74,12 +84,11 @@
             		<thead>
                 		<tr>
             				<th>Организация</th>
-							<th>Информация</th>
 							<th>Поща</th>
 							<th>Адрес</th>
 							<th>Телефон</th>
 							<th>Лого</th>
-							<th>Одобрена</th>
+							<th>Статус</th>
 							<th>Управление</th>
 						</tr>
             		</thead>
@@ -87,24 +96,25 @@
 						@foreach($organizations as $organization)
 						<tr>
 							<td>{{ $organization->name }}</td>
-							<td>{{ $organization->description }}</td>
 							<td>{{ $organization->email }}</td>
 							<td>{{ $organization->address }}</td>
 							<td>{{ $organization->phone }}</td>
 							<td>
-						
-
-							@if(isset($organization->photos->where('purpose_id',$purpose_id)->first()->image_path))
-								<img src='{{ asset('/user_files/images/organizations/').'/'.$organization->photos->where('purpose_id',$purpose_id)->first()->image_path }}' width="50" height="30">
-							@else
-								<span>Няма снимка</span>
-							@endif
+								@isset($purposeLogo)
+									@if(isset($organization->photos->where('purpose_id',$purposeLogo)->first()->image_path))
+										<img class='table-image' src='{{ asset('/user_files/images/organizations/').'/'.$organization	->photos->where('purpose_id',$purposeLogo)->first()->image_path }}'>
+									@else
+										<span>Няма снимка</span>
+									@endif
+								@endisset
 							</td>
 							<td>{{ (isset($organization->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 							<td>
 							<a class="btn btn-success btn-sm" href="{{ route('organizations.edit',$organization->organization_id)}}">Редактирай</a>
-							@if(!$organization->approved_at)
-							<a class="btn btn-warning btn-sm" href="{{ route('organizations.approve',$organization->organization_id)}}">Одобри</a>
+							@if(Auth::user()->hasAnyRole(['admin','moderator']))
+								@if(!$organization->approved_at)
+								<a class="btn btn-warning btn-sm" href="{{ route('organizations.approve',$organization->organization_id)}}">Одобри</a>
+								@endif
 							@endif
 							</td>
 						</tr>

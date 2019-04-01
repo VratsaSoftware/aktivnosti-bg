@@ -1,9 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Редактиране на потребител')
+@section('title', 'Потребител')
 
 @section('content')
-            <div class="col-md-10">
+<div class="row">
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Профил на потребител&nbsp;&nbsp;{{ $user->name }} &nbsp;{{ $user->family }} &nbsp;{{ $user->email }}
+            </div>
+            <div class="panel-body">
                 <div>
                 @if(isset($user->photo->image_path))
                     <p>Снимка</p>
@@ -116,12 +123,18 @@
                             {{ $user->description }}
                         </div>
                     </div>
+                    <div>
+                        <a class="btn btn-sm btn-warning" href="{{ url()->previous() }}">
+                            Обратно
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+                        @if(!$user->approved_at)
+                            <a class="btn btn-success btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+                        @endif
+                    </div>
                 </div>
             </div>
-            <div class="col-md-10">
-    			{!! Form::model($user, ['enctype' => 'multipart/form-data', 'method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
-        		@include('users.form', ['submitButtonText' => 'Запази промените'])
-    			{!! Form::close() !!}
-   			 </hr>
-			</div>
+        </div>
+    </div>
+</div>
 @endsection

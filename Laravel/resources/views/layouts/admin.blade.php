@@ -19,15 +19,9 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                {{-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button> --}}
                 <a class="navbar-brand" href="index.html">{{ config('app.name', 'Laravel') }}</a>
             </div>
-            <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;"> {{-- Last access : 30 May 2014 &nbsp; --}}
+            <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
                 @guest
                     <a href="{{ route('login') }}" class="btn btn-warning square-btn-adjust">{{ __('Вход') }}</a>   
                     @if (Route::has('register'))
@@ -48,53 +42,40 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <img src="{{ isset(Auth::user()->photo->image_path) ? asset('/user_files/images/profile/').'/'.(Auth::user()->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive"
-                        width="100" height="50">
-                    </li>
-                    @if (Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']))
-                    <li>
-                        <a class="{{ (Route::currentRouteName() == 'citadel.index') ? 'active-menu' : '' }}" href="{{ route('citadel.index')}}"><i class="fa fa-shield fa-3x"></i> Администрация</a>
+                        <img src="{{ isset(Auth::user()->photo->image_path) ? asset('/user_files/images/profile/').'/'.(Auth::user()->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive">
                     </li>
 
-                    @if (Auth::user()->hasRole('admin'))
                     <li>
-                        <a class="{{ (str_contains(Route::currentRouteName(), 'user')) ? 'active-menu' : '' }}" href="{{ route('users.index')}}"><i class="fa fa-users fa-3x"></i> Потребители</a>
+                        <a class="{{ (str_contains(Route::currentRouteName(), 'profile')) ? 'active-menu' : '' }}" href="{{ route('profile.index')}}"><i class="fa fa-user fa-3x"></i> Профил</a>
                     </li>
-                    @endif
-                    
-                     @if (Auth::user()->hasRole('admin'))
-                    <li>
-                        <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.index')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
-                    </li>
-                     @endif
-                     
-                    <li>
-                        <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{-- {{ route('activities.index')}} --}}"><i class="fa fa-dribbble fa-3x"></i> Активности<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+
+                    @if (Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']) && Auth::user()->isApproved())
+                        <li>
+                            <a class="{{ (Route::currentRouteName() == 'citadel.index') ? 'active-menu' : '' }}" href="{{ route('citadel.index')}}"><i class="fa fa-compass fa-3x"></i> Начало</a>
+                        </li>
+
+                        @if (Auth::user()->hasAnyRole(['admin','moderator']))
                             <li>
-                                <a href="#">Групи<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Разписания</a>
-                                    </li>
-                                </ul>
+                                <a class="{{ (str_contains(Route::currentRouteName(), 'user')) ? 'active-menu' : '' }}" href="{{ route('users.index')}}"><i class="fa fa-users fa-3x"></i> Потребители</a>
                             </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="chart.html"><i class="fa fa-table fa-3x"></i> Новини</a>
-                    </li>
-
-                     @if (Auth::user()->hasRole('admin'))
-                    <li>
-                        <a href="table.html"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
-                    </li>
-                    @endif
+                        @endif
                     
-                    @else
-                     <li>
-                        <a href="chart.html"><i class="fa fa-table fa-3x"></i> Новини</a>
-                    </li>
+                        <li>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.index')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
+                        </li>
+            
+                        <li>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{ route('activity.index')}}"><i class="fa fa-dribbble fa-3x"></i> Активности</a>
+                        </li>
+                        <li>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'news')) ? 'active-menu' : '' }}" href="{{ route('news.index')}}"><i class="fa fa-building-o fa-3x"></i> Новини</a>
+                        </li>
+
+                        @if (Auth::user()->hasRole('admin'))
+                        <li>
+                            <a lass="{{ (str_contains(Route::currentRouteName(), 'subscription')) ? 'active-menu' : '' }}" href="{{ route('subscription.index')}}"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
+                        </li>
+                        @endif
                     @endif
                 </ul>
             </div>
@@ -135,7 +116,7 @@
         $('#table_users').dataTable( {
             "columnDefs":
             [{
-                "targets": [8],
+                "targets": [7],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -144,7 +125,7 @@
         $('#table_organizations').dataTable( {
             "columnDefs":
             [{
-                "targets": [7],
+                "targets": [6],
                 "searchable": false,
                 "orderable": false,
             }],

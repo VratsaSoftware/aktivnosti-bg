@@ -23,12 +23,11 @@
             		<th>Име</th>
 					<th>Фамилия</th>
 					<th>Поща</th>
-					<th>Адрес</th>
-					<th>Телефон</th>
 					<th>Снимка</th>
-					<th>Одобрен</th>
+					<th>Организация</th>
+					<th>Статус</th>
 					<th>Роля</th>
-					<th colspan=2>Управление</th>
+					<th>Управление</th>
 				</tr>
             </thead>
 			<tbody>
@@ -37,28 +36,27 @@
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->family }}</td>
 					<td>{{ $user->email }}</td>
-					<td>{{ $user->address }}</td>
-					<td>{{ $user->phone }}</td>
 					<td>
 					@if(isset($user->photo->image_path))
-						<img src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'
-						width="50" height="30">
+						<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
 					@else
 						<span>Няма снимка</span>
 					@endif
 					</td>
+					<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}
+					</td>
 					<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 					<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
 					<td>
-					<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
-					@if(!$user->approved_at)
-					<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
-					@endif
-					<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}">
-						{{ csrf_field() }}
-						{{ method_field('DELETE') }}
-						<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
-					</form>
+						<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+							@if(!$user->approved_at)
+								<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+							@endif
+						<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+						</form>
 					</td>
 				</tr>
 				@endforeach

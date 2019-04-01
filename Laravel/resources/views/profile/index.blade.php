@@ -1,17 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Редактиране на потребител')
+@section('title', 'Потребител')
 
 @section('content')
-            <div class="col-md-10">
-                <div>
-                @if(isset($user->photo->image_path))
-                    <p>Снимка</p>
-                    <img src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}' class='user-image'>
-                @else
-                    <span>Няма снимка</span>
-                @endif
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Профил
+            </div>
+            <div class="panel-body">
                 <div class="table-responsive">
                     @if(session()->has('message'))
                     <div class="alert alert-success">
@@ -110,18 +109,24 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Допълнителна информация
+                            За мен
                         </div>
                         <div class="panel-body">
                             {{ $user->description }}
                         </div>
                     </div>
+                    <div>
+                        <a class="btn btn-sm btn-warning" href="{{ url()->previous() }}">
+                            Обратно
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{ route('profile.edit',Auth::user()->user_id)}}">
+                            <i class="fa fa-edit "></i> 
+                            Редактирай
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-10">
-    			{!! Form::model($user, ['enctype' => 'multipart/form-data', 'method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
-        		@include('users.form', ['submitButtonText' => 'Запази промените'])
-    			{!! Form::close() !!}
-   			 </hr>
-			</div>
+        </div>
+    </div>
+</div>
 @endsection

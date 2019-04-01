@@ -26,17 +26,31 @@ class HomeController extends Controller
     
     public function index(Request $request)
     {
-        if(!$request->user()->isApproved()){
-
-            return view('citadel.home');
-
-        }
-        elseif($request->user()->hasRole('admin') && $request->user()->isApproved()){
+        if($request->user()->hasRole('admin') && $request->user()->isApproved()){
 
             return redirect()->action('UsersController@index');
 
         }
+        else{
+             return view('citadel.home');
+        }
+    }
 
+    public function edit()
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update()
+    {   
+        //
     }
   
 }

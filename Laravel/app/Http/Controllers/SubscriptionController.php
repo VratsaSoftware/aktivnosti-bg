@@ -4,26 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class SubscriptionController extends Controller
 {
-    // temp functions
-    
-    public function showAllActivities()
-    {
-        
-        return view('activities.index');
-    }
-
-    public function showSingleActivity()
-    {
-        return view('activities.show');
-    }
-
-    public function showCalendar()
-    {
-        return view('activities.calendar');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -31,9 +13,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-       
-        echo "Welcome from Activity index";
-       // return view('activities.index');
+        echo "Hello from Subscriptions Controller"
     }
 
     /**
@@ -65,7 +45,7 @@ class ActivityController extends Controller
      */
     public function show($id)
     {
-        return view('activities.show');
+        //
     }
 
     /**

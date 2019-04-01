@@ -88,8 +88,8 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'],
-            'photo'=> ['mimes:jpg,png,jpeg,gif,svg','max:2048'],
+            'phone' => ['nullable','regex:/^[0-9\-\(\)\/\+\s]*$/'],
+            'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],
             'organization' => ['in:'.$organizations],
         ],$messages);
     }
@@ -104,7 +104,6 @@ class RegisterController extends Controller
     {
         //set default country and city
         $default_country = Country::firstOrCreate(['name' => 'България', 'country_id' => '1']);
-        // $default_role = Role::firstOrCreate(['role' => 'guest']);
         $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
 
         $user = new User;

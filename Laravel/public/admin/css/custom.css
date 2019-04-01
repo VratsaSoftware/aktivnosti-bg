@@ -191,18 +191,28 @@ color: #8d8888;
     margin-left:20px;
 }
 
+.invalid-feedback{
+    color: #AF0000;
+}
+
 /*==============================================
     MENU STYLES    
     =============================================*/
 
 
 .user-image {
-    margin: 25px auto;
+margin: 25px auto;
 -webkit-border-radius: 10px;
 -moz-border-radius: 10px;
 border-radius: 10px;
-max-height:170px;
-max-width:170px;
+max-height:130px;
+max-width:130px;
+}
+
+.table-image {
+
+height: 60px;
+width:60px;
 }
 
 .navbar-cls-top .navbar-brand {

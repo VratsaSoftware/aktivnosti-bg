@@ -19,7 +19,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        echo "Welcome from Organizations Controller index";
     }
 
     /**
@@ -62,7 +62,7 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo "Welcome from Organizations Controller edit";
     }
 
     /**
@@ -85,6 +85,6 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "Welcome from Organizations Controller delete";
     }
 }
