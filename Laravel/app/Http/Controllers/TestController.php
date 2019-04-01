@@ -19,6 +19,7 @@ class TestController extends Controller
 {
     public function index(){
     	echo "<p>TestController</p>";
+    	////////
 
     }
 }
