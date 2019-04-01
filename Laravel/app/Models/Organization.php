@@ -10,7 +10,7 @@ class Organization extends Model
     use SoftDeletes;
 
     protected $primaryKey = 'organization_id';
-    protected $guarded    = ['organization_id', 'created_at', 'updated_at'];
+    protected $guarded    = [];
 
     public function users()
     {

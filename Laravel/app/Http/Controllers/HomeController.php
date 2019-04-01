@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class HomeController extends Controller
 {
     /**
@@ -14,6 +15,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
 
@@ -26,6 +28,13 @@ class HomeController extends Controller
     
     public function index(Request $request)
     {
+        $newOrganizationFlag = session('newOrganizationFlag', NULL);
+
+        if($newOrganizationFlag == 1)
+        {
+            return redirect()->action('OrganizationController@create');
+        }
+        
         if($request->user()->hasRole('admin') && $request->user()->isApproved()){
 
             return redirect()->action('UsersController@index');

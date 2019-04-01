@@ -144,8 +144,8 @@ class RegisterController extends Controller
         }
         //Handover to Organizations controller
         else{
-            dd($user);
-            return view('organizations.create', compact('user'));
+            session(['newOrganizationFlag' => 1]);
+            return $user;
         }
     }
 }

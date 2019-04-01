@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'citadel.entry' => \App\Http\Middleware\Citadel::class,
         'protect.users' => \App\Http\Middleware\ProtectUsersRoute::class,
         'protect.profile' => \App\Http\Middleware\ProtectProfileRoute::class,
+        'protect.organization' => \App\Http\Middleware\ProtectOrganizationRoute::class,
     ];
 
     /**

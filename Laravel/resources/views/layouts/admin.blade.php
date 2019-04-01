@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Aktivnosti-bg') }}</title>
     <!-- BOOTSTRAP STYLES-->
-    <link href="{{asset("admin/css/bootstrap.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/bootstrap.css')}}" rel="stylesheet" />
     <!-- FONTAWESOME STYLES-->
-    <link href="{{asset("admin/css/font-awesome.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/font-awesome.css')}}" rel="stylesheet" />
     <!-- CUSTOM STYLES-->
-    <link href="{{asset("admin/css/custom.css")}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -19,7 +19,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">{{ config('app.name', 'Laravel') }}</a>
+                <a class="navbar-brand" href="index.html">{{ config('app.name', 'Aktivnosti-bg') }}</a>
             </div>
             <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
                 @guest
@@ -43,6 +43,8 @@
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
                         <img src="{{ isset(Auth::user()->photo->image_path) ? asset('/user_files/images/profile/').'/'.(Auth::user()->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive">
+
+						<p class="role">{{isset(Auth::user()->role->role) ? Auth::user()->role->role : ''}}</p>
                     </li>
 
                     <li>
@@ -61,7 +63,7 @@
                         @endif
                     
                         <li>
-                            <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.index')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.adminOrg')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
                         </li>
             
                         <li>

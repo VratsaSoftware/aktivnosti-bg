@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Организации')
+@section('title', $organization->name)
 
 @section('content')
 <!-- main-container -->
@@ -9,23 +9,25 @@
         <div class="col-md-6 col-sm-12">
             <!--pictures from Adobe Stock-->
             <div class="org-img">
-
-                <img src="img/portfolio/vso-logo-bg.png" alt="activnost">
-
+			@foreach($organization->photos as $photo)
+                <img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+			@endforeach
             </div>
             <div class="h-30"></div>
-            <p><span>Нашата мисия:</span> Създаване на ИТ-общество във Враца, което чрез качествено образование дава възможност на врачани да работят предизвикателна и добре платена работа в родния си град.</p>
+            <p><span>Нашата мисия:</span> {{ $organization->description }}</p>
         </div>
 		<!-- end left side -->
 		<!-- right side -->
         <div class="col-md-6 col-sm-12">
-            <h5 class="org"><span>Организация:&nbsp;&nbsp;</span>Враца софтуер общество</h5>
+            <h5 class="org"><span>Организация:&nbsp;&nbsp;</span>{{ $organization->name }}</h5>
             <ul class="cat-ul">
                 <li><i class="fas fa-calendar-alt"></i>Понеделник до петък от 9:00 до 18:00 ч.</li>
-				<li><i class="fas fa-blog"></i>school.vratsasoftware.com</li>
-                <li><i class="fas fa-envelope"></i>example@email.com</li>
-                <li><i class="fas fa-mobile-alt"></i>0888 000000</li>
-                <li><i class="fas fa-map-marked"></i>Враца, ул. Кокиче 14 </li>
+				@if($organization->website)
+				<li><i class="fas fa-blog"></i>{{ $organization->website }}</li>
+				@endif
+                <li><i class="fas fa-envelope"></i>{{ $organization->email }}</li>
+                <li><i class="fas fa-mobile-alt"></i>{{ $organization->phone }}</li>
+                <li><i class="fas fa-map-marked"></i>{{ $organization->address }}</li>
                 <li>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2908.188047764412!2d23.561882!3d43.205545!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xab9ab71f982bf1c5!2z0JjQoiDRhtC10L3RgtGK0YAgLSDQktGA0LDRhtCwINGB0L7RhNGC0YPQtdGA!5e0!3m2!1sen!2sus!4v1551269161962" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
                 </li>
@@ -34,7 +36,7 @@
             <div class="popup">
                 <div class="popuptext" id="myPopup">
                     <div class="well">
-                        <h3>Абонирайте се за още новини от Враца софтуер общество</h3>
+                        <h3>Абонирайте се за още новини от {{ $organization->name }}</h3>
                         <form action="#">
                             <div class="input-contact">
                                 <input type="text" name="email">
@@ -54,7 +56,7 @@
 		
 		<!-- org activity -->
 		<div class="col-md-12 col-sm-12">
-			<h4 class="h-activity"><span>Активности на Враца софтуер общество</span></h4>
+			<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
 				<!-- single work -->
 					<div class="col-md-4 col-sm-6 learnin free">
 						<h4>Дигитален маркетинг</h4>
