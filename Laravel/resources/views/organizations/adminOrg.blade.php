@@ -18,7 +18,7 @@
        			 {{ session()->get('message') }}
     		</div>   
 		@endif
-        <table class="table table-striped table-bordered table-hover" id="table_users">
+        <table class="table table-striped table-bordered table-hover" id="table_organizations_adminOrg">
             <thead>
                 <tr>
             		<th>Организация</th>
@@ -29,7 +29,7 @@
 					<th>Снимка</th>
 					<th>Одобрен</th>
 					<th>Преглед</th>
-					<th colspan=2>Управление</th>
+					<th>Управление</th>
 				</tr>
             </thead>
 			<tbody>
@@ -54,7 +54,7 @@
 					<td>
 						<a class="btn btn btn-info btn-sm" href="{{ route('organizations.show',$organization->organization_id)}}">Преглед</a>
 						</td>
-					<td colspan="2">
+					<td>
 						<a class="btn btn-success btn-sm" href="{{ route('organizations.edit',$organization->organization_id)}}">Редактирай</a>
 						@if( Auth::user()->hasRole('admin')||Auth::user()->hasRole('moderator'))
 							@if(!$organization->approved_at)

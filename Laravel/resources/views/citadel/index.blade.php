@@ -102,7 +102,7 @@
 							<td>
 								@isset($purposeLogo)
 									@if(isset($organization->photos->where('purpose_id',$purposeLogo)->first()->image_path))
-										<img class='table-image' src='{{ asset('/user_files/images/organizations/').'/'.$organization	->photos->where('purpose_id',$purposeLogo)->first()->image_path }}'>
+										<img class='table-image' src='{{ asset('/user_files/images/organization/').'/'.$organization	->photos->where('purpose_id',$purposeLogo)->first()->image_path }}'>
 									@else
 										<span>Няма снимка</span>
 									@endif

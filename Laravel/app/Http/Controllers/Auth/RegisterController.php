@@ -139,7 +139,10 @@ class RegisterController extends Controller
 
         //Set User organization
         if($data['organization']!=0){
-        $user->organizations()->attach($data['organization']);
+            $user->organizations()->attach($data['organization']);
+            $role = Role::where('role','organization_member')->first()->role_id;
+            $user->role_id = $role;
+            $user->save();
         return $user;
         }
         //Handover to Organizations controller

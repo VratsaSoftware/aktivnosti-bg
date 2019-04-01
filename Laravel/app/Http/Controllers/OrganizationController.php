@@ -8,6 +8,7 @@ use App\Models\Photo;
 use App\Models\User;
 use App\Models\City;
 use App\Models\Purpose;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use File;
 
@@ -126,8 +127,18 @@ class OrganizationController extends Controller
         //attach user for organization, created at user registration 
         $newOrganizationFlag = $request->session()->pull('newOrganizationFlag', 'default');
         if( $newOrganizationFlag == 1){
-            $organization->users()->sync([Auth::user()->user_id]);
-            return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');
+            if($organization->users()->sync([Auth::user()->user_id]))
+            {
+            $role = Role::where('role','organization_manager')->first()->role_id;
+            $user = Auth::user();
+            $user->role_id = $role;
+            $user->save();
+              return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
+            }
+            else
+            {
+                return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
+            } 
         }
 		
 		//validate organization requests

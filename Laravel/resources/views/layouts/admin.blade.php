@@ -133,6 +133,15 @@
             }],
             "sPaginationType" : "full_numbers",
         });
+        $('#table_organizations_adminOrg').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [7,8],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+        });
     });
 
 
