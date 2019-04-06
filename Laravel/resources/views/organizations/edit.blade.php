@@ -105,6 +105,14 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class='form-group row'>
+                            {!! Form::label('approved', 'Статус',['class' => 'col-md-4 col-form-label text-md-right']) !!}
+                            <div class="col-md-6">
+                                {!! Form::select('approved',$approvals,null,['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+
 						@foreach($organization->photos as $photo)
 							@if($photo->image_path)
                         <div class="row">
@@ -126,7 +134,6 @@
                             </div>
                         </div>
 
-                         
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

@@ -16,11 +16,14 @@ use App\Models\Role;
 
 
 
+
 class TestController extends Controller
 {
     public function index(){
     	echo "<p>TestController</p>";
-    	dd(Auth::user()->role_id->save() = Role::where('role','organization_manager')->first()->role_id);
+    	$activity = Activity::find(30);
+    	var_dump($activity->category->name);
+    
     	
 
     }

@@ -16,35 +16,31 @@ class CitadelController extends Controller
         $purposeLogo = Purpose::select('purpose_id')->where('description','logo')->first()->purpose_id;
     
         if (!$request->user()->isApproved()) {
-
+            //send not approved users to home
             return view('citadel.home');
-        } 
-        else
-        {
-            if ($request->user()->hasRole('admin')) {
-                //redirect admin to administrator view
-                $users         = User::all()->where('deleted_at', null)->where('approved_at', null);
-                $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
-                return view('citadel.index', compact('users', 'organizations','purposeLogo'));
-    
-            } 
-            elseif($request->user()->hasRole('moderator'))
-            {
-                //!will be modified after Organization implementation
-                //will return only Organizations with same activities category as moderator
-                $users = User::all()->where('deleted_at', null)->where('approved_at', null);
-                $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
-                return view('citadel.index', compact('organizations','users','purposeLogo'));
-
-            }
-            elseif($request->user()->hasRole('organization_manager') || $request->user()->hasRole('organization_memeber')) {
-                $organizations=Auth::user()->organizations()->orderBy('name')->get();
-                return view('citadel.index', compact('organizations','users','purposeLogo'));
-            }
-            else
-            {
-                return view('citadel.home');
-            }
         }
+
+        if ($request->user()->hasRole('admin')) {
+            //redirect admin to administrator view
+            $users         = User::all()->where('deleted_at', null)->where('approved_at', null);
+            $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
+            return view('citadel.index', compact('users', 'organizations','purposeLogo'));
+        }
+
+        if($request->user()->hasRole('moderator'))
+        {
+            //!will be modified after Organization implementation
+            //will return only Organizations with same activities category as moderator
+            $users = User::all()->where('deleted_at', null)->where('approved_at', null);
+            $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
+            return view('citadel.index', compact('organizations','users','purposeLogo'));
+        }
+
+        if($request->user()->hasRole('organization_manager') || $request->user()->hasRole('organization_memeber')) {
+            $organizations=Auth::user()->organizations()->orderBy('name')->get();
+            return view('citadel.index', compact('organizations','users','purposeLogo'));
+        }
+            
+        return view('citadel.home');
     }
 }

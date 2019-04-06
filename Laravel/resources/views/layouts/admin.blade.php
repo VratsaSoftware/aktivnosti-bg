@@ -13,13 +13,15 @@
     <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!-- CONFIRM CSS-->
+    <link href="{{asset('admin/css/jquery-confirm.css')}}" rel="stylesheet" />
 </head>
 
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">{{ config('app.name', 'Aktivnosti-bg') }}</a>
+                <a class="navbar-brand" href="{{ URL::to('/') }}">{{ config('app.name', 'Aktivnosti-bg') }}</a>
             </div>
             <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
                 @guest
@@ -109,10 +111,12 @@
     <!-- METISMENU SCRIPTS -->
     <script src="{{ asset('admin/js/jquery.metisMenu.js') }}"></script>
     
+    <!-- Datatable Loader -->    
     <script src="{{ asset('admin/js/dataTables/jquery.dataTables.js') }}"></script>
 
     <script src="{{ asset('admin/js/dataTables/dataTables.bootstrap.js') }}"></script>
 
+    <!-- Data tables settings-->
     <script>
     $(document).ready( function () {
         $('#table_users').dataTable( {
@@ -143,9 +147,10 @@
             "sPaginationType" : "full_numbers",
         });
     });
+    </script>
 
-
-    //show / hide roles check-box
+   <!-- Show / Hide roles check-box-->
+    <script>
     $(function() {
         $('#moderator_categories').hide();
         var selectedRole = ($( '#role option:selected').text());
@@ -162,12 +167,11 @@
             }
         });     
     });
-    
     </script>
 
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ asset('admin/js/custom.js') }}"></script>
-
+    <script src="{{ asset('admin/js/activnosti.js') }}"></script>
 
 </body>
 

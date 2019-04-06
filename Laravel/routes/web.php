@@ -34,8 +34,14 @@ Route::group(['middleware' => 'auth'], function () {
 		//dispatch approve method in Users Controller 
 		Route::get('citadel/users/approve/{id}', 'UsersController@approve')->name('users.approve');
 
+		//dispatch unApprove method in Users Controller 
+		Route::get('citadel/users/unApprove/{id}', 'UsersController@unApprove')->name('users.unApprove');
+
 		//dispatch approve method in Organizations Controller 
 		Route::get('citadel/organizations/approve/{id}', 'OrganizationController@approve')->name('organizations.approve');
+
+		//dispatch unApprove method in Organizations Controller 
+		Route::get('citadel/organizations/unAapprove/{id}', 'OrganizationController@unApprove')->name('organizations.unApprove');
 
 		//activities management
 		Route::resource('/citadel/activity', 'ActivityController');	

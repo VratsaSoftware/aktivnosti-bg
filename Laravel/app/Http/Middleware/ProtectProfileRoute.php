@@ -17,13 +17,10 @@ class ProtectProfileRoute
     public function handle($request, Closure $next)
     {
         //prevent access to profiles of other users
-        if($request->profile == Auth::user()->user_id){
-            return $next($request);
+        if($request->profile != Auth::user()->user_id){
+            return abort(404);     
         }
-        else
-        {
-            return abort(404);
-        }
+        return $next($request);
     }
 
 }

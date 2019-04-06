@@ -114,7 +114,7 @@ class UsersController extends Controller
 
         $organizations = ($user->organizations->pluck('name','organization_id')->toArray())+['0' => 'Без Организация']+(Organization::select('organization_id','name')->pluck('name','organization_id')->toArray());
 
-        return view('users.edit')->with(compact('user'))->with(compact('roles'))->with(compact('approvals'))->with(compact('photo'))->with(compact('categories'))->with(compact('userCategories'))->with(compact('organizations'));
+        return view('users.edit')->with(compact(['user', 'roles', 'approvals', 'photo', 'categories', 'userCategories', 'organizations']));
     }
 
     /**
@@ -132,14 +132,7 @@ class UsersController extends Controller
 
         $user->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
         
-        if($request->get('role') == 0)
-        {
-            $user->role_id = NULL;
-        }
-        else
-        {
-            $user->role_id = $request->get('role');
-        } 
+        $request->get('role') == 0 ? $user->role_id = NULL : $user->role_id = $request->get('role');
 
         if(isset($request['organization']))
         {
@@ -177,12 +170,9 @@ class UsersController extends Controller
         {
             $user->deleted_by = Auth::user()->email;
             $user->save();
-        return redirect()->back()->with('message', 'Потребителят е изтрит');
+            $message = 'Потребителят е изтрит успешно';
         }
-        else
-        {
-            redirect()->back()->with('message', 'Грешка!');
-        }
+        return redirect()->back()->with('message', isset($message) ? $message : 'Грешка');
     }
 
     public function approve($id)
@@ -192,5 +182,14 @@ class UsersController extends Controller
         $user->approved_by = Auth::user()->email;
         $user->save();
         return redirect()->back()->with('message', 'Потребителят '.$user->name.' '.$user->family.' '.$user->email.' е одобрен!');
+    }
+
+    public function unApprove($id)
+    {
+        $user = User::find($id);
+        $user->approved_at = NULL;
+        $user->approved_by = Auth::user()->email;
+        $user->save();
+        return redirect()->back()->with('message', 'Одобрението на потребител '.$user->name.' '.$user->family.' '.$user->email.' е отменено!');
     }
 }

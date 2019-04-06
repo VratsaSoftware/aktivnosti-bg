@@ -1926,6 +1926,7 @@ span.rangeslider__labels__label:first-child {
     height: auto;
 }
 .footer-section {
+	margin-top: 2%;
 	background-color: #b0b8c0;
 	position: relative;
 	overflow: hidden;

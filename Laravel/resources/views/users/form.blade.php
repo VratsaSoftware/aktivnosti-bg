@@ -29,8 +29,8 @@
 				</div>	
 			@foreach ($categories as $category_id => $name)
 				<span style="display: inline-block; padding-right: 0.5%;">
-					{{ Form::label($name) }}
-					{{ Form::checkbox( 'categories[]',$category_id, (in_array($category_id, $userCategories) ? true: false)) }}
+					{{ Form::label('cat'.$category_id,$name) }}
+					{{ Form::checkbox( 'categories[]',$category_id, (in_array($category_id, $userCategories) ? true: false) ,['id' => 'cat'.$category_id])}}
 				</span>
 			@endforeach    
 			</div>

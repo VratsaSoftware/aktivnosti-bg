@@ -42,4 +42,9 @@ class Organization extends Model
         return $this->belongsTo('App\Models\City', 'city_id');
     }
 
+    public function isApproved()
+    {
+        return null !== $this->approved_at;
+    }
+
 }

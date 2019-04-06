@@ -52,7 +52,7 @@
 							@if(!$user->approved_at)
 								<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
 							@endif
-						<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}">
+						<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
 							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">

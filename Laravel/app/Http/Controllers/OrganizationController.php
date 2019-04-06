@@ -28,24 +28,23 @@ class OrganizationController extends Controller
         return view('organizations.index', compact('organizations'));
     }
 	
-	public function adminOrg()
+    public function adminOrg()
     {
-		if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
-			
-			$organizations = Organization::all();
-			return view('organizations.adminOrg', compact('organizations'));
-		}
-		elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
-		{
-		
-			$organizations=Auth::user()->organizations()->orderBy('name')->get();
-			
-			if($organizations){
-				
+
+		  if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator'))
+      {
+        $organizations = Organization::all();
+        return view('organizations.adminOrg', compact('organizations'));
+		  }
+
+		  if(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
+		  {
+        $organizations=Auth::user()->organizations()->orderBy('name')->get();
+        if($organizations){
 				return view('organizations.adminOrg', compact('organizations'));
-			}
-		}    
-	
+        }
+        return view('citadel.home');
+		  }    
     }
     /**
      * Show the form for creating a new resource.
@@ -67,102 +66,98 @@ class OrganizationController extends Controller
     public function store(Request $request)
     {
 		//set default city
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
-		
-		$organization = new Organization;
-        $organization->name = $request->get('name');
-        $organization->description = $request->get('description');
-        $organization->email = $request->get('email');
-		$organization->website = $request->get('website');
-        $organization->address = $request->get('address');
-        $organization->phone = $request->get('phone');
-		$organization->city_id = $default_city->city_id;
-        $organization->save();
-
+      $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
+		  $organization = new Organization;
+      $organization->name = $request->get('name');
+      $organization->description = $request->get('description');
+      $organization->email = $request->get('email');
+		  $organization->website = $request->get('website');
+      $organization->address = $request->get('address');
+      $organization->phone = $request->get('phone');
+		  $organization->city_id = $default_city->city_id;
+      $organization->save();
 		 //store organization image in public\user_files\images\organization
-        if(isset($request['photo'])){
-            $original_name = $request['photo']->getClientOriginalName();
-			$file_name = uniqid().$original_name;
-            $store_file = $request['photo']->move('user_files/images/organization', $file_name);
-            //$path_to_image = '../public/user_files/images/organization/'.$file_name;
-            //add organization image to DB
-            //prepare purposes table if not ready
-            $photo_purpose = Purpose::where('description','logo')->first();
-            if(!$photo_purpose){
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
-            }
+      if(isset($request['photo']))
+      {
+        $original_name = $request['photo']->getClientOriginalName();
+        $file_name = uniqid().$original_name;
+        $store_file = $request['photo']->move('user_files/images/organization', $file_name);
+        //$path_to_image = '../public/user_files/images/organization/'.$file_name;
+        //add organization image to DB
+        //prepare purposes table if not ready
+        $photo_purpose = Purpose::where('description','logo')->first();
 
-            //store image in photos table
-			
-            $organization->photos()->create([
-                'image_path' => $file_name,
-                'alt' => 'organization photo',
-                'description' => 'organization photo' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-            ]);
-        }
-		//store organization image in public\user_files\images\organization\gallery
-        if(isset($request['gallery'])){
-            $original_name = $request['gallery']->getClientOriginalName();
-			$file_name = uniqid().$original_name;
-            $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
-            //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
-            //add organization image to DB
-            //prepare purposes table if not ready
-            $photo_purpose = Purpose::where('description','gallery')->first();
-            if(!$photo_purpose){
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
-            }
-
-            //store image in photos table
-			
-            $organization->photos()->create([
-                'image_path' => $file_name,
-                'alt' => 'organization photo',
-                'description' => 'gallery' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-            ]);
+        if(!$photo_purpose)
+        {
+          $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
         }
 
-        //attach user for organization, created at user registration 
-        $newOrganizationFlag = $request->session()->pull('newOrganizationFlag', 'default');
-        if( $newOrganizationFlag == 1){
-            if($organization->users()->sync([Auth::user()->user_id]))
-            {
-            $role = Role::where('role','organization_manager')->first()->role_id;
-            $user = Auth::user();
-            $user->role_id = $role;
-            $user->save();
-              return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
-            }
-            else
-            {
-                return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
-            } 
-        }
-		
-		//validate organization requests
-		$this->validate($request,[
-            'name' => ['required', 'max:255'],
-            'description' => ['required', 'max:500'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-			'website' => ['string', 'max:255'],
-            'phone' => ['regex:/^[0-9\-\(\)\/\+\s]*$/'], 
-			//'photo'=> ['mimes:jpg,png,jpeg,gif,svg','max:2048'],
-        ],
-		[
-            'name.required' => 'Моля въведете име',
-            'email.required' => 'Моля въведете E-mail адрес', 
-            'email.email' => 'Моля въведете валиден E-mail адрес',
-            'address.required' => 'Моля въведете адрес',
-            'phone.regex' => 'Моля въведете валиден телефонен номер',
-           // 'photo.mimes' => 'Формата на изображението не се поддържа',
-            //'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
+        //store image in photos table
+        $organization->photos()->create([
+          'image_path' => $file_name,
+          'alt' => 'organization photo',
+          'description' => 'organization photo' ,
+          'purpose_id' => $photo_purpose->purpose_id,
         ]);
-		
-        return redirect('citadel/organizations')->with('message', 'Създадена е нова организация');
-    }//end of create
+      }
+		//store organization image in public\user_files\images\organization\gallery
+      if(isset($request['gallery']))
+      {
+        $original_name = $request['gallery']->getClientOriginalName();
+        $file_name = uniqid().$original_name;
+        $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
+        //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
+        //add organization image to DB
+        //prepare purposes table if not ready
+        $photo_purpose = Purpose::where('description','gallery')->first();
+        if(!$photo_purpose)
+        {
+          $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+        }
+        //store image in photos table
+        $organization->photos()->create([
+          'image_path' => $file_name,
+          'alt' => 'organization photo',
+          'description' => 'gallery' ,
+          'purpose_id' => $photo_purpose->purpose_id,
+        ]);
+      }
+      //attach user for organization, created at user registration 
+      $newOrganizationFlag = $request->session()->pull('newOrganizationFlag', 'default');
+      if( $newOrganizationFlag == 1)
+      {
+        if($organization->users()->sync([Auth::user()->user_id]))
+        {
+          $role = Role::where('role','organization_manager')->first()->role_id;
+          $user = Auth::user();
+          $user->role_id = $role;
+          $user->save();
+          return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
+        }
+        return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
+      }
+		  //validate organization requests
+		  $this->validate($request,[
+        'name' => ['required', 'max:255'],
+        'description' => ['required', 'max:500'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'address' => ['required', 'string', 'max:255'],
+        'website' => ['string', 'max:255'],
+        'phone' => ['required','regex:/^[0-9\-\(\)\/\+\s]*$/'], 
+        'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],
+      ],
+		  [
+        'name.required' => 'Моля въведете име',
+        'email.required' => 'Моля въведете E-mail адрес', 
+        'email.email' => 'Моля въведете валиден E-mail адрес',
+        'address.required' => 'Моля въведете адрес',
+        'phone.regex' => 'Моля въведете валиден телефонен номер',
+        'phone.required' => 'Моля въведете телефонен номер',
+        'photo.mimes' => 'Формата на изображението не се поддържа',
+        'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
+      ]);
+      return redirect('citadel/organizations')->with('message', 'Създадена е нова организация');
+    }//end of store
 
     /**
      * Display the specified resource.
@@ -172,10 +167,10 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $organization = Organization::findOrFail($id);
-		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
-        return view('organizations.show')->with(compact('organization'))->with(compact('gallery'));
+      $organization = Organization::findOrFail($id);
+		  $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		  $gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+      return view('organizations.show')->with(compact(['organization','gallery']));
     }
 
     /**
@@ -186,10 +181,12 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        $organization = Organization::findOrFail($id);
-		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
-        return view('organizations.edit')->with(compact('organization'))->with(compact('gallery'))->with(compact('galleryPhoto'));
+      $organization = Organization::findOrFail($id);
+		  $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		  $gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+      //prepare approved options
+      $approvals = ($organization->isApproved()) ? $approvals=['1'=> 'Одобрена']+['0' => 'Неодобрена'] : $approvals=['0' => 'Неодобрена']+ ['1'=> 'Одобрена'];
+      return view('organizations.edit')->with(compact(['organization','gallery','galleryPhoto','approvals']));
     }
 
     /**
@@ -201,66 +198,61 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
+		  $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
 		
+		  $organization = Organization::find($id);;
+      $organization->name = $request->get('name');
+      $organization->description = $request->get('description');
+      $organization->email = $request->get('email');
+		  $organization->website = $request->get('website');
+      $organization->address = $request->get('address');
+      $organization->phone = $request->get('phone');
+		  $organization->city_id = $default_city->city_id;
+      $organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
+      $organization->save();
 		
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
-		
-		$organization = Organization::find($id);;
-        $organization->name = $request->get('name');
-        $organization->description = $request->get('description');
-        $organization->email = $request->get('email');
-		$organization->website = $request->get('website');
-        $organization->address = $request->get('address');
-        $organization->phone = $request->get('phone');
-		$organization->city_id = $default_city->city_id;
-        $organization->save();
-		
-		if(isset($request['photo'])){
-			
+		  if(isset($request['photo']))
+      {
 			//delete old photo
-			foreach($organization->photos as $photo){
-				$old_photo = $photo->image_path;
-			}
-			//File::delete(public_path().'user_files/images/organization/'.$old_photo);
-			// File::delete('user_files/images/organization/'.$old_photo);
-			
-            $original_name = $request['photo']->getClientOriginalName();
-			$file_name = uniqid().$original_name;
-            $store_file = $request['photo']->move('user_files/images/organization', $file_name);
-           // $path_to_image = public_path().'/user_files/images/organization'.$file_name;
-		
-			$organization->photos()->update([
-				'image_path' => $file_name
-			]);
-		}
-		//store organization image in public\user_files\images\organization\gallery
-		
-        if(isset($request['gallery'])){
-            $original_name = $request['gallery']->getClientOriginalName();
-			$file_name = uniqid().$original_name;
-            $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
-            //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
-            //add organization image to DB
-			
-            //prepare purposes table if not ready
-            $photo_purpose = Purpose::where('description','gallery')->first();
-            if(!$photo_purpose){
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
-            }
-
-            //store image in photos table
-			
-            $organization->photos()->create([
-                'image_path' => $file_name,
-                'alt' => 'organization photo',
-                'description' => 'gallery' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-            ]);
+        foreach($organization->photos as $photo)
+        {
+          $old_photo = $photo->image_path;
         }
-		
-		
-		
-	  return redirect()->route('organizations.adminOrg')->with('message', 'Организацията '.$organization->name.' е редактирана!');
+        //File::delete(public_path().'user_files/images/organization/'.$old_photo);
+        // File::delete('user_files/images/organization/'.$old_photo);
+        $original_name = $request['photo']->getClientOriginalName();
+        $file_name = uniqid().$original_name;
+        $store_file = $request['photo']->move('user_files/images/organization', $file_name);
+        // $path_to_image = public_path().'/user_files/images/organization'.$file_name;
+		  
+        $organization->photos()->update([
+			 	'image_path' => $file_name
+			 ]);
+      }
+		  //store organization image in public\user_files\images\organization\gallery
+      if(isset($request['gallery']))
+      {
+        $original_name = $request['gallery']->getClientOriginalName();
+        $file_name = uniqid().$original_name;
+        $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
+        //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
+        //add organization image to DB
+	
+        //prepare purposes table if not ready
+        $photo_purpose = Purpose::where('description','gallery')->first();
+        if(!$photo_purpose)
+        {
+          $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+        }
+        //store image in photos table
+        $organization->photos()->create([
+          'image_path' => $file_name,
+          'alt' => 'organization photo',
+          'description' => 'gallery' ,
+          'purpose_id' => $photo_purpose->purpose_id,
+        ]);
+      }
+      return redirect()->route('organizations.adminOrg')->with('message', 'Организацията '.$organization->name.' е редактирана!');
     }
 
     /**
@@ -275,12 +267,21 @@ class OrganizationController extends Controller
         $organization->delete();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е изтрита!');
     }
-	public function approve($id)
+
+    public function approve($id)
     {
-        $organization = Organization::find($id);
-        $organization->approved_at = (date('Y-m-d H:i:s'));
-        $organization->save();
-        return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
+      $organization = Organization::find($id);
+      $organization->approved_at = (date('Y-m-d H:i:s'));
+      $organization->save();
+      return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
+    }
+
+    public function unApprove($id)
+    {
+      $organization = Organization::find($id);
+      $organization->approved_at = NULL;
+      $organization->save();
+      return redirect()->back()->with('message', 'Одобрението на организация '.$organization->name.' е отменено!');
     }
 	
 }

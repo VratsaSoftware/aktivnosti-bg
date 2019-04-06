@@ -34,10 +34,7 @@ class ProtectUsersRoute
             }
 
             return $next($request);
-        }
-        else
-        {        
-            return abort(404);
-        }
+        }   
+        return abort(404);
     }
 }

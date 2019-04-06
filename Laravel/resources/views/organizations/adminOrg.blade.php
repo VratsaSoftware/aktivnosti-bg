@@ -62,7 +62,7 @@
 							@endif
 						@endif
 						@if( Auth::user()->hasRole('admin'))
-						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroy',$organization->organization_id) }}">
+						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroy',$organization->organization_id) }}" onsubmit="return ConfirmDelete('{{ 'организация '.$organization->name.' '.$organization->email }}')">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
 							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
