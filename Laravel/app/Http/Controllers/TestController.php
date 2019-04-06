@@ -21,10 +21,14 @@ class TestController extends Controller
 {
     public function index(){
     	echo "<p>TestController</p>";
-    	$activity = Activity::find(30);
-    	var_dump($activity->category->name);
-    
+    	$user = User::find(1);
+    	$array = $user->organizations()->pluck('organizations.organization_id')->toArray();
+    	var_dump($array);
     	
+    	// dd($organization = Organization::with([$user])->get()
+    	
+    
+
 
     }
 }

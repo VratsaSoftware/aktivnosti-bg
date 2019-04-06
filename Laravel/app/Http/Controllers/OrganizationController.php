@@ -19,12 +19,15 @@ class OrganizationController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
+    public function __construct(){
+    //Middleware organization
+        $this->middleware('protect.organization')->except(['index','show','adminOrg','create','store']);;
+    }
 	 
     public function index()
     {
-
-		$organizations = Organization::all()->where('approved_at', '!=', null);
+		  $organizations = Organization::all()->where('approved_at', '!=', null);
         return view('organizations.index', compact('organizations'));
     }
 	
@@ -40,8 +43,9 @@ class OrganizationController extends Controller
 		  if(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
 		  {
         $organizations=Auth::user()->organizations()->orderBy('name')->get();
-        if($organizations){
-				return view('organizations.adminOrg', compact('organizations'));
+        if($organizations)
+        {
+				  return view('organizations.adminOrg', compact('organizations'));
         }
         return view('citadel.home');
 		  }    
@@ -208,7 +212,10 @@ class OrganizationController extends Controller
       $organization->address = $request->get('address');
       $organization->phone = $request->get('phone');
 		  $organization->city_id = $default_city->city_id;
-      $organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
+      if(Auth::user()->hasAnyRole(['admin','moderator']))
+      {
+        $organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
+      }
       $organization->save();
 		
 		  if(isset($request['photo']))

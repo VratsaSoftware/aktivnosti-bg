@@ -46,7 +46,7 @@
                     <li class="text-center">
                         <img src="{{ isset(Auth::user()->photo->image_path) ? asset('/user_files/images/profile/').'/'.(Auth::user()->photo->image_path) : asset('/user_files/images/profile/').'/logo.png' }}" class="user-image img-responsive">
 
-						<p class="role">{{isset(Auth::user()->role->role) ? Auth::user()->role->role : ''}}</p>
+						<p class="role">{{isset(Auth::user()->role->role) ? ucfirst(Auth::user()->role->role) : ''}}</p>
                     </li>
 
                     <li>
