@@ -10,6 +10,7 @@ class ActivityController extends Controller
     
     public function showAllActivities()
     {
+        
         return view('activities.index');
     }
 
@@ -30,7 +31,9 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        // return view('activities.index');
+       
+        echo "Welcome from Activity index";
+       // return view('activities.index');
     }
 
     /**

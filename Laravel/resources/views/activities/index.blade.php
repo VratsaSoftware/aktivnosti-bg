@@ -196,7 +196,7 @@
 					</div>
 					<!-- end single work -->
 
-					<!-- single work -->
+					single work
 					<div class="col-md-3 col-sm-6 sport item-box">
 						<a href="single-project.html" class="portfolio_item">
 							<div class="offert">Безплатен</div>

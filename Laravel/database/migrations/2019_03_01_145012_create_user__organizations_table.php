@@ -13,8 +13,8 @@ class CreateUserOrganizationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user__organizations', function (Blueprint $table) {
-            $table->increments('user_organization_id');
+        Schema::create('organization_user', function (Blueprint $table) {
+            $table->increments('organization_user_id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedInteger('organization_id');
@@ -30,6 +30,6 @@ class CreateUserOrganizationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user__organizations');
+        Schema::dropIfExists('organization_user');
     }
 }

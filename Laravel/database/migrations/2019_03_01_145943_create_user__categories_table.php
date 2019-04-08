@@ -13,8 +13,8 @@ class CreateUserCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user__categories', function (Blueprint $table) {
-            $table->increments('user_category_id');
+        Schema::create('category_user', function (Blueprint $table) {
+            $table->increments('category_user_id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedInteger('category_id');
@@ -30,6 +30,6 @@ class CreateUserCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user__categories');
+        Schema::dropIfExists('category_user');
     }
 }

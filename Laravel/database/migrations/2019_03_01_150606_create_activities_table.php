@@ -19,7 +19,7 @@ class CreateActivitiesTable extends Migration
             $table->text('description');
             $table->tinyInteger('min_age')->nullable();
             $table->tinyInteger('max_age')->nullable();
-            $table->float('price', 3, 1)->nullable();
+            $table->float('price', 5, 2)->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('duration')->nullable();
@@ -27,8 +27,8 @@ class CreateActivitiesTable extends Migration
             $table->string('requirements', 255)->nullable();
             $table->boolean('fixed_start');
             $table->string('address');
-            $table->float('latitude')->nullable();
-            $table->float('longitude')->nullable();
+            $table->float('latitude', 9, 6)->nullable();
+            $table->float('longitude', 9 ,6)->nullable();
             $table->timestamps();
             $table->string('updated_by')->nullable();
             $table->dateTime('approved_at')->nullable();

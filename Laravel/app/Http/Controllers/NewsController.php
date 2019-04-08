@@ -20,7 +20,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        echo "Welcome from News index";
     }
 
     /**
