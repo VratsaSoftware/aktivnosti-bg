@@ -389,6 +389,40 @@ line-height: 1.428571429;
 	text-decoration: none;
 }
 /*==============================================
+    CROP IMAGE STYLES   
+    =============================================*/
+.cropit-preview {
+	background-color: #f8f8f8;
+	background-size: cover;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-top: 7px;
+	width: 250px;
+	height: 250px;
+}
+  .cropit-preview-image-container {
+	cursor: move;
+}
+  .image-size-label {
+	margin-top: 10px;
+}
+  input {
+	display: block;
+}
+  button[type="submit"] {
+	margin-top: 10px;
+}
+.cropit-image-zoom-input{
+	width: 250px!important;
+}
+.back{
+	display:none;
+}
+.back i{
+	font-size:30px;
+	padding-top:5px;
+}
+/*==============================================
     MEDIA QUERIES     
     =============================================*/
  

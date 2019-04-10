@@ -41,12 +41,12 @@
 					<td>{{ $organization->address }}</td>
 					<td>{{ $organization->phone }}</td>
 					<td>
+					
 					@foreach($organization->photos as $photo)
-						@if(isset($photo->image_path))
+					
+						@if($photo->purpose->description == 'logo')	
 						<img src="{{ asset('/user_files/images/organization/').'/'.$photo->image_path }}" alt="{{ $photo->purpose->description }}"
 						width="50" height="30">
-						@else
-						<span>Няма снимка</span>
 						@endif
 					@endforeach
 					</td>

@@ -2,7 +2,7 @@
         <!-- box-header -->
     <header class="box-header">
         <div class="box-logo">
-            <a href="index.html"><img src="{{asset('img/logo.png')}}"  alt="Logo"></a>
+            <a href="{{route('activities.index')}}"><img src="{{asset('img/logo.png')}}"  alt="Logo"></a>
         </div>
             <!-- box-nav -->
 		<a class="box-primary-nav-news" href="{{'news'}}">

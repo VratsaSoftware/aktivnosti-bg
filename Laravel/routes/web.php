@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 		//users management
 		Route::resource('/citadel/profile', 'ProfileController');
-
+		
 		//dispatch approve method in Users Controller 
 		Route::get('citadel/users/approve/{id}', 'UsersController@approve')->name('users.approve');
 
@@ -42,7 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 		//dispatch unApprove method in Organizations Controller 
 		Route::get('citadel/organizations/unAapprove/{id}', 'OrganizationController@unApprove')->name('organizations.unApprove');
-
+		
+		//delete gallery photo
+		Route::get('citadel/organizations/destroyGallery/{id}', 'OrganizationController@destroyGallery')->name('organizations.destroyGallery');
+		
 		//activities management
 		Route::resource('/citadel/activity', 'ActivityController');	
 
@@ -58,9 +61,9 @@ Route::group(['middleware' => 'auth'], function () {
 Auth::routes();
 
 // Route::resource('/', 'ActivityController');
-Route::get('/', 'ActivityController@showAllActivities');
-Route::get('/1', 'ActivityController@showSingleActivity');
-Route::get('/calendar', 'ActivityController@showCalendar');
+Route::get('/', 'ActivityController@showAllActivities')->name('activities.index');
+Route::get('/1', 'ActivityController@showSingleActivity')->name('activities.show');
+Route::get('/calendar', 'ActivityController@showCalendar')->name('activities.calendar');
 
 //Organization page
 Route::get('/organizations', 'OrganizationController@index')->name('organizations.index');
@@ -73,9 +76,3 @@ Route::get('/news', 'NewsController@showAllNews');
 
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index')->name('test.index');
-
-
-
-
-
-

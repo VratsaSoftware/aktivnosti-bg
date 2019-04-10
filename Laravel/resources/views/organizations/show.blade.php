@@ -9,9 +9,12 @@
         <div class="col-md-6 col-sm-12">
             <!--pictures from Adobe Stock-->
             <div class="org-img">
-			@foreach($organization->photos as $photo)
-                <img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+			@foreach($logo as $photo)
+				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+				
 			@endforeach
+  
+			
             </div>
             <div class="h-30"></div>
             <p><span>Нашата мисия:</span> {{ $organization->description }}</p>
@@ -53,80 +56,88 @@
             <!-- end Subscribe button-->
         </div>
 		<!-- end right side -->
-		
-		<!-- org activity -->
 		<div class="col-md-12 col-sm-12">
-			<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
+			<div class="col-md-6 col-sm-12">
+				<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>
+				<div id='gallery-1' class="swgl-gallery">
+					@foreach($gallery as $photo)
+					<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+					@endforeach
+				</div>	
+			</div>
+			<!-- org activity -->
+			<div class="col-md-6 col-sm-12">
+				<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
 				<!-- single work -->
-					<div class="col-md-4 col-sm-6 learnin free">
-						<h4>Дигитален маркетинг</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Алексей Потебня, Ивайло Йорданов</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso1.png" alt="image" class="img-responsive" />
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span>4-месечен курс по дигитален маркетинг</span>
-										<em>Враца софтуер общество</em>
-									</div>
+				<div class="col-md-4 col-sm-6 learnin free">
+					<h4>Дигитален маркетинг</h4>
+					<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Алексей Потебня, Ивайло Йорданов</h5>
+					<a href="single-project.html" class="portfolio_item">
+						<div class="offert">Безплатен</div>
+						<img src="img/portfolio/vso1.png" alt="image" class="img-responsive" />
+						<div class="portfolio_item_hover">
+							<div class="portfolio-border clearfix">
+								<div class="item_info">
+									<span>4-месечен курс по дигитален маркетинг</span>
+									<em>Враца софтуер общество</em>
 								</div>
-								<!-- item logo-->
-								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
-								<!-- end item logo-->
 							</div>
-						</a>
-					</div>
-					<!-- end single work -->		
-					<!-- single work -->
-					<div class="col-md-4 col-sm-6 learning free">
-						<h4>Уеб програмиране с PHP</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Милена Томова</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span>9-месечен курс по програмиране</span>
-										<em>Враца софтуер общество</em>
-									</div>
-								</div>
-								<!-- item logo-->
-								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
-								<!-- end item logo-->
+							<!-- item logo-->
+							<div class="item_logo">
+								<img src="img/portfolio/studentlogo.png" alt="logo">
 							</div>
-						</a>
-					</div>
-					<!-- end single work -->
-					<!-- single work -->
-					<div class="col-md-4 col-sm-6 learning free">
-						<h4>JAVA WEB & ANDROID</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Тихомир Кръстев</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span>9-месечен курс по програмиране</span>
-										<em>Враца софтуер общество</em>
-									</div>
+							<!-- end item logo-->
+						</div>
+					</a>
+				</div>
+				<!-- end single work -->		
+				<!-- single work -->
+				<div class="col-md-4 col-sm-6 learning free">
+					<h4>Уеб програмиране с PHP</h4>
+					<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Милена Томова</h5>
+					<a href="single-project.html" class="portfolio_item">
+						<div class="offert">Безплатен</div>
+						<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
+						<div class="portfolio_item_hover">
+							<div class="portfolio-border clearfix">
+								<div class="item_info">
+									<span>9-месечен курс по програмиране</span>
+									<em>Враца софтуер общество</em>
 								</div>
-								<!-- item logo-->
-								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
-								<!-- end item logo-->
 							</div>
-						</a>
-					</div>
-					<!-- end single work -->
-			
+							<!-- item logo-->
+							<div class="item_logo">
+								<img src="img/portfolio/studentlogo.png" alt="logo">
+							</div>
+							<!-- end item logo-->
+						</div>
+					</a>
+				</div>
+				<!-- end single work -->
+				<!-- single work -->
+				<div class="col-md-4 col-sm-6 learning free">
+					<h4>JAVA WEB & ANDROID</h4>
+					<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Тихомир Кръстев</h5>
+					<a href="single-project.html" class="portfolio_item">
+						<div class="offert">Безплатен</div>
+						<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
+						<div class="portfolio_item_hover">
+							<div class="portfolio-border clearfix">
+								<div class="item_info">
+									<span>9-месечен курс по програмиране</span>
+									<em>Враца софтуер общество</em>
+								</div>
+							</div>
+							<!-- item logo-->
+							<div class="item_logo">
+								<img src="img/portfolio/studentlogo.png" alt="logo">
+							</div>
+							<!-- end item logo-->
+						</div>
+					</a>
+				</div>
+				<!-- end single work -->
+			</div>
 		</div>
 		<!-- end org activity -->
     </div>

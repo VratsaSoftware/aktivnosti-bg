@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrganizationFormRequest;
 use App\Models\Organization;
 use App\Models\Photo;
 use App\Models\User;
 use App\Models\City;
 use App\Models\Purpose;
 use App\Models\Role;
-use Illuminate\Support\Facades\Auth;
 use File;
-
+use Image;//crop image
 class OrganizationController extends Controller
 {
   
@@ -19,36 +19,37 @@ class OrganizationController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */ 
-    public function __construct(){
-    //Middleware organization
-        $this->middleware('protect.organization')->except(['index','show','adminOrg','create','store']);;
-    }
+     */
 	 
     public function index()
     {
-		  $organizations = Organization::all()->where('approved_at', '!=', null);
-        return view('organizations.index', compact('organizations'));
+
+		$organizations = Organization::all()->where('approved_at', '!=', null);
+		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
+		//$logo =  $organizations->photos->where('purpose_id', $purpose_logo->purpose_id);
+		
+        return view('organizations.index')->with(compact('organizations'))->with(compact('logo'));
     }
 	
-    public function adminOrg()
+	public function adminOrg()
     {
-
-		  if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator'))
-      {
-        $organizations = Organization::all();
-        return view('organizations.adminOrg', compact('organizations'));
-		  }
-
-		  if(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
-		  {
-        $organizations=Auth::user()->organizations()->orderBy('name')->get();
-        if($organizations)
-        {
-				  return view('organizations.adminOrg', compact('organizations'));
-        }
-        return view('citadel.home');
-		  }    
+		if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
+			
+			$organizations = Organization::all();
+			
+			return view('organizations.adminOrg', compact(['organizations', 'logo[]']));
+		}
+		elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
+		{
+		
+			$organizations=Auth::user()->organizations()->orderBy('name')->get();
+			
+			if($organizations){
+				
+				return view('organizations.adminOrg', compact('organizations'));
+			}
+		}    
+	
     }
     /**
      * Show the form for creating a new resource.
@@ -67,101 +68,94 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrganizationFormRequest $request)
     {
+		
 		//set default city
-      $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
-		  $organization = new Organization;
-      $organization->name = $request->get('name');
-      $organization->description = $request->get('description');
-      $organization->email = $request->get('email');
-		  $organization->website = $request->get('website');
-      $organization->address = $request->get('address');
-      $organization->phone = $request->get('phone');
-		  $organization->city_id = $default_city->city_id;
-      $organization->save();
+        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
+		
+		$organization = new Organization;
+        $organization->name = $request->get('name');
+        $organization->description = $request->get('description');
+        $organization->email = $request->get('email');
+		$organization->website = $request->get('website');
+        $organization->address = $request->get('address');
+        $organization->phone = $request->get('phone');
+		$organization->city_id = $default_city->city_id;
+        $organization->save();
+
 		 //store organization image in public\user_files\images\organization
-      if(isset($request['photo']))
-      {
-        $original_name = $request['photo']->getClientOriginalName();
-        $file_name = uniqid().$original_name;
-        $store_file = $request['photo']->move('user_files/images/organization', $file_name);
-        //$path_to_image = '../public/user_files/images/organization/'.$file_name;
-        //add organization image to DB
-        //prepare purposes table if not ready
-        $photo_purpose = Purpose::where('description','logo')->first();
+        if(isset($request['photo'])){
+            $original_name = $request['photo']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
+            //add organization image to DB
+            //prepare purposes table if not ready
+			$image_data = $request->get('image-data');                                              //crop image
+			if($image_data){																		//crop image
+				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data)); //crop image
+				$img = Image::make($info);                                                          //crop image
+				$img->save(public_path('user_files/images/organization/'.$file_name));              //crop image
+			}else{
+				$store_file = $request['photo']->move('user_files/images/organization', $file_name);
+			}
+            $photo_purpose = Purpose::where('description','logo')->first();
+            if(!$photo_purpose){
+                $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
+            }
 
-        if(!$photo_purpose)
-        {
-          $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
+            //store image in photos table
+			
+            $organization->photos()->create([
+                'image_path' => $file_name,
+                'alt' => 'organization photo',
+                'description' => 'organization photo' ,
+                'purpose_id' => $photo_purpose->purpose_id,
+            ]);
         }
-
-        //store image in photos table
-        $organization->photos()->create([
-          'image_path' => $file_name,
-          'alt' => 'organization photo',
-          'description' => 'organization photo' ,
-          'purpose_id' => $photo_purpose->purpose_id,
-        ]);
-      }
 		//store organization image in public\user_files\images\organization\gallery
-      if(isset($request['gallery']))
-      {
-        $original_name = $request['gallery']->getClientOriginalName();
-        $file_name = uniqid().$original_name;
-        $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
-        //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
-        //add organization image to DB
-        //prepare purposes table if not ready
-        $photo_purpose = Purpose::where('description','gallery')->first();
-        if(!$photo_purpose)
-        {
-          $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+        if(isset($request['gallery'])){
+			foreach($request['gallery'] as $gallery){
+				$gallery_name = $gallery->getClientOriginalName();
+				$file_galery = uniqid().$gallery_name;
+				$store_file = $gallery->move('user_files/images/organization/gallery', $gallery_name);
+				//$path_to_image = '../public/user_files/images/organization/gallery'.$gallery_name;
+				//add organization image to DB
+				//prepare purposes table if not ready
+				$gallery_purpose = Purpose::where('description','gallery')->first();
+				if(!$gallery_purpose){
+					$gallery_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+				}
+
+				//store image in photos table
+				
+				$organization->photos()->create([
+					'image_path' => $gallery_name,
+					'alt' => 'organization photo',
+					'description' => 'gallery' ,
+					'purpose_id' => $gallery_purpose->purpose_id,
+				]);
+			}
         }
-        //store image in photos table
-        $organization->photos()->create([
-          'image_path' => $file_name,
-          'alt' => 'organization photo',
-          'description' => 'gallery' ,
-          'purpose_id' => $photo_purpose->purpose_id,
-        ]);
-      }
-      //attach user for organization, created at user registration 
-      $newOrganizationFlag = $request->session()->pull('newOrganizationFlag', 'default');
-      if( $newOrganizationFlag == 1)
-      {
-        if($organization->users()->sync([Auth::user()->user_id]))
-        {
-          $role = Role::where('role','organization_manager')->first()->role_id;
-          $user = Auth::user();
-          $user->role_id = $role;
-          $user->save();
-          return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
+
+        //attach user for organization, created at user registration 
+        $newOrganizationFlag = $request->session()->pull('newOrganizationFlag', 'default');
+        if( $newOrganizationFlag == 1){
+            if($organization->users()->sync([Auth::user()->user_id]))
+            {
+            $role = Role::where('role','organization_manager')->first()->role_id;
+            $user = Auth::user();
+            $user->role_id = $role;
+            $user->save();
+              return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
+            }
+            else
+            {
+                return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
+            } 
         }
-        return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
-      }
-		  //validate organization requests
-		  $this->validate($request,[
-        'name' => ['required', 'max:255'],
-        'description' => ['required', 'max:500'],
-        'email' => ['required', 'string', 'email', 'max:255'],
-        'address' => ['required', 'string', 'max:255'],
-        'website' => ['string', 'max:255'],
-        'phone' => ['required','regex:/^[0-9\-\(\)\/\+\s]*$/'], 
-        'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],
-      ],
-		  [
-        'name.required' => 'Моля въведете име',
-        'email.required' => 'Моля въведете E-mail адрес', 
-        'email.email' => 'Моля въведете валиден E-mail адрес',
-        'address.required' => 'Моля въведете адрес',
-        'phone.regex' => 'Моля въведете валиден телефонен номер',
-        'phone.required' => 'Моля въведете телефонен номер',
-        'photo.mimes' => 'Формата на изображението не се поддържа',
-        'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB'
-      ]);
-      return redirect('citadel/organizations')->with('message', 'Създадена е нова организация');
-    }//end of store
+				
+        return redirect('citadel/organizations')->with('message', 'Създадена е нова организация');
+    }//end of create
 
     /**
      * Display the specified resource.
@@ -171,10 +165,13 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-      $organization = Organization::findOrFail($id);
-		  $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-		  $gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
-      return view('organizations.show')->with(compact(['organization','gallery']));
+        $organization = Organization::findOrFail($id);
+		$purpose_gallery = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
+		$gallery =  $organization->photos->where('purpose_id', $purpose_gallery->purpose_id);
+		$logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);
+		
+        return view('organizations.show')->with(compact(['organization','gallery','logo']));
     }
 
     /**
@@ -185,12 +182,15 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-      $organization = Organization::findOrFail($id);
-		  $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-		  $gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
-      //prepare approved options
-      $approvals = ($organization->isApproved()) ? $approvals=['1'=> 'Одобрена']+['0' => 'Неодобрена'] : $approvals=['0' => 'Неодобрена']+ ['1'=> 'Одобрена'];
-      return view('organizations.edit')->with(compact(['organization','gallery','galleryPhoto','approvals']));
+        $organization = Organization::findOrFail($id);
+		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
+		$logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);
+		
+        //prepare approved options
+		$approvals = ($organization->isApproved()) ? $approvals=['1'=> 'Одобрена']+['0' => 'Неодобрена'] : $approvals=['0' => 'Неодобрена']+ ['1'=> 'Одобрена'];
+		return view('organizations.edit')->with(compact(['organization','gallery','logo','approvals']));
     }
 
     /**
@@ -200,66 +200,102 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrganizationFormRequest $request, $id)
     {
-		  $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
 		
-		  $organization = Organization::find($id);;
-      $organization->name = $request->get('name');
-      $organization->description = $request->get('description');
-      $organization->email = $request->get('email');
-		  $organization->website = $request->get('website');
-      $organization->address = $request->get('address');
-      $organization->phone = $request->get('phone');
-		  $organization->city_id = $default_city->city_id;
-      if(Auth::user()->hasAnyRole(['admin','moderator']))
-      {
-        $organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
-      }
-      $organization->save();
+        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
+		$organization = Organization::find($id);;
+        $organization->name = $request->get('name');
+        $organization->description = $request->get('description');
+        $organization->email = $request->get('email');
+		$organization->website = $request->get('website');
+        $organization->address = $request->get('address');
+        $organization->phone = $request->get('phone');
+		$organization->city_id = $default_city->city_id;
+       
+		if(Auth::user()->hasAnyRole(['admin','moderator'])){
+			
+			$organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
+		}
 		
-		  if(isset($request['photo']))
-      {
-			//delete old photo
-        foreach($organization->photos as $photo)
-        {
-          $old_photo = $photo->image_path;
-        }
-        //File::delete(public_path().'user_files/images/organization/'.$old_photo);
-        // File::delete('user_files/images/organization/'.$old_photo);
-        $original_name = $request['photo']->getClientOriginalName();
-        $file_name = uniqid().$original_name;
-        $store_file = $request['photo']->move('user_files/images/organization', $file_name);
-        // $path_to_image = public_path().'/user_files/images/organization'.$file_name;
-		  
-        $organization->photos()->update([
-			 	'image_path' => $file_name
-			 ]);
-      }
-		  //store organization image in public\user_files\images\organization\gallery
-      if(isset($request['gallery']))
-      {
-        $original_name = $request['gallery']->getClientOriginalName();
-        $file_name = uniqid().$original_name;
-        $store_file = $request['gallery']->move('user_files/images/organization/gallery', $file_name);
-        //$path_to_image = '../public/user_files/images/organization/gallery'.$file_name;
-        //add organization image to DB
+		$organization->save();
+		
+		
+		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
+		$logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);  
+		
+		if(isset($request['photo'])){
+			
+			
 	
-        //prepare purposes table if not ready
-        $photo_purpose = Purpose::where('description','gallery')->first();
-        if(!$photo_purpose)
-        {
-          $photo_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+            $original_name = $request['photo']->getClientOriginalName();
+			$file_name = uniqid().$original_name;
+            //add organization image to DB
+            //prepare purposes table if not ready
+			$image_data = $request->get('image-data');
+			if($image_data){
+				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data));
+				$img = Image::make($info);
+				$img->save(public_path('user_files/images/organization/'.$file_name));
+			}else{
+				$store_file = $request['photo']->move('user_files/images/organization', $file_name);
+			}
+            $photo_purpose = Purpose::where('description','logo')->first();
+            if(!$photo_purpose){
+                $photo_purpose=Purpose::firstOrCreate(['description' => 'logo']);
+            }
+		
+			
+			if(count($logo)<1){
+				$organization->photos()->create([
+                'image_path' => $file_name,
+                'alt' => 'organization photo',
+                'description' => 'logo' ,
+                'purpose_id' => $photo_purpose->purpose_id,
+				]);
+            }
+            else
+            {
+                $organization->photos()->update([
+				'image_path' => $file_name
+				]);
+				
+				//delete old photo
+				foreach($organization->photos as $photo){
+					$old_photo = $photo->image_path;
+					File::delete('user_files/images/organization/'.$old_photo);
+				}
+				
+               
+            }
+		}
+		
+        //store organization image in public\user_files\images\organization\gallery
+        if(isset($request['gallery'])){
+			foreach($request['gallery'] as $gallery){
+				$gallery_name = $gallery->getClientOriginalName();
+				$file_galery = uniqid().$gallery_name;
+				$store_file = $gallery->move('user_files/images/organization/gallery', $file_galery);
+				//$path_to_image = '../public/user_files/images/organization/gallery'.$gallery_name;
+				//add organization image to DB
+				//prepare purposes table if not ready
+				$gallery_purpose = Purpose::where('description','gallery')->first();
+				if(!$gallery_purpose){
+					$gallery_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+				}
+
+				//store image in photos table
+				
+				$organization->photos()->create([
+					'image_path' => $file_galery ,
+					'alt' => 'organization photo',
+					'description' => 'gallery' ,
+					'purpose_id' => $gallery_purpose->purpose_id,
+				]);
+			}
         }
-        //store image in photos table
-        $organization->photos()->create([
-          'image_path' => $file_name,
-          'alt' => 'organization photo',
-          'description' => 'gallery' ,
-          'purpose_id' => $photo_purpose->purpose_id,
-        ]);
-      }
-      return redirect()->route('organizations.adminOrg')->with('message', 'Организацията '.$organization->name.' е редактирана!');
+				
+	  return redirect()->route('organizations.adminOrg')->with('message', 'Организацията '.$organization->name.' е редактирана!');
     }
 
     /**
@@ -274,21 +310,46 @@ class OrganizationController extends Controller
         $organization->delete();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е изтрита!');
     }
-
-    public function approve($id)
+	/**
+     * Appruve organization.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+	public function approve($id)
     {
-      $organization = Organization::find($id);
-      $organization->approved_at = (date('Y-m-d H:i:s'));
-      $organization->save();
-      return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
+        $organization = Organization::find($id);
+        $organization->approved_at = (date('Y-m-d H:i:s'));
+        $organization->save();
+        return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
     }
-
-    public function unApprove($id)
+	
+	/**
+     * Unappruve organization.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+	 public function unApprove($id)
     {
       $organization = Organization::find($id);
       $organization->approved_at = NULL;
       $organization->save();
       return redirect()->back()->with('message', 'Одобрението на организация '.$organization->name.' е отменено!');
     }
-	
+	 /**
+     * Remove photo from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+	public function destroyGallery($id)
+    {
+		$organization = Organization::find($id);
+        $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
+		$gallery->delate();
+		
+        return redirect()->back();
+    }
 }

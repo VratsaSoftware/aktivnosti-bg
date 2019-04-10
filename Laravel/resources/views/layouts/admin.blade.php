@@ -170,6 +170,8 @@
     </script>
 
     <!-- CUSTOM SCRIPTS -->
+	<script src="{{ asset('admin/js/image-preview.js') }}"></script>
+	<script src="{{ asset('admin/js/cropit.js') }}"></script>
     <script src="{{ asset('admin/js/custom.js') }}"></script>
     <script src="{{ asset('admin/js/activnosti.js') }}"></script>
 

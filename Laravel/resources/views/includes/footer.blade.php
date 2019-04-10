@@ -30,14 +30,19 @@
 						<div class="widget latest-news-widget">
 							<h5 class="widget-title">Полезни връзки</h5>
 							<ul class="small-post-list">
-							<li>
-								<div class="small-post-item">
-									<a href="#" class="post-date">Активности</a>
-								</div>
-							</li><!-- small-post-item end -->
 								<li>
 									<div class="small-post-item">
-										<a href="#" class="post-date">Новини</a>
+										<a href="{{route('activities.index')}}" class="post-date">Активности</a>
+									</div>
+								</li><!-- small-post-item end -->
+								<li>
+									<div class="small-post-item">
+										<a href="{{route('organizations.index')}}" class="post-date">Организации</a>
+									</div>
+								</li><!-- small-post-item end -->
+								<li>
+									<div class="small-post-item">
+										<a href="{{'news'}}" class="post-date">Новини</a>
 									</div>
 								</li><!-- small-post-item end -->
 								<li>
@@ -72,7 +77,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 text-sm-left text-center">
-						<span class="copy-right-text">© 2019 <a href="#"> Aktivnosti.bg </a> All Rights Reserved.</span>
+						<span class="copy-right-text">© 2019 <a href="{{route('activities.index')}}"> Aktivnosti.bg </a> All Rights Reserved.</span>
 					</div>
 				</div>
 			</div>

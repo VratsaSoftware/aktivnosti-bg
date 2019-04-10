@@ -115,27 +115,59 @@
                         </div>
                         @endif
 
-						@foreach($organization->photos as $photo)
-							@if($photo->image_path)
+						@foreach($logo as $photo)									
+						
                         <div class="row">
+						@if($logo)
+							
 							<div class="col-md-6 old-img">
 								<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
 							</div>
 						</div>
+						@endif
+						@endforeach
+                        <!--crop image-->
+                        <div class="form-group row">
+							<div class="image-editor">
+								
+								<input type="file" id="photo" name="photo" class="cropit-image-input">
+									<div class="cropit-preview"></div>
+								<div class="image-size-label">
+									<input type="hidden"  name="image-data" class="hidden-image-data" />
+									<a class="back">назад</a>
+								</div>
+								<input type="range" class="cropit-image-zoom-input">
+								<button id="crop_button" form="crop_form" type="submit">Изрежи</button>
+								@if ($errors->has('photo'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('photo') }}</strong>
+								</span>
+								@endif  
+							</div>
+						</div>
+						<!--end crop image-->
+						<!--gallery form-group -->										
+                        <div class="row">
+						@foreach($gallery as $photo)	
+							@if($gallery)
+							<div class="col-md-3 old-img">	
+								<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
+							</div>
 							@endif
 						@endforeach
-                        <div class="form-group row">
-                            <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка') }}</label>
-                             <div class="col-md-6">
-                                {!! Form::file('photo', array('class'=>'file', 'id'=>'photo')) !!} 
-                                @if ($errors->has('photo'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('photo') }}</strong>
-                                    </span>
-                                @endif  
-                            </div>
-                        </div>
-
+						</div>
+						<div class="form-group row">
+							<label for="gallery" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
+						</div>
+						<div class="form-group row">
+							<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
+							@if ($errors->has('gallery'))
+							<span class="invalid-feedback" role="alert">
+								<strong>{{ $errors->first('gallery') }}</strong>
+							</span>
+							@endif  
+						</div>
+						<!--end gallery form-group -->
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -144,6 +176,11 @@
                             </div>
                         </div>
                     </form>
+					<!--crop image-->
+					<form id="crop_form" action="#">
+						<input type="hidden" name="image-data" class="hidden-image-data" />	
+					</form>
+					<!--crop image-->
                 </div>
             </div>
         </div>

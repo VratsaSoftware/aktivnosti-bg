@@ -11,10 +11,11 @@
 				<a href="{{ route('organizations.show',$organization->organization_id)}}">
 					<!-- service-box -->
 					@foreach($organization->photos as $photo)
+					@endforeach
 					<div class="org_image">
 						<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
 					</div>
-					@endforeach
+					
 					<h4>{{$organization->name}}</h4>
 					<div class="h-10"></div>
 				</a>
