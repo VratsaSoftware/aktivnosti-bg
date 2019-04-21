@@ -48,7 +48,7 @@
 								@foreach ($activity->photos as $photo)
 									{{-- @if ($photo->purpose_id == 1) --}}
 									@if ($photo->purpose->description == 'mine')
-										<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+										<img class="activity-img"src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 									@endif
 								@endforeach
 								<div class="portfolio_item_hover">
@@ -59,9 +59,9 @@
 										</div>
 									</div>
 									<!-- item logo-->
-									{{-- <div class="item_logo">
-										<img src="img/portfolio/studentlogo.png" alt="logo">
-									</div> --}}
+									<div class="item_logo">
+										<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+									</div> 
 									<!-- end item logo-->
 								</div>
 							</a>
