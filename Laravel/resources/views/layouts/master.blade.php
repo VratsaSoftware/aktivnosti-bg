@@ -14,6 +14,8 @@
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <!-- main css -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+	<!-- baguetteBox gallery -->
+	<link rel="stylesheet" href="{{asset('css/baguetteBox.min.css')}}">
     <!-- range slider -->
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
     <!-- modernizr -->
@@ -77,7 +79,7 @@
     <script src="{{asset('js/slider.js')}}"></script>
     <script src="{{asset('js/slick.js')}}"></script>
 	<script src="{{asset('js/schedule.js')}}"></script>
-	<script src="{{ asset('js/orgGallery.js') }}"></script>
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
 </body>
 

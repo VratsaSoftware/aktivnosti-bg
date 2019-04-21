@@ -9,7 +9,8 @@ class Schedule extends Model
 {
     use SoftDeletes;
 
-    protected $primaryKey = 'shedule_id';
+
+    protected $primaryKey = 'schedule_id';
     protected $guarded    = ['schedule_id', 'created_at', 'updated_at'];
 
     public function group()

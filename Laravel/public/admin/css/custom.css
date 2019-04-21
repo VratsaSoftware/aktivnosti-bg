@@ -195,12 +195,14 @@ color: #8d8888;
     color: #AF0000;
 }
 
+
 /*==============================================
     MENU STYLES    
     =============================================*/
 
 
 .user-image {
+
 margin: 25px auto;
 -webkit-border-radius: 10px;
 -moz-border-radius: 10px;
@@ -213,6 +215,7 @@ max-width:130px;
 
 height: 60px;
 width:60px;
+
 }
 
 .navbar-cls-top .navbar-brand {
@@ -335,6 +338,7 @@ border:0px solid black;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
 background-color: #ffbf00;
+
 }
 .navbar-default .navbar-toggle {
 border-color: #fff;
@@ -348,6 +352,9 @@ background-color: #FFF;
 }
 .role{
 	color: #ffffff;
+}
+.panel-default {
+	overflow-x: scroll;
 }
 /*==============================================
     UI ELEMENTS STYLES     
@@ -364,6 +371,7 @@ font-size: 12px;
 line-height: 1.428571429;
 }
 
+
 .required-fields{
     color: #ff0000;
     font-weight: bold;
@@ -373,6 +381,7 @@ line-height: 1.428571429;
     color: #333;
     font-weight: bold;
 }
+
 /*==============================================
     ORGANIZATION EDIT STYLES     
     =============================================*/
@@ -389,6 +398,8 @@ line-height: 1.428571429;
 	text-decoration: none;
 }
 /*==============================================
+<<<<<<< HEAD
+=======
     CROP IMAGE STYLES   
     =============================================*/
 .cropit-preview {
@@ -423,6 +434,7 @@ line-height: 1.428571429;
 	padding-top:5px;
 }
 /*==============================================
+>>>>>>> origin/dev
     MEDIA QUERIES     
     =============================================*/
  

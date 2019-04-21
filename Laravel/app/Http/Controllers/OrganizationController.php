@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationFormRequest;
 use App\Models\Organization;
@@ -10,8 +11,10 @@ use App\Models\User;
 use App\Models\City;
 use App\Models\Purpose;
 use App\Models\Role;
+use App\Models\Activity;
 use File;
 use Image;//crop image
+
 class OrganizationController extends Controller
 {
   
@@ -26,9 +29,8 @@ class OrganizationController extends Controller
 
 		$organizations = Organization::all()->where('approved_at', '!=', null);
 		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
-		//$logo =  $organizations->photos->where('purpose_id', $purpose_logo->purpose_id);
-		
-        return view('organizations.index')->with(compact('organizations'))->with(compact('logo'));
+		$logo =  Photo::all()->where('purpose_id', $purpose_logo->purpose_id);
+        return view('organizations.index')->with(compact(['organizations', 'logo']));
     }
 	
 	public function adminOrg()
@@ -36,8 +38,9 @@ class OrganizationController extends Controller
 		if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
 			
 			$organizations = Organization::all();
+
 			
-			return view('organizations.adminOrg', compact(['organizations', 'logo[]']));
+			return view('organizations.adminOrg', compact('organizations'));
 		}
 		elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
 		{
@@ -166,12 +169,13 @@ class OrganizationController extends Controller
     public function show($id)
     {
         $organization = Organization::findOrFail($id);
+		$activities = Activity::where('organization_id', $id)->get();
 		$purpose_gallery = Purpose::select('purpose_id')->where('description','gallery')->first();
 		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
 		$gallery =  $organization->photos->where('purpose_id', $purpose_gallery->purpose_id);
 		$logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);
 		
-        return view('organizations.show')->with(compact(['organization','gallery','logo']));
+        return view('organizations.show')->with(compact(['organization','gallery','logo', 'activities']));
     }
 
     /**
@@ -275,7 +279,7 @@ class OrganizationController extends Controller
 			foreach($request['gallery'] as $gallery){
 				$gallery_name = $gallery->getClientOriginalName();
 				$file_galery = uniqid().$gallery_name;
-				$store_file = $gallery->move('user_files/images/organization/gallery', $file_galery);
+				$store_file = $gallery->move('user_files/images/organization/gallery/', $file_galery);
 				//$path_to_image = '../public/user_files/images/organization/gallery'.$gallery_name;
 				//add organization image to DB
 				//prepare purposes table if not ready
@@ -345,11 +349,13 @@ class OrganizationController extends Controller
      */
 	public function destroyGallery($id)
     {
-		$organization = Organization::find($id);
-        $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-		$gallery =  $organization->photos->where('purpose_id', $purpose->purpose_id);
-		$gallery->delate();
-		
+		$photoGallery = Photo::find($id);
+		//delete old photo
+		foreach($photoGallery  as $photo){
+			$old_photo = $photoGallery->image_path;
+			File::delete('user_files/images/organization/gallery/'.$old_photo);
+		}
+		$photoGallery->delete();
         return redirect()->back();
     }
 }

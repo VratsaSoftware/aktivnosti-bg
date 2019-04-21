@@ -21,4 +21,12 @@ class Group extends Model
     {
         return $this->hasMany('App\Models\Schedule', 'group_id');
     }
+    
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($group) { 
+             $group->schedules()->delete();
+        });
+    }
 }
