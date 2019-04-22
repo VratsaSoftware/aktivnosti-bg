@@ -36,4 +36,11 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Models\User', 'category_user', 'category_id', 'user_id');
     }
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($category) { 
+             $category->subcategories()->delete();
+        });
+    }
 }

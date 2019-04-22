@@ -8,6 +8,18 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
+					<!--organization logo-->
+					@foreach($logo as $photo)	
+					<div class="row">
+					@if($logo)
+						
+						<div class="col-md-6 old-img">
+							<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
+						</div>
+					</div>
+					@endif
+					@endforeach
+					<!--end organization logo-->
                     <form method="POST" action="{{ route('organizations.update', $organization->organization_id) }}" enctype="multipart/form-data">
                         @csrf
 						@method('PUT')
@@ -113,59 +125,40 @@
                                 {!! Form::select('approved',$approvals,null,['class' => 'form-control']) !!}
                             </div>
                         </div>
-                        @endif
-
-						@foreach($logo as $photo)									
-						
-                        <div class="row">
-						@if($logo)
-							
-							<div class="col-md-6 old-img">
-								<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
-							</div>
-						</div>
-						@endif
-						@endforeach
+                        @endif								
                         <!--crop image-->
                         <div class="form-group row">
 							<div class="image-editor">
-								
-								<input type="file" id="photo" name="photo" class="cropit-image-input">
+								<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Изберете нова заглавна снимка') }}</label>
+								<div class="col-md-6">
+									<input type="file" id="photo" name="photo" class="cropit-image-input">
 									<div class="cropit-preview"></div>
-								<div class="image-size-label">
-									<input type="hidden"  name="image-data" class="hidden-image-data" />
-									<a class="back">назад</a>
+									<div class="image-size-label">
+										<input type="hidden"  name="image-data" class="hidden-image-data" />
+										<a class="btn btn-warning btn-sm back">назад</a>
+									</div>
+									<input type="range" class="cropit-image-zoom-input">
+									<button id="crop_button" class="btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
+									@if ($errors->has('photo'))
+									<span class="invalid-feedback" role="alert">
+										<strong>{{ $errors->first('photo') }}</strong>
+									</span>
+									@endif  
 								</div>
-								<input type="range" class="cropit-image-zoom-input">
-								<button id="crop_button" form="crop_form" type="submit">Изрежи</button>
-								@if ($errors->has('photo'))
-								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('photo') }}</strong>
-								</span>
-								@endif  
 							</div>
 						</div>
 						<!--end crop image-->
 						<!--gallery form-group -->										
-                        <div class="row">
-						@foreach($gallery as $photo)	
-							@if($gallery)
-							<div class="col-md-3 old-img">	
-								<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
+						<div class="form-group row">
+							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
+							<div class="col-md-6">
+								<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
+								@if ($errors->has('gallery'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('gallery') }}</strong>
+								</span>
+								@endif  
 							</div>
-							@endif
-						@endforeach
-						</div>
-						<div class="form-group row">
-							<label for="gallery" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
-						</div>
-						<div class="form-group row">
-							<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
-							@if ($errors->has('gallery'))
-							<span class="invalid-feedback" role="alert">
-								<strong>{{ $errors->first('gallery') }}</strong>
-							</span>
-							@endif  
 						</div>
 						<!--end gallery form-group -->
                         <div class="form-group row mb-0">
@@ -176,6 +169,21 @@
                             </div>
                         </div>
                     </form>
+					 <div class="row">
+						@foreach($gallery as $photo)	
+				
+							<div class="col-md-3 old-img">	
+						
+						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroyGallery',$photo->photo_id) }}" >
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+						</form>
+								<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
+							</div>
+							
+						@endforeach
+						</div>
 					<!--crop image-->
 					<form id="crop_form" action="#">
 						<input type="hidden" name="image-data" class="hidden-image-data" />	

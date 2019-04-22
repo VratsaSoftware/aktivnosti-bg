@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Activity extends Model
 {
     use SoftDeletes;
@@ -52,4 +49,19 @@ class Activity extends Model
         return $this->belongsTo('App\Models\City', 'city_id');
     }
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($activity) { 
+             // $activity->groups()->shedules()->delete();
+            foreach ($activity->groups as $group) {
+                $group->delete(); }
+            });
+    }
+
+    public function isApproved()
+    {
+        return null !== $this->approved_at;
+    }
+    
 }
