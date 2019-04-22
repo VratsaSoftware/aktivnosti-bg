@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
 		//dispatch unApprove method in Users Controller 
 		Route::get('citadel/users/unApprove/{id}', 'UsersController@unApprove')->name('users.unApprove');
 		
-		//delete organizatin
+		//delete organizations
 		Route::delete('citadel/organizations/destroy/{id}', 'OrganizationController@destroy')->name('organizations.destroy');
 
 		//dispatch approve method in Organizations Controller 

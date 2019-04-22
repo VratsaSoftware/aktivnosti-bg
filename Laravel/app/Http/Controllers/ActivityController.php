@@ -36,19 +36,29 @@ class ActivityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        
+    { 
         $categories=Category::all();
+
+        $free = 0;
+        $age = 0;
+
         if($request->has('free')){
-            $activities=Activity::where('price', NULL)->get();
-        } else {
-            $activities=Activity::latest()->paginate(25);
+            $free = $request->free;
+        };
+
+        if($request->has('age') && $request->age > 0 ){
+            $age = $request->age;
+        };
+
+        $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
+
+        if($request->exists('free') || $request->exists('age') ){
+
+            $activities=Activity::where('price', NULL)->whereRaw($ageCondition)->whereNotNull('approved_at')->get();
         }
-
-
-
-        // $categories=Category::all();
-        // $activities=Activity::latest()->paginate(25);
+        else {
+            $activities=Activity::latest()->whereNotNull('approved_at')->where('available',1)->paginate(25);
+        }
     
         return view('activities.index', compact('activities', 'categories'));
     }

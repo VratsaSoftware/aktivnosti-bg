@@ -18,7 +18,7 @@
 			       			 {{ session()->get('message') }}
 			    		</div>   
 					@endif
-			        <table class="table table-striped table-bordered table-hover" id="table_users">
+			        <table class="table table-striped table-bordered table-hover" id="table_activities">
 			            <thead>
 			                <tr>
 			            		<th>Активност</th>
@@ -59,7 +59,11 @@
 								<td>{{ $activity->requirements }}</td>
 								<td>{{ $activity->fixed_start }}</td>
 								<td>{{str_limit($activity->address, $limit = 20, $end = '...')}}</td>
-								{{--<td>{{ $activity->organization->name }}</td>--}}
+								<td>
+									@isset($activity->organization->name)
+									{{ $activity->organization->name }}
+									@endisset
+								</td>
 								@if(isset($activity->category->name))
 								<td>{{ $activity->category->name }}</td> 
 								@else
@@ -88,15 +92,12 @@
 									@endif
 									@endif
 								</td>
-								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a></td>
-								<td><a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a></td>
-								<td><a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a></td>
-									{{-- @if( Auth::user()->hasRole('admin')||Auth::user()->hasRole('moderator')) --}}
-									{{-- 	@if(!$activity->approved_at)
-									<a class="btn btn-warning btn-sm" href="{{ route('activities.approve',$activity->activity_id)}}">Одобри</a>
-										@endif --}}
-									{{-- @endif --}}
-									{{-- @if( Auth::user()->hasRole('admin')) --}}
+								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
+								</td>
+								<td><a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
+								</td>
+								<td><a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
+								</td>
 								<td>
 									<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroy',$activity->activity_id) }}" onsubmit="return ConfirmDelete('{{ 'активност '.$activity->name }}')">
 										{{ csrf_field() }}

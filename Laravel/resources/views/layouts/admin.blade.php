@@ -127,7 +127,6 @@
     <script src="{{ asset('admin/js/sub-categories-ajax.js') }}"></script>
 
     <!-- Data tables settings-->
-
     <script>
     $(document).ready( function () {
         $('#table_users').dataTable( {
@@ -139,6 +138,9 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
         $('#table_organizations').dataTable( {
             "columnDefs":
@@ -148,6 +150,9 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
         $('#table_organizations_adminOrg').dataTable( {
             "columnDefs":
@@ -157,7 +162,31 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
+        $('#table_activities').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [7,8],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
+        });
+        $('#table_categories').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [2,3,4],
+                "searchable": false,
+                "orderable": false,
+            }],
+        });
+       
     });
     </script>
 

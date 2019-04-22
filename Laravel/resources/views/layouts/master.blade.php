@@ -52,6 +52,11 @@
 
 @yield('content')
 
+<!-- Basepath needed for age slider-->
+@php
+    $basePath = $app['url']->to('/');
+@endphp
+
 @include('includes.footer')
     <!-- back to top -->
     <a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
@@ -69,11 +74,15 @@
     <script src="{{asset('js/custom.js')}}"></script>
     <!-- Change top-bar h1 and background script!!!  -->
     <script src="{{asset('js/intro.js')}}"></script>
-    <!-- Range Slider script -->
+    <!-- Load Range Slider script -->
+    <script> 
+        //Prepare variables to grant access from scripts below 
+        var basePath = '<?php echo $basePath ?>',
+            free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
+            age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
+    </script>
     <script src="{{asset('js/rangeslider.min.js')}}"></script>
     <script src="{{asset('js/rangeslider.js')}}"></script>
-    <!-- google analytics  -->
-    <!-- <script src="js/google_analytics.js"></script> -->
     <!-- single page script-->
 	<script src="{{asset('js/modernizr.js')}}"></script>
     <script src="{{asset('js/slider.js')}}"></script>
@@ -81,6 +90,36 @@
 	<script src="{{asset('js/schedule.js')}}"></script>
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
+    <!-- Free/Paid check box and age slider management-->
+     <script type="text/javascript"> 
+        var inputRange = $('input[type="range"]');
+        if(age){
+            inputRange.val(age);
+            inputRange.rangeslider('update', true);
+        }
+        if(free){
+            $('#check').prop('checked',true);
+        }
+        else{
+            $('#check').prop('checked',false);
+        }
+        $(function(){
+            $('#check').on('change',function(){
+                if ($('#check').is(':checked')) {
+                    if(age){
+                        window.location.href = basePath+'?age='+age+'&free=1';   
+                    }
+                    else{
+                        window.location.href = "{{route('activities.index',['free' => 1])}}";
+                    }
+                }
+                else{
+                    window.location.href = "{{route('activities.index')}}";
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

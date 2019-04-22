@@ -48,6 +48,7 @@ class Activity extends Model
     {
         return $this->belongsTo('App\Models\City', 'city_id');
     }
+
     public static function boot() {
         parent::boot();
 
@@ -57,8 +58,10 @@ class Activity extends Model
                 $group->delete(); }
             });
     }
+
     public function isApproved()
     {
         return null !== $this->approved_at;
     }
+    
 }

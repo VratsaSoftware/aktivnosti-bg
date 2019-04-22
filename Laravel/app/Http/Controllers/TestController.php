@@ -20,13 +20,7 @@ class TestController extends Controller
 {
     public function index(){
     	
-    	$activity = Activity::find(28);
-    	dd($activity->subcategory->name);
 
-   
-    	$user = User::find(1);
-    	$array = $user->organizations()->pluck('organizations.organization_id')->toArray();
-    	var_dump($array);
     	
     	// dd($organization = Organization::with([$user])->get()
     	
