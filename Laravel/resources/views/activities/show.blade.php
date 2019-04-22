@@ -82,24 +82,33 @@
 		</div>
 		<!--right side-->
 		<div class="col-md-6 col-sm-12">
-				<h4 class="h-activity"><span>Снимки на {{ $activity->name }}</span></h4>	
-				<div class="gallery-container">
-					<div class="tz-gallery">
-						<div class="row">
-							@foreach($gallery as $photo)
-							<div class="col-xs-6 col-sm-6 col-md-4">
-								<div class="marg">
-									<a class="lightbox" href="{{ asset('user_files/images/activity/'.$photo->image_path)}}">
-										<img src="{{ asset('user_files/images/activity/'.$photo->image_path)}}" alt="image" class="img-responsive" />
-									</a>
-								</div>
+			<h4 class="h-activity"><span>Снимки на {{ $activity->name }}</span></h4>
+			@if(count($gallery) != 0)
+			<div class="gallery-container">
+				<div class="tz-gallery">
+					<div class="row">
+						@foreach($gallery as $photo)
+						<div class="col-xs-6 col-sm-6 col-md-4">
+							<div class="marg">
+								<a class="lightbox" href="{{ asset('user_files/images/activity/'.$photo->image_path)}}">
+									<img src="{{ asset('user_files/images/activity/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+								</a>
 							</div>
-							@endforeach						   
 						</div>
+						@endforeach						   
 					</div>
-				</div>	
+				</div>
 			</div>
+			@else
+				<h5>Няма добавени снимки</h5>
+			@endif
+		</div>
+		
+		@if(count($gallery) != 0)
 		<div class="col-md-6 col-sm-12">
+		@else
+		<div class="col-md-6 col-sm-12">
+		@endif
 			<h4 class="h-activity"><span>Подобни активности</span></h4>
 			<!-- slick-slider-->
 			<div class="slider_item">
