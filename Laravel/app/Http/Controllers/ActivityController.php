@@ -39,22 +39,26 @@ class ActivityController extends Controller
     { 
         $categories=Category::all();
 
-        $free = 0;
         $age = 0;
 
-        if($request->has('free')){
-            $free = $request->free;
-        };
+        if($request->has('free') and $request->free == 1){
+            $priceCondition = "price is NULL";
+        }
+        else{
+            $priceCondition = true;
+        }
 
         if($request->has('age') && $request->age > 0 ){
             $age = $request->age;
-        };
+            $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
+        }
+        else {
+            $ageCondition = true;
 
-        $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
+        }
 
         if($request->exists('free') || $request->exists('age') ){
-
-            $activities=Activity::where('price', NULL)->whereRaw($ageCondition)->whereNotNull('approved_at')->get();
+            $activities=Activity::whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->get();
         }
         else {
             $activities=Activity::latest()->whereNotNull('approved_at')->where('available',1)->paginate(25);
