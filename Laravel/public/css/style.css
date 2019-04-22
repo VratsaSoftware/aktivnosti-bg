@@ -883,17 +883,7 @@ b i:last-child {
 	
 }
 
-.h-activity {
-	margin: 20px 0 20px 0;
-	line-height: 0;
-	border-bottom: 2px solid;
-}
 
-.h-activity span {
-	background-color: #fff;
-	padding: 0 15px;
-	
-}
 /* gallery */
 .org-img img{
 	margin: 0 6px!important;
@@ -1021,7 +1011,7 @@ b i:last-child {
 	overflow: hidden;
 	display: block;
 }
-.portfolio_item img{
+.activity-img{
 	width: 100%!important;
 }
 .portfolio_item .offert {
@@ -1328,6 +1318,17 @@ b i:last-child {
 @media only screen and (min-width: 550px) {
 	.cd-schedule .events .single-event {
 		width: 40%;
+	}
+	.h-activity {
+	margin: 20px 0 20px 0;
+	line-height: 0;
+	border-bottom: 2px solid;
+	}
+
+	.h-activity span {
+		background-color: #fff;
+		padding: 0 15px;
+		
 	}
 	
 }
@@ -2906,7 +2907,7 @@ img {
 		height: 420px;
 	}
 	.act-img {
-		height: 530px;
+		height: 500px;
 	}
 }
 @media (max-width: 991px)and (min-width: 760px) {
@@ -2917,7 +2918,7 @@ img {
 		height: 320px;
 	}
 	.act-img {
-		height: 430px;
+		height: 400px;
 	}
 }
 @media (max-width: 991px){
