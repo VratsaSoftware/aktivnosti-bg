@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+Laravel/public/user_files
 /storage/*.key
 /vendor
 /.phpintel

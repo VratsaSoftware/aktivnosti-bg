@@ -33,7 +33,7 @@ class OrganizationFormRequest extends FormRequest
             'phone' => 'regex:/^[0-9\-\(\)\/\+\s]*$/', 
 			'photo'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 			'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
-			'gallery'=> 'array|between:1,5',
+			'gallery'=> 'array|between:1,6',
         ];
     }
 
