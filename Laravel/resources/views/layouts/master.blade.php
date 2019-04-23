@@ -16,7 +16,10 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
 	<!-- baguetteBox gallery -->
 	<link rel="stylesheet" href="{{asset('css/baguetteBox.min.css')}}">
-    <!-- range slider -->
+    <!-- slick slider -->
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
+	<!-- range slider -->
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
@@ -86,7 +89,8 @@
     <!-- single page script-->
 	<script src="{{asset('js/modernizr.js')}}"></script>
     <script src="{{asset('js/slider.js')}}"></script>
-    <script src="{{asset('js/slick.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
 	<script src="{{asset('js/schedule.js')}}"></script>
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>

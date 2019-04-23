@@ -30,15 +30,6 @@
 				<li><li><i class="fas fa-clock"></i>Продължителност: {{$activity->duration}}</li>
 				@endif
 			@endif
-				@foreach ($activity->groups as $group)
-				<li><i class="fas fa-calendar-alt"></i><a href="schedule.html" target="_blank">{{$group->name}}
-					<ul> 
-						@foreach ($group->schedules as $schedule)
-						<li>{{$schedule->day}} от {{$schedule->start_time}} до {{$schedule->end_time}}</li>
-						@endforeach
-					</ul>
-				</a></li>
-				@endforeach
 				@if(isset($activity->requirements))
 				<li><i class="fas fa-tasks"></i>Носете си: <span class="task">{{$activity->requirements}}</span></li>
 				@endif
@@ -76,17 +67,70 @@
 			</ul>
 
 		</div>
-		
-		<div class="col-md-12">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+	@if(count($activity->groups)!=0)
+		<div class="col-md-6 col-sm-12">
 			<p class="description-text"><span>За нас:</span> {{$activity->description}}</p>
 		</div>
+		<div class="col-md-6 col-sm-12 col-xs-12">
+		       <!-- Advanced Tables -->
+			<div class="event-info">
+                <p><i class="fas fa-info"></i>График на сформираните групи</p>
+            </div>
+			
+			<div class="table-responsive">
+				@if(session()->has('message'))
+				<div class="alert alert-success">
+					 {{ session()->get('message') }}
+				</div>   
+				@endif
+				<table class="table table-striped table-bordered table-hover" id="table_users">
+					<thead>
+						<tr>
+							<th>Група</th>
+							<th>Описание</th>
+							<th>Ден от седмицата</th>
+							<th>Началo</th>
+							<th>Край</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($activity->groups as $group)
+						{{-- @foreach($group->schedules as $schedule) --}}
+						<tr>	
+							{{-- <td rowspan="{{$group->schedules->count()}}">{{ $group->name }}</td> --}}
+							<td><p>{{ $group->name }}</p></td>
+							{{-- <td rowspan="{{$group->schedules->count()}}">{{ $group->description }}</td> --}}
+							<td><p>{{ $group->description }}</p></td>
+							{{-- <td>{{ $schedule->day }}</td>
+							<td>{{ $schedule->start_time }}</td>
+							<td>{{ $schedule->end_time }}</td>	 --}}
+
+							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
+							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->start_time }}</p>@endforeach</td>
+							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>		
+						</tr>
+						{{-- @endforeach --}}
+						@endforeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+		@else
+		<p class="description-text"><span>За нас:</span> {{$activity->description}}</p>
+		@endif
+	</div>
 		<!--right side-->
+	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="col-md-6 col-sm-12">
-			<h4 class="h-activity"><span>Снимки на {{ $activity->name }}</span></h4>
+			<div class="h-section">
+				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+				<h4 class="h-activity"><span>Снимки на {{ $activity->name }}</span></h4>
+			</div>
 			@if(count($gallery) != 0)
 			<div class="gallery-container">
 				<div class="tz-gallery">
-					<div class="row">
+					<div class="col-sm-12 tz">
 						@foreach($gallery as $photo)
 						<div class="col-xs-6 col-sm-6 col-md-4">
 							<div class="marg">
@@ -105,20 +149,23 @@
 		</div>
 		
 		@if(count($gallery) != 0)
-		<div class="col-md-6 col-sm-12">
+		<div class="col-md-6 col-sm-12 col-xs-12">
 		@else
-		<div class="col-md-6 col-sm-12">
+		<div class="col-md-6 col-sm-12 col-xs-12">
 		@endif
-			<h4 class="h-activity"><span>Подобни активности</span></h4>
+			<div class="h-section">
+				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+				<h4 class="h-activity"><span>Подобни активности</span></h4>
+			</div>
 			<!-- slick-slider-->
-			<div class="slider_item">
-				<section class="regular slider">
+			<div class="responsive">
 					<!--single item-->
 					@php($activitySubcategory = $activity->subcategory_id)
 					@php($activityActivityId = $activity->activity_id)
 					
 					@foreach($activities as $activ)
 						@if(($activ->subcategory_id == $activitySubcategory) && ($activ->activity_id !== $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
+					<div>
 						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
 							@foreach ($activ->photos as $photo)
 								@if ($photo->purpose->description == 'mine')
@@ -134,16 +181,16 @@
 								</div>
 							</div>
 						</a>
+					</div>
 						@endif
 					@endforeach
 				<!--end single item-->
-				</section>
 			</div>
 		
 			<!-- end slick-slider-->	
 			{{--<h5><span>Предложения от категория {{$activity->category->name}}</span></h5>
 			<!-- slick-slider-->
-			<div class="slider_item">
+			<div class="single-item">
 				<section class="regular slider">
 					{{$category = $activity->category_id}}
 					@foreach($activities as $activ)
@@ -169,6 +216,7 @@
 			</div>--}}
 			<!-- end slick-slider-->	
 		</div>
+	</div>
 		<!--end right side-->		
 	</div>
 	<!-- end main-container -->

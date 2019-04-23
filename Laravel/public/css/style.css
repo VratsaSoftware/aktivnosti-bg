@@ -1016,7 +1016,6 @@ b i:last-child {
 }
 
 .portfolio_item .offert {
-	display: none;
 	position: absolute;
 	top: -5%;
 	left: -20%;
@@ -1029,9 +1028,6 @@ b i:last-child {
 	font-size: 1.7rem;
 }
 
-.free .portfolio_item .offert {
-	display: block
-}
 .description-text{
 	word-wrap: break-word;
 	overflow-wrap: break-word;

@@ -40,7 +40,7 @@
 					
 					@foreach($activities as $activity)
 						@if(isset($activity->approved_at) && ($activity->available == 1))
-						<div class="col-md-3 col-sm-6 col-xs-12 {{$activity->category->name}} --}}">	
+						<div class="col-md-3 col-sm-6 col-xs-12 {{$activity->category->name}}">	
 							<a href="{{ route('activities.show', $activity->activity_id)}}" class="portfolio_item">
 								@if(!$activity->price)
 									<div class="offert">Безплатен</div>

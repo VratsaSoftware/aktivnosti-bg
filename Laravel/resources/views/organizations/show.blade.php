@@ -58,12 +58,15 @@
 			<p class="description-text"><span>За организацията:</span> {{ $organization->description }}</p>
 			</div>
 		</div>
-		<div class="col-md-12 col-sm-12">
-			<div class="col-md-6 col-sm-12">
-				<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>	
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<div class="h-section">
+					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+					<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>	
+				</div>
 				<div class="gallery-container">
 					<div class="tz-gallery">
-						<div class="row">
+						<div class="tz">
 							@foreach($gallery as $photo)
 							<div class="col-xs-6 col-sm-6 col-md-4">
 								<div class="marg">
@@ -78,41 +81,37 @@
 				</div>	
 			</div>
 			<!-- org activity -->
-			<div class="col-md-6 col-sm-12">
-				<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
-				<div class="slider_item">
-					<section class="regular slider">
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<div class="h-section">
+					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+					<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
+				</div>
+				<div class="responsive">
 					<!-- single work -->
-						@foreach($activities as $activity)
-				
-						{{-- <h4>{{$activity->name}}</h4> --}}
-						{{-- <h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Алексей Потебня, Ивайло Йорданов</h5> --}}
-						<a href="{{route('activities.show', $activity->activity_id)}}" class="portfolio_item org-act">
-							@if(!$activity->price)
-							<div class="offert">Безплатен</div>
-							@endif
+					@foreach($activities as $activity)
+					<div>
+						<a href="{{route('activities.show', $activity->activity_id)}}" class="portfolio_item">
 							@foreach ($activity->photos as $photo)
 								@if ($photo->purpose->description == 'mine')
-							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+							<img class="activity-img" src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 								@endif
 							@endforeach
 							<div class="portfolio_item_hover">
 								<div class="portfolio-border clearfix">
 									<div class="item_info">
 										<span>{{$activity->name}}</span>
-										<em>{{$activity->organization->name}}</em>
 									</div>
 								</div>
 								<!-- item logo-->
-								{{-- <div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div> --}}
+								<div class="item_logo">
+									<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+								</div> 
 								<!-- end item logo-->
 							</div>
 						</a>
+					</div>
 						@endforeach
 					<!-- end single work -->
-					</section>
 				</div>
 			</div>
 		</div>
