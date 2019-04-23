@@ -42,7 +42,7 @@
                         <div class="form-group row">
                             <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}</label>
                             <div class="col-md-6">
-                                <select class="form-control" type="text" required="required" data-error="Subject is required." name="subcategory_id" id="subcategory_id">
+                                <select class="form-control" type="text" data-error="Subject is required." name="subcategory_id" id="subcategory_id">
                                    <option disabled="disabled" selected>
                                        първо избери категория 
                                    </option>

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Input;
 
 class ActivityFormRequest extends FormRequest
 {
@@ -29,14 +30,19 @@ class ActivityFormRequest extends FormRequest
             'name' => 'required|min:3|max:150', 
             'description' => 'required|min:30|max:2000',
             'address' => 'required|string|max:255',
-            // 'photo'=> 'required|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'photo'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],   
             'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'gallery'=> 'array|between:1,5',
-            // 'price' => 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/',
+            'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
             'min_age' => 'nullable|integer|between:1,100',
-            // 'max_age'=>'min:'.(int)$this-> get ('min_age'),
-            // 'max_age' => 'nullable|integer|between:1,100',
+            'max_age' => ['nullable','integer','between:1,100',
+            function($attribute, $value, $fail) {
+                $min_age = Input::get('min_age');
+                if ($value < $min_age) {
+                    return $fail('Максималната възраст e по-малка от минималната');
+                }
+            }
+            ],
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after:start_date',
             'duration' => 'nullable|string|max:255',
@@ -67,8 +73,8 @@ class ActivityFormRequest extends FormRequest
             'price.regex' => 'Въведете положително число, което не е нула',
             'min_age.integer' => 'Въведете цяло положително число, което не е нула',
             'min_age.between' => 'Числото трябва да е от 1 до 100',
+            'max.age.between' => 'Невалидна възраст',
             'max_age.integer' => 'Въведете цяло положително число, което не е нула',
-            'max_age.min' => 'Числото трябва да е по-голямо от въведената минимална възраст',
             'photo.mimes' => 'Формата на изображението не се поддържа',
             'photo.required' => 'Изборът на снимка е задължителен',
             'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',

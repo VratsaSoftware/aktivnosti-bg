@@ -21,13 +21,13 @@
                             <div class="rangeslider-wrap">
                                 <input type="range" min="0" max="50" step="1" value="0" labels="Възраст">
                             </div>
-                            <div class="fancybox"><a href="{{route('activities.index',['free' => 1])}}">
-                                <input type="checkbox" id="check" />
+                            <div class="fancybox">{{-- <a href="{{route('activities.index',['free' => 1])}}"> --}}
+                                <input type="checkbox" id="check">
                                 <label for="check">
                                     <svg viewBox="0,0,50,50">
                                         <path d="M5 30 L 20 45 L 45 5"></path>
                                     </svg>
-                                </label></a>
+                                </label>{{-- </a> --}}
                                 <p class="">Безплатни</p>
                             </div>
                         </div>
@@ -67,8 +67,7 @@
 							</a>
 						</div>
 						@endif
-					@endforeach
-					
+					@endforeach	
 				</div>					
 				<!-- end portfolio_container -->
             </div>
