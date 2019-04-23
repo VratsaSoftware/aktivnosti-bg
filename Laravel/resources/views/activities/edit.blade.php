@@ -349,6 +349,11 @@
                             </div>
                         </div>
                     </form>
+					<!--crop image-->
+                    <form id="crop_form" action="#">
+                        <input type="hidden" name="image-data" class="hidden-image-data" /> 
+                    </form>
+                    <!--crop image-->
                 </div>
             </div>
         </div>
