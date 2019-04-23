@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card">      
                 <div class="card-body">
-                    <form method="POST" action="{{ route('activities.update', $activity->activity_id) }}" enctype="multipart/form-data">
+                    <form id="register" method="POST" action="{{ route('activities.update', $activity->activity_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -199,7 +199,7 @@
                                 <input type="file" id="photo" name="photo" class="cropit-image-input">
                                     <div class="cropit-preview col-md-6"></div>
                                     <div class="image-size-label">
-                                        <input type="hidden"  name="image-data" class="hidden-image-data" />
+                                        <input type="hidden" name="crop" class="crop" />
                                         <a class="back">назад</a>
                                     </div>
                                     <input type="range" class="cropit-image-zoom-input">
@@ -343,17 +343,12 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Редактирай') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-					<!--crop image-->
-                    <form id="crop_form" action="#">
-                        <input type="hidden" name="image-data" class="hidden-image-data" /> 
-                    </form>
-                    <!--crop image-->
                 </div>
             </div>
         </div>
@@ -376,5 +371,9 @@
         console.log(data.curentTarget.response);
     }
 </script> --}}
-
+<script>
+	submitForms = function(){
+    document.getElementById("register").submit();
+}
+</script>
 @endsection

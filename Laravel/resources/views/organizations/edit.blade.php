@@ -20,7 +20,7 @@
 					@endif
 					@endforeach
 					<!--end organization logo-->
-                    <form method="POST" action="{{ route('organizations.update', $organization->organization_id) }}" enctype="multipart/form-data">
+                    <form id="register" method="POST" action="{{ route('organizations.update', $organization->organization_id) }}" enctype="multipart/form-data">
                         @csrf
 						@method('PUT')
                         <div class="form-group row">
@@ -134,11 +134,11 @@
 									<input type="file" id="photo" name="photo" class="cropit-image-input">
 									<div class="cropit-preview"></div>
 									<div class="image-size-label">
-										<input type="hidden"  name="image-data" class="hidden-image-data" />
+									<input type="hidden" name="crop" class="crop" />	
 										<a class="btn btn-warning btn-sm back">назад</a>
 									</div>
 									<input type="range" class="cropit-image-zoom-input">
-									<button id="crop_button" class="btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
+									<button  id="crop_button" class="btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
 									@if ($errors->has('photo'))
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('photo') }}</strong>
@@ -163,11 +163,12 @@
 						<!--end gallery form-group -->
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Редактирай!') }}
                                 </button>
                             </div>
                         </div>
+							
                     </form>
 					 <div class="row">
 						@foreach($gallery as $photo)	
@@ -183,15 +184,16 @@
 							</div>
 							
 						@endforeach
-						</div>
-					<!--crop image-->
-					<form id="crop_form" action="#">
-						<input type="hidden" name="image-data" class="hidden-image-data" />	
-					</form>
-					<!--crop image-->
+					</div>
+					
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+	submitForms = function(){
+    document.getElementById("register").submit();
+}
+</script>
 @endsection
