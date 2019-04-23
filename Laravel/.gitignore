@@ -1,7 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/user_files
 /storage/*.key
 /vendor
 /.phpintel

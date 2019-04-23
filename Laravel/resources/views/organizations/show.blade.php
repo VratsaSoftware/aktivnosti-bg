@@ -6,19 +6,19 @@
 <!-- main-container -->
     <div class="container main-container">
 		<!-- left side -->
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
             <!--pictures from Adobe Stock-->
             <div class="org-img">
-			@foreach($organization->photos as $photo)
-                <img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+			@foreach($logo as $photo)
+				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">			
 			@endforeach
             </div>
             <div class="h-30"></div>
-            <p><span>Нашата мисия:</span> {{ $organization->description }}</p>
         </div>
 		<!-- end left side -->
 		<!-- right side -->
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h5 class="org"><span>Организация:&nbsp;&nbsp;</span>{{ $organization->name }}</h5>
             <ul class="cat-ul">
                 <li><i class="fas fa-calendar-alt"></i>Понеделник до петък от 9:00 до 18:00 ч.</li>
@@ -53,82 +53,110 @@
             <!-- end Subscribe button-->
         </div>
 		<!-- end right side -->
-		
-		<!-- org activity -->
 		<div class="col-md-12 col-sm-12">
-			<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
-				<!-- single work -->
-					<div class="col-md-4 col-sm-6 learnin free">
-						<h4>Дигитален маркетинг</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Алексей Потебня, Ивайло Йорданов</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso1.png" alt="image" class="img-responsive" />
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span>4-месечен курс по дигитален маркетинг</span>
-										<em>Враца софтуер общество</em>
-									</div>
+			<div class="col-md-12 col-sm-12">
+			<p class="description-text"><span>За организацията:</span> {{ $organization->description }}</p>
+			</div>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<div class="h-section">
+					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+					<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>	
+				</div>
+				<div class="gallery-container">
+					<div class="tz-gallery">
+						<div class="tz">
+							@foreach($gallery as $photo)
+							<div class="col-xs-6 col-sm-6 col-md-4">
+								<div class="marg">
+									<a class="lightbox" href="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}">
+										<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+									</a>
 								</div>
-								<!-- item logo-->
-								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
-								<!-- end item logo-->
 							</div>
-						</a>
+							@endforeach						   
+						</div>
 					</div>
-					<!-- end single work -->		
+				</div>	
+			</div>
+			<!-- org activity -->
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<div class="h-section">
+					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+					<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
+				</div>
+				<div class="responsive">
 					<!-- single work -->
-					<div class="col-md-4 col-sm-6 learning free">
-						<h4>Уеб програмиране с PHP</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Милена Томова</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
+					@foreach($activities as $activity)
+					<div>
+						<a href="{{route('activities.show', $activity->activity_id)}}" class="portfolio_item">
+							@foreach ($activity->photos as $photo)
+								@if ($photo->purpose->description == 'mine')
+							<img class="activity-img" src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+								@endif
+							@endforeach
 							<div class="portfolio_item_hover">
 								<div class="portfolio-border clearfix">
 									<div class="item_info">
-										<span>9-месечен курс по програмиране</span>
-										<em>Враца софтуер общество</em>
+										<span>{{$activity->name}}</span>
 									</div>
 								</div>
 								<!-- item logo-->
 								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
+									<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+								</div> 
 								<!-- end item logo-->
 							</div>
 						</a>
 					</div>
+						@endforeach
 					<!-- end single work -->
-					<!-- single work -->
-					<div class="col-md-4 col-sm-6 learning free">
-						<h4>JAVA WEB & ANDROID</h4>
-						<h5 class="org"><span>Водещ:&nbsp;&nbsp;</span>Тихомир Кръстев</h5>
-						<a href="single-project.html" class="portfolio_item">
-							<div class="offert">Безплатен</div>
-							<img src="img/portfolio/vso.png" alt="image" class="img-responsive" />
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span>9-месечен курс по програмиране</span>
-										<em>Враца софтуер общество</em>
-									</div>
-								</div>
-								<!-- item logo-->
-								<div class="item_logo">
-									<img src="img/portfolio/studentlogo.png" alt="logo">
-								</div>
-								<!-- end item logo-->
-							</div>
-						</a>
-					</div>
-					<!-- end single work -->
-			
+				</div>
+			</div>
 		</div>
 		<!-- end org activity -->
     </div>
+	<script>
+	$(function() {
+  $(".img-w").each(function() {
+    $(this).wrap("<div class='img-c'></div>")
+    let imgSrc = $(this).find("img").attr("src");
+     $(this).css('background-image', 'url(' + imgSrc + ')');
+  })
+            
+  
+  $(".img-c").click(function() {
+    let w = $(this).outerWidth()
+    let h = $(this).outerHeight()
+    let x = $(this).offset().left
+    let y = $(this).offset().top
+    
+    
+    $(".active").not($(this)).remove()
+    let copy = $(this).clone();
+    copy.insertAfter($(this)).height(h).width(w).delay(500).addClass("active")
+    $(".active").css('top', y - 8);
+    $(".active").css('left', x - 8);
+    
+      setTimeout(function() {
+    copy.addClass("positioned")
+  }, 0)
+    
+  }) 
+  
+  
+
+  
+})
+
+$(document).on("click", ".img-c.active", function() {
+  let copy = $(this)
+  copy.removeClass("positioned active").addClass("postactive")
+  setTimeout(function() {
+    copy.remove();
+  }, 500)
+})
+	</script>
     <!-- end main-container -->
 @endsection
