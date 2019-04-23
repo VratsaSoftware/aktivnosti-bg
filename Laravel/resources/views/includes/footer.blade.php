@@ -18,11 +18,9 @@
 						<div class="widget course-links-widget">
 							<h5 class="widget-title">Популярни активности</h5>
 							<ul class="courses-link-list">
-								<li><a href="#"><i class="fas fa-long-arrow-alt-right"></i>9-месечен курс по програмиране</a></li>
-								<li><a href="#"><i class="fas fa-long-arrow-alt-right"></i>4-месечен курс по дигитален маркетинг</a></li>
-								<li><a href="#"><i class="fas fa-long-arrow-alt-right"></i>Тренировки по футбол</a></li>
-								<li><a href="#"><i class="fas fa-long-arrow-alt-right"></i>Народни танци</a></li>
-								<li><a href="#"><i class="fas fa-long-arrow-alt-right"></i>Зумба танци</a></li>
+								@foreach(App\Models\Activity::latest()->paginate(5) as $activity)
+								<li><a href="{{ route('activities.show', $activity->activity_id)}}"><i class="fas fa-long-arrow-alt-right"></i>{{$activity->name}}</a></li>
+								@endforeach
 							</ul>
 						</div>
 					</div><!-- widget end -->

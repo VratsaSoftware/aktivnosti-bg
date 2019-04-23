@@ -13,8 +13,10 @@
     <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
     <!-- CONFIRM CSS-->
     <link href="{{asset('admin/css/jquery-confirm.css')}}" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -39,6 +41,7 @@
             </div>
         </nav>
         <!-- /. NAV TOP  -->
+
         @if(Auth::user())
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -69,8 +72,13 @@
                         </li>
             
                         <li>
-                            <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{ route('activity.index')}}"><i class="fa fa-dribbble fa-3x"></i> Активности</a>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{ route('activities.manage')}}"><i class="fa fa-dribbble fa-3x"></i> Активности</a>
                         </li>
+                        @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                        <li>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'category')) ? 'active-menu' : '' }}" href="{{ route('category.index')}}"><i class="fa fa-list-ul fa-3x"></i></i> Категории</a>
+                        </li>
+                        @endif
                         <li>
                             <a class="{{ (str_contains(Route::currentRouteName(), 'news')) ? 'active-menu' : '' }}" href="{{ route('news.index')}}"><i class="fa fa-building-o fa-3x"></i> Новини</a>
                         </li>
@@ -116,17 +124,23 @@
 
     <script src="{{ asset('admin/js/dataTables/dataTables.bootstrap.js') }}"></script>
 
+    <script src="{{ asset('admin/js/sub-categories-ajax.js') }}"></script>
+
     <!-- Data tables settings-->
     <script>
     $(document).ready( function () {
         $('#table_users').dataTable( {
             "columnDefs":
             [{
+
                 "targets": [7],
                 "searchable": false,
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
         $('#table_organizations').dataTable( {
             "columnDefs":
@@ -136,6 +150,9 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
         $('#table_organizations_adminOrg').dataTable( {
             "columnDefs":
@@ -145,7 +162,31 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
         });
+        $('#table_activities').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [7,8],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+            "scrollX": true,
+            "autoWidth": true,
+            responsive: true,
+        });
+        $('#table_categories').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [2,3,4],
+                "searchable": false,
+                "orderable": false,
+            }],
+        });
+       
     });
     </script>
 

@@ -14,7 +14,12 @@
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <!-- main css -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
-    <!-- range slider -->
+	<!-- baguetteBox gallery -->
+	<link rel="stylesheet" href="{{asset('css/baguetteBox.min.css')}}">
+    <!-- slick slider -->
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
+	<!-- range slider -->
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
@@ -50,6 +55,11 @@
 
 @yield('content')
 
+<!-- Basepath needed for age slider-->
+@php
+    $basePath = $app['url']->to('/');
+@endphp
+
 @include('includes.footer')
     <!-- back to top -->
     <a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
@@ -67,18 +77,53 @@
     <script src="{{asset('js/custom.js')}}"></script>
     <!-- Change top-bar h1 and background script!!!  -->
     <script src="{{asset('js/intro.js')}}"></script>
-    <!-- Range Slider script -->
+    <!-- Load Range Slider script -->
+    <script> 
+        //Prepare variables to grant access from scripts below 
+        var basePath = '<?php echo $basePath ?>',
+            free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
+            age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
+    </script>
     <script src="{{asset('js/rangeslider.min.js')}}"></script>
     <script src="{{asset('js/rangeslider.js')}}"></script>
-    <!-- google analytics  -->
-    <!-- <script src="js/google_analytics.js"></script> -->
     <!-- single page script-->
 	<script src="{{asset('js/modernizr.js')}}"></script>
     <script src="{{asset('js/slider.js')}}"></script>
-    <script src="{{asset('js/slick.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
 	<script src="{{asset('js/schedule.js')}}"></script>
-	<script src="{{ asset('js/orgGallery.js') }}"></script>
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
+    <!-- Free/Paid check box and age slider management-->
+     <script type="text/javascript"> 
+        var inputRange = $('input[type="range"]');
+        if(age){
+            inputRange.val(age);
+            inputRange.rangeslider('update', true);
+        }
+        if(free){
+            $('#check').prop('checked',true);
+        }
+        else{
+            $('#check').prop('checked',false);
+        }
+        $(function(){
+            $('#check').on('change',function(){
+                if ($('#check').is(':checked')) {
+                    if(age){
+                        window.location.href = basePath+'?age='+age+'&free=1';   
+                    }
+                    else{
+                        window.location.href = "{{route('activities.index',['free' => 1])}}";
+                    }
+                }
+                else{
+                    window.location.href = "{{route('activities.index')}}";
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
