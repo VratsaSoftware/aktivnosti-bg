@@ -362,7 +362,7 @@ class ActivityController extends Controller
         if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
 
 
-            $activIty->approved_at = NULL;
+            $activity->approved_at = NULL;
 
         }
 
