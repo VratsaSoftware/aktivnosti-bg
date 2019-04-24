@@ -61,6 +61,7 @@ class ActivityController extends Controller
             $activities=Activity::whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->get();
         }
         else {
+
             $activities=Activity::latest()->whereNotNull('approved_at')->where('available',1)->paginate(25)->onEachSide(3);;
         }
     
@@ -359,7 +360,9 @@ class ActivityController extends Controller
 
         if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
 
+
             $activIty->approved_at = NULL;
+
         }
 
         $activity->save();

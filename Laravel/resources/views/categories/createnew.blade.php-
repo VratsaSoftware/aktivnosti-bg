@@ -1,7 +1,7 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Редактиране на група')
+@section('title', 'Създаване на група')
 
 @section('content')
 <div class="container">
@@ -10,16 +10,15 @@
             <div class="card">
                
                 <div class="card-body">
-                    <form method="POST" action="{{ route('group.update', $group->group_id)}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('group.store')}}" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
 
                         {{-- group --}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Група') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$group->name}}" required autofocus>
+                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -33,7 +32,7 @@
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Описание') }}</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="textarea" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ $group->description }}" required autofocus>
+                                <input id="description" type="textarea" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>
 
                                 @if ($errors->has('description'))
                                     <span class="invalid-feedback" role="alert">
@@ -43,12 +42,14 @@
                             </div>
                         </div>
                         
-                        <input type="hidden" id="activity_id" name="activity_id" value="{{$group->activity_id}}">
+
+                       
+                        <input type="hidden" id="activity_id" name="activity_id" value="{{$activity->activity_id}}">
                          
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Редактирай') }}
+                                    {{ __('Публикувай') }}
                                 </button>
                             </div>
                         </div>

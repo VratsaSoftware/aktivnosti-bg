@@ -301,22 +301,5 @@
         </div>
     </div>
 </div>
-{{-- <script>
-    var form = document.getElementById('upload');
-    var request = new XMLHttpRequest();
-
-    form.addEventListener('submit', function(e){
-        e.preventDafault();
-        var formdata = new FormData(form);
-
-        request.open('post', '/citadel/activity/store');
-        request.addEventListener("Load", transferComplete);
-        request.send(formdata);
-    });
-
-    function transferComplete(data){
-        console.log(data.curentTarget.response);
-    }
-</script> --}}
 
 @endsection

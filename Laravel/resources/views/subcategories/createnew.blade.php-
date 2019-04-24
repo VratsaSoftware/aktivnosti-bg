@@ -1,7 +1,7 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Създаване на група към '. $activity->name)
+@section('title', 'Създаване на група')
 
 @section('content')
 <div class="container">
@@ -41,9 +41,10 @@
                                 @endif
                             </div>
                         </div>
+                        
 
                         {{-- day --}}
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="day" class="col-md-4 col-form-label text-md-right">{{ __('Ден от седмицата') }}</label>
 
                             <div class="col-md-6">
@@ -63,10 +64,10 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- start time --}}
-                        <div class="form-group row">
+                       {{--  <div class="form-group row">
                             <label for="start_time" class="col-md-4 col-form-label text-md-right">{{ __('Начален час') }}</label>
 
                             <div class="col-md-6">
@@ -77,10 +78,10 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- end time --}}
-                        <div class="form-group row">
+                       {{--  <div class="form-group row">
                             <label for="end_time" class="col-md-4 col-form-label text-md-right">{{ __('Час на приключване') }}</label>
 
                             <div class="col-md-6">
@@ -91,7 +92,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                         <input type="hidden" id="activity_id" name="activity_id" value="{{$activity->activity_id}}">
                          
                         <div class="form-group row mb-0">

@@ -101,7 +101,7 @@
 							<td><p>{{ $group->description }}</p></td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->start_time }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>		
+							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>	
 						</tr>
 						@endforeach
 					</tbody>
@@ -178,7 +178,7 @@
 					@endforeach
 				<!--end single item-->
 			</div>
-		
+	
 			<!-- end slick-slider-->
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
