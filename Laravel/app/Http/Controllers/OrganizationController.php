@@ -93,9 +93,9 @@ class OrganizationController extends Controller
 			$file_name = uniqid().$original_name;
             //add organization image to DB
             //prepare purposes table if not ready
-			$image_data = $request->get('image-data');                                              //crop image
-			if($image_data){																		//crop image
-				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data)); //crop image
+			$crop = $request->get('crop');                                              //crop image
+			if($crop){																		//crop image
+				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop)); //crop image
 				$img = Image::make($info);                                                          //crop image
 				$img->save(public_path('user_files/images/organization/'.$file_name));              //crop image
 			}else{
@@ -236,9 +236,9 @@ class OrganizationController extends Controller
 			$file_name = uniqid().$original_name;
             //add organization image to DB
             //prepare purposes table if not ready
-			$image_data = $request->get('image-data');
-			if($image_data){
-				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data));
+			$crop= $request->get('crop');
+			if($crop){
+				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop));
 				$img = Image::make($info);
 				$img->save(public_path('user_files/images/organization/'.$file_name));
 			}else{

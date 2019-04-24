@@ -162,9 +162,9 @@ class ActivityController extends Controller
             $file_name = uniqid().$original_name;
 
             //crop image
-            $image_data = $request->get('image-data');                       
-            if($image_data){                                                                        
-                $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data)); 
+            $crop = $request->get('crop');                       
+            if($crop){                                                                        
+                $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop)); 
                 $img = Image::make($info);                                                          
                 $img->save(public_path('user_files/images/activity/'.$file_name));             
             } 
@@ -308,9 +308,10 @@ class ActivityController extends Controller
             $file_name = uniqid().$original_name;
 
             //crop image
-            $image_data = $request->get('image-data');                       
-                if($image_data){                                                                        
-                    $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data)); 
+            $crop = $request->get('crop');                       
+                if($crop){    
+				
+                    $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop)); 
                     $img = Image::make($info);                                                          
                     $img->save(public_path('user_files/images/activity/'.$file_name));             
                 } 
