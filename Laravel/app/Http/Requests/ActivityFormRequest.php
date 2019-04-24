@@ -34,8 +34,8 @@ class ActivityFormRequest extends FormRequest
             'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'gallery'=> 'array|between:1,5',
             'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
-            'min_age' => 'nullable|integer|between:1,100',
-            'max_age' => ['nullable','integer','between:1,100',
+            'min_age' => 'required|integer|between:1,100',
+            'max_age' => ['required','integer','between:1,100',
             function($attribute, $value, $fail) {
                 $min_age = Input::get('min_age');
                 if ($value < $min_age) {
@@ -71,8 +71,10 @@ class ActivityFormRequest extends FormRequest
             'available.required' => 'Моля направете избор за наличност',
             'fixed_start.required' => 'Моля направете избор за фиксиран старт',
             'price.regex' => 'Въведете положително число, което не е нула',
+            'min_age.required' => 'Въведете минимална възраст на участниците',
             'min_age.integer' => 'Въведете цяло положително число, което не е нула',
             'min_age.between' => 'Числото трябва да е от 1 до 100',
+            'max_age.required' => 'Въведете максимална възраст на участниците',
             'max.age.between' => 'Невалидна възраст',
             'max_age.integer' => 'Въведете цяло положително число, което не е нула',
             'photo.mimes' => 'Формата на изображението не се поддържа',

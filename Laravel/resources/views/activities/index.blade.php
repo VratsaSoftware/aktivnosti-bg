@@ -21,13 +21,13 @@
                             <div class="rangeslider-wrap">
                                 <input type="range" min="0" max="50" step="1" value="0" labels="Възраст">
                             </div>
-                            <div class="fancybox">{{-- <a href="{{route('activities.index',['free' => 1])}}"> --}}
+                            <div class="fancybox">
                                 <input type="checkbox" id="check">
                                 <label for="check">
                                     <svg viewBox="0,0,50,50">
                                         <path d="M5 30 L 20 45 L 45 5"></path>
                                     </svg>
-                                </label>{{-- </a> --}}
+                                </label>
                                 <p class="">Безплатни</p>
                             </div>
                         </div>
@@ -46,7 +46,6 @@
 									<div class="offert">Безплатен</div>
 								@endif
 								@foreach ($activity->photos as $photo)
-									{{-- @if ($photo->purpose_id == 1) --}}
 									@if ($photo->purpose->description == 'mine')
 										<img class="activity-img"src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 									@endif

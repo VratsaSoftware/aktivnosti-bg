@@ -41,23 +41,6 @@
                                 @endif
                             </div>
                         </div>
-                        {{-- activity --}}
-                        {{-- <div class="form-group row">
-                            <label for="activity_id" class="col-md-4 col-form-label text-md-right">{{ __('Избери активност') }}</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control" type="text" required="required" data-error="Subject is required." name="activity_id">
-                                    @foreach($activities as $activity)
-                                    <option value="{{$activity->activity_id}}">{{$activity->name}}</option>
-                                    @endforeach
-                                    @if ($errors->has('activity'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('activity') }}</strong>
-                                    </span>
-                                @endif 
-                                </select>
-                            </div>
-                        </div> --}}
 
                         {{-- day --}}
                         <div class="form-group row">

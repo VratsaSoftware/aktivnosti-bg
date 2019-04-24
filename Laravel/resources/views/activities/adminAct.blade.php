@@ -40,8 +40,7 @@
 								<th>Статус</th>
 								<th>Групи</th>
 								<th>Преглед</th>
-								<th>Редактирай</th>
-								<th>Изтрии</th>
+								<th>Управление</th>
 							</tr>
 			            </thead>
 						<tbody>
@@ -76,7 +75,6 @@
 								@endif
 								<td>
 									@foreach ($activity->photos as $photo)
-										{{-- @if ($photo->purpose_id == 1) --}}
 										@if ($photo->purpose->description == 'mine')
 											<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" width="50" height="30" />
 										@endif
@@ -84,6 +82,12 @@
 								</td>
 								<td>
 									{{ (isset($activity->approved_at)) ? 'Одобрена': 'Неодобрена' }}
+								</td>
+								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
+								</td>
+								<td><a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
+								</td>
+								<td><a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
 									@if(Auth::user()->hasAnyRole(['admin','moderator']))
 									@if(!$activity->approved_at)
 										<a class="btn btn-warning btn-sm" href="{{ route('activities.approve',$activity->activity_id)}}">Одобри</a>
@@ -91,20 +95,11 @@
 										<a class="btn btn-info btn-sm" href="{{ route('activities.unApprove',$activity->activity_id)}}">Премахни одобрение</a>
 									@endif
 									@endif
-								</td>
-								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
-								</td>
-								<td><a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
-								</td>
-								<td><a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
-								</td>
-								<td>
 									<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroy',$activity->activity_id) }}" onsubmit="return ConfirmDelete('{{ 'активност '.$activity->name }}')">
 										{{ csrf_field() }}
 										{{ method_field('DELETE') }}
 										<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
 									</form>
-									{{-- @endif --}}
 								</td>
 							</tr>
 							@endforeach

@@ -151,11 +151,10 @@
 
                         {{-- min age --}}
                         <div class="form-group row">
-                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}</label>
+                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
 
                             <div class="col-md-6">
                                 {!! Form::number('min_age', $activity->min_age, ['class'=>'form-control']) !!}
-                                {{-- <input id="min_age" type="text" class="form-control{{ $errors->has('min_age') ? ' is-invalid' : '' }}" name="min_age" value="{{ old('min_age') }}" required autofocus> --}}
 
                                 @if ($errors->has('min_age'))
                                     <span class="invalid-feedback" role="alert">
@@ -168,12 +167,11 @@
 
                         {{-- max age --}}
                         <div class="form-group row">
-                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}</label>
+                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
 
                             <div class="col-md-6">
                                 {!! Form::number('max_age', $activity->max_age, ['class'=>'form-control']) !!}
-                                {{-- <input id="max_age" type="text" class="form-control{{ $errors->has('max_age') ? ' is-invalid' : '' }}" name="max_age" value="{{ old('max_age') }}" required autofocus> --}}
-
+        
                                 @if ($errors->has('max_age'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('max_age') }}</strong>
@@ -189,10 +187,8 @@
 
                             <div class="col-md-6">
                                 @foreach ($activity->photos as $photo)
-                                    {{-- @if ($photo->purpose_id == 1) --}}
                                     @if ($photo->purpose->description == 'mine')
                                     <img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-                                    {{-- <input type="hidden" name="old_photo" value="{{$photo->image_path}}"> --}}
                                     @endif
                                 @endforeach
                                 <div class="image-editor">
@@ -354,26 +350,5 @@
         </div>
     </div>
 </div>
-{{-- <script>
-    var form = document.getElementById('upload');
-    var request = new XMLHttpRequest();
 
-    form.addEventListener('submit', function(e){
-        e.preventDafault();
-        var formdata = new FormData(form);
-
-        request.open('post', '/citadel/activity/store');
-        request.addEventListener("Load", transferComplete);
-        request.send(formdata);
-    });
-
-    function transferComplete(data){
-        console.log(data.curentTarget.response);
-    }
-</script> --}}
-<script>
-	submitForms = function(){
-    document.getElementById("register").submit();
-}
-</script>
 @endsection

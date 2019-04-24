@@ -96,28 +96,20 @@
 					</thead>
 					<tbody>
 						@foreach($activity->groups as $group)
-						{{-- @foreach($group->schedules as $schedule) --}}
 						<tr>	
-							{{-- <td rowspan="{{$group->schedules->count()}}">{{ $group->name }}</td> --}}
 							<td><p>{{ $group->name }}</p></td>
-							{{-- <td rowspan="{{$group->schedules->count()}}">{{ $group->description }}</td> --}}
 							<td><p>{{ $group->description }}</p></td>
-							{{-- <td>{{ $schedule->day }}</td>
-							<td>{{ $schedule->start_time }}</td>
-							<td>{{ $schedule->end_time }}</td>	 --}}
-
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->start_time }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>		
+							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>	
 						</tr>
-						{{-- @endforeach --}}
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
 		@else
-		<p class="description-text"><span>За нас:</span> {{$activity->description}}</p>
+		<p class="description-text">{{$activity->description}}</p>
 		@endif
 	</div>
 		<!--right side-->
@@ -186,16 +178,20 @@
 					@endforeach
 				<!--end single item-->
 			</div>
-		
-			<!-- end slick-slider-->	
-			{{--<h5><span>Предложения от категория {{$activity->category->name}}</span></h5>
+	
+			<!-- end slick-slider-->
+			<div class="h-section">
+				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+				<h4 class="h-activity"><span>Предложения от категория {{$activity->category->name}}</span></h4>
+			</div>
 			<!-- slick-slider-->
-			<div class="single-item">
-				<section class="regular slider">
-					{{$category = $activity->category_id}}
+			<div class="responsive">
+					<!--single item-->
+					@php($category = $activity->category_id)
 					@foreach($activities as $activ)
 						@if(($activ->category_id == $category) && ($activ->activity_id !== $activityActivityId) && ($activ->subcategory_id !== $activitySubcategory) && (!empty($activ->approved_at)) && ($activ->available == 1))
-							<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
+					<div>
+						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
 							@foreach ($activ->photos as $photo)
 								@if ($photo->purpose->description == 'mine')
 								<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
@@ -209,12 +205,12 @@
 									</div>
 								</div>
 							</div>
-							</a>
+						</a>
+					</div>
 						@endif
-					@endforeach		
-				</section>
-			</div>--}}
-			<!-- end slick-slider-->	
+					@endforeach
+				<!--end single item-->
+			</div>	
 		</div>
 	</div>
 		<!--end right side-->		

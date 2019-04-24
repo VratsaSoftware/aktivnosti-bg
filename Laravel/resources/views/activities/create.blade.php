@@ -121,7 +121,7 @@
 
                         {{-- min age --}}
 						<div class="form-group row">
-                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}</label>
+                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 {!! Form::number('min_age', null, ['class'=>'form-control']) !!}
 
@@ -136,7 +136,7 @@
 
                         {{-- max age --}}
                         <div class="form-group row">
-                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}</label>
+                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 {!! Form::number('max_age', null, ['class'=>'form-control']) !!}
                                 
@@ -297,26 +297,5 @@
         </div>
     </div>
 </div>
-{{-- <script>
-    var form = document.getElementById('upload');
-    var request = new XMLHttpRequest();
 
-    form.addEventListener('submit', function(e){
-        e.preventDafault();
-        var formdata = new FormData(form);
-
-        request.open('post', '/citadel/activity/store');
-        request.addEventListener("Load", transferComplete);
-        request.send(formdata);
-    });
-
-    function transferComplete(data){
-        console.log(data.curentTarget.response);
-    }
-</script> --}}
-<script>
-	submitForms = function(){
-    document.getElementById("register").submit();
-}
-</script>
 @endsection
