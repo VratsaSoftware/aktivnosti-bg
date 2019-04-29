@@ -28,14 +28,14 @@ class ActivityFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:150', 
-            'description' => 'required|min:30|max:2000',
+            'description' => 'required|min:15|max:2000',
             'address' => 'required|string|max:255',
             'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],   
             'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'gallery'=> 'array|between:1,5',
             'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
-            'min_age' => 'required|integer|between:1,100',
-            'max_age' => ['required','integer','between:1,100',
+            'min_age' => 'nullable|integer|between:1,100',
+            'max_age' => ['nullable','integer','between:1,100',
             function($attribute, $value, $fail) {
                 $min_age = Input::get('min_age');
                 if ($value < $min_age) {

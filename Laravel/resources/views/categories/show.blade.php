@@ -14,7 +14,7 @@
 			       			 {{ session()->get('message') }}
 			    		</div>   
 					@endif
-			        <table class="table table-striped table-bordered table-hover" id="table_users">
+			        <table class="table table-striped table-bordered table-hover" id="table_subCategories">
 			            <thead>
 			                <tr>
 								<th>Категория</th>

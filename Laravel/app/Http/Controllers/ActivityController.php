@@ -16,6 +16,7 @@ use App\Models\Schedule;
 use App\Models\City;
 use App\Models\User;
 use File;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Schema;
 use Image;//crop image
@@ -23,10 +24,24 @@ use Image;//crop image
 
 class ActivityController extends Controller
 {
-    public function getSucategories($category)
+    public function getSucategories($category, $subcategory = NULL)
     {
-        $subCategories = SubCategory::where('category_id', $category)->get();
+        if($category == 0){
+            return response()->json(array(['subcategory_id' => '0', 'name' => 'Първо изберете категория']));
+        }
 
+        if(isset($subcategory)){
+            $orderByCondition = $subcategory;
+        } 
+        else{
+            $orderByCondition = "NULL";
+            $blankSubCatArr = array('subcategory_id' => '0', 'name' => 'Моля изберете подкатегория');
+        }
+        
+        $subCategories = Subcategory::select('subcategory_id','name')->where('category_id', $category)->orderByRaw("subcategory_id = ".$orderByCondition." desc, subcategory_id asc")->get()->toArray();
+
+        isset($blankSubCatArr) ? $subCategories = Arr::prepend($subCategories,$blankSubCatArr) : false;
+    
         return response()->json($subCategories);
     }
   
@@ -101,9 +116,10 @@ class ActivityController extends Controller
      */
     public function create()
     {
-
-        $categories=Category::all();
-        $subcategories=SubCategory::all();
+        
+        $categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+        // $categories=Category::all();
+        // $subcategories=SubCategory::all();
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             
@@ -246,29 +262,23 @@ class ActivityController extends Controller
      */
     public function edit($id)
     {
-
         $activity = Activity::findOrFail($id);
-        $categories=Category::all();
-        $subcategories=SubCategory::all();
+
+        $haveCategory = (isset($activity->category->category_id) ? [$activity->category->category_id => $activity->category->name ] : [ 0 => 'Изберете Категория'] );
+
+        $categories = $haveCategory + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
-            
-            $organizations = Organization::all();
-
-        
+            $organizations = Organization::all();        
             return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
-        
-            $organizations=Auth::user()->organizations()->get();
-            
+            $organizations=Auth::user()->organizations()->get();   
             if($organizations){
-                
                 return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations'));
             }
         } 
-
     }
 
     /**
@@ -295,8 +305,12 @@ class ActivityController extends Controller
         $activity->duration = $request->get('duration');
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
-        $activity->category_id = $request->get('category_id');
-        $activity->subcategory_id = $request->get('subcategory_id');
+        if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
+            $activity->category_id = $request->get('category_id');
+        }
+        if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
+            $activity->subcategory_id = $request->get('subcategory_id');
+        }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;

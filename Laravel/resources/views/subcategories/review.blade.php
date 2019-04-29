@@ -21,7 +21,7 @@
 			       			 {{ session()->get('message') }}
 			    		</div>   
 					@endif
-			        <table class="table table-striped table-bordered table-hover" id="table_users">
+			        <table class="table table-striped table-bordered table-hover" id="table_subCategories">
 			            <thead>
 			                <tr>
 			            		<th>Подкатегория</th>
@@ -31,7 +31,7 @@
 							</tr>
 			            </thead>
 						<tbody>
-							@forelse($category->subcategories as $subcategory)
+							@foreach($category->subcategories as $subcategory)
 							<tr>
 								<td>{{ $subcategory->name }}</td>
 								<td>{{ $subcategory->description }}</td>
@@ -46,11 +46,7 @@
 									</form>	
 								</td>
 							</tr>
-							@empty
-							
-								<td colspan="5">Все още няма създадени подкатегории</td>
-							
-							@endforelse
+							@endforeach
 						</tbody>
 			        </table>
 			       

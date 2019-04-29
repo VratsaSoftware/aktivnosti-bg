@@ -39,7 +39,6 @@
 								<th>Снимка</th>
 								<th>Статус</th>
 								<th>Групи</th>
-								<th>Преглед</th>
 								<th>Управление</th>
 							</tr>
 			            </thead>
@@ -85,9 +84,9 @@
 								</td>
 								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
 								</td>
-								<td><a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
-								</td>
-								<td><a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
+								<td>
+									<a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
+									<a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
 									@if(Auth::user()->hasAnyRole(['admin','moderator']))
 									@if(!$activity->approved_at)
 										<a class="btn btn-warning btn-sm" href="{{ route('activities.approve',$activity->activity_id)}}">Одобри</a>

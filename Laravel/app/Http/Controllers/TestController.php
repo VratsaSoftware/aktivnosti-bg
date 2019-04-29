@@ -9,6 +9,7 @@ use App\Models\Organization;
 use App\Models\Group;
 use App\Models\Schedule;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Photo;
@@ -16,13 +17,14 @@ use App\Models\Purpose;
 use App\Models\Role;
 
 
+
 class TestController extends Controller
 {
     public function index(){
     	
-
     	
     	// dd($organization = Organization::with([$user])->get()
+
     	
 
 

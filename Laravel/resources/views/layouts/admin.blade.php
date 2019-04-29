@@ -169,7 +169,7 @@
         $('#table_activities').dataTable( {
             "columnDefs":
             [{
-                "targets": [7,8],
+                "targets": [17,18],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -185,6 +185,17 @@
                 "searchable": false,
                 "orderable": false,
             }],
+        });
+        $('#table_subCategories').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [2,3],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "language": {
+                "emptyTable": "Все още няма създадени подкатегории"
+            },
         });
        
     });

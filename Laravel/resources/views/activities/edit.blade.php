@@ -29,53 +29,28 @@
 
                         {{-- category --}}
                         <div class="form-group row">
-                            <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}</label>
+                            <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" required="required" data-error="Subject is required." name="category_id" id="category_select">
                                     @if(isset($activity->category->name))
-                                    {{$category_id = $activity->category->category_id}}
-                                    @foreach($categories as $category)
-                                        @if($category->category_id === $category_id )
-                                        <option value="{{$category->category_id}}" data-url="{{route('get.subcategories',$category->category_id)}}" selected>{{$category->name}}</option>
-                                        @else
-                                        <option value="{{$category->category_id}}" data-url="{{route('get.subcategories',$category->category_id)}}">{{$category->name}}</option>
-                                        @endif
-                                    @endforeach
-                                    @else
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->category_id}}" data-url="{{route('get.subcategories',$category->category_id)}}">{{$category->name}}</option>
-                                    @endforeach
+                                    <option value="" data-url="" disabled>Изберете категория
+                                    </option>
                                     @endif
+                                    @foreach($categories as $category_id => $category_name)
+                                        <option value="{{$category_id}}" data-url="{{route('get.subcategories',[$category_id,$activity->subcategory_id])}}">{{$category_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         
                         {{-- subcategory --}}
                         <div class="form-group row">
-                            <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}</label>
+                            <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}<span class="recommended-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" data-error="Subject is required." name="subcategory_id" id="subcategory_id">
-                                    @if(isset($activity->subcategory->name)) 
-                                    {{$subcategory_name = $activity->subcategory->name}}
-                                    @foreach($subcategories as $subcategory)
-                                        @if($subcategory->name === $subcategory_name )
-                                        {{-- <option disabled="disabled"selected>
-                                        първо избери категория 
-                                        </option> --}}
-                                        <option value="{{$activity->subcategory_id}}" selected>{{$activity->subcategory->name}}</option>
-                                        @else
                                         <option disabled="disabled">
-                                        първо избери категория 
+                                            Първо изберете категория 
                                         </option>
-                                        @endif
-                                    @endforeach
-                                    @else
-                                    @foreach($subcategories as $subcategory)
-                                        <option disabled="disabled">
-                                        първо избери категория 
-                                        </option>
-                                    @endforeach
-                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -151,7 +126,7 @@
 
                         {{-- min age --}}
                         <div class="form-group row">
-                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
+                            <label for="min_age" class="col-md-4 col-form-label text-md-right">{{ __('Минимална възраст на участниците') }}<span class="recommended-fields">&ast;</span></label>
 
                             <div class="col-md-6">
                                 {!! Form::number('min_age', $activity->min_age, ['class'=>'form-control']) !!}
@@ -167,7 +142,7 @@
 
                         {{-- max age --}}
                         <div class="form-group row">
-                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}<span class="required-fields">&ast;</span></label>
+                            <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}<span class="recommended-fields">&ast;</span></label>
 
                             <div class="col-md-6">
                                 {!! Form::number('max_age', $activity->max_age, ['class'=>'form-control']) !!}
@@ -333,10 +308,11 @@
                         </div>
                         
                         <div class="form-group row">
-                            <div class="col-md-10 col-form-label required-fields-note text-center">
-                                Полетата означени със звездичка са задължителни!
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                Полетата означени с <span class="required-fields">&ast;</span> са задължителни, а полетата означени с  <span class="recommended-fields">&ast;</span> - препоръчителни!
                             </div>
                         </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">

@@ -382,6 +382,11 @@ line-height: 1.428571429;
     font-weight: bold;
 }
 
+.recommended-fields{
+    color: #ffbf00;
+    font-weight: bold;
+}
+
 /*==============================================
     ORGANIZATION EDIT STYLES     
     =============================================*/

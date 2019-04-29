@@ -18,7 +18,12 @@ function getSubCategories( url ) {
 		success: function ( data, textStatus, xhr ) {
 			$( '#subcategory_id' ).find( 'option' ).remove();
 			$.each( data, function ( k, v ) {
-				$( '#subcategory_id' ).append( '<option value="' + v.subcategory_id + '">' + v.name + '</option>' );
+				if(v.subcategory_id == 0){
+					$( '#subcategory_id' ).append( '<option value="' + v.subcategory_id + '" selected="true" disabled="disabled">' + v.name + '</option>' );
+				}
+				else{
+					$( '#subcategory_id' ).append( '<option value="' + v.subcategory_id + '">' + v.name + '</option>' );
+				}
 			} );
 		}
 	} );
