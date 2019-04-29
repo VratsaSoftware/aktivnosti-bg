@@ -73,11 +73,10 @@ class ActivityController extends Controller
         }
 
         if($request->exists('free') || $request->exists('age') ){
-            $activities=Activity::whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->get();
+            $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
         }
-        else {
-
-            $activities=Activity::latest()->whereNotNull('approved_at')->where('available',1)->paginate(25)->onEachSide(3);;
+        else{
+            $activities=Activity::latest()->whereNotNull('approved_at')->whereNotNull('category_id')->where('available',1)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->paginate(25)->onEachSide(3);
         }
     
         return view('activities.index', compact('activities', 'categories'));
@@ -118,8 +117,6 @@ class ActivityController extends Controller
     {
         
         $categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
-        // $categories=Category::all();
-        // $subcategories=SubCategory::all();
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             
@@ -163,8 +160,12 @@ class ActivityController extends Controller
         $activity->duration = $request->get('duration');
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
-        $activity->category_id = $request->get('category_id');
-        $activity->subcategory_id = $request->get('subcategory_id');
+        if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
+            $activity->category_id = $request->get('category_id');
+        }
+        if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
+            $activity->subcategory_id = $request->get('subcategory_id');
+        }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;

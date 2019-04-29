@@ -297,7 +297,7 @@
                             <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Наличен') }}<span class="required-fields">&ast;</span></label>
 
                             <div class="col-md-6">
-                                @if($activity->available === 1)
+                                @if($activity->available == 1)
                                 <input type="radio" name="available" value=1 checked>да<br>
                                 <input type="radio" name="available" value=0>не
                                 @else
@@ -313,11 +313,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                След редактиране е необходимо активността да бъде одобрена отново от модератор или администратор!
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Редактирай') }}
                                 </button>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <a class="btn btn-warning" href="{{ url()->previous() }}">
+                                    Обратно
+                                </a>
                             </div>
                         </div>
                     </form>

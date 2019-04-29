@@ -38,8 +38,6 @@
 
 <div class='form-group'>
  {!! Form::submit($submitButtonText, ['class' => 'btn btn-warning']) !!}
-</div>
-<div>
-	<a class="btn btn-default" href="{{ url()->previous() }}">Обратно</a>
+ <a class="btn btn-default" href="{{ url()->previous() }}">Обратно</a>
 </div>
 

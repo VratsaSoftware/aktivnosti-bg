@@ -138,9 +138,11 @@
                 "orderable": false,
             }],
             "sPaginationType" : "full_numbers",
-            "scrollX": true,
             "autoWidth": true,
-            responsive: true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Няма чакащи потребители"
+            },
         });
         $('#table_organizations').dataTable( {
             "columnDefs":
@@ -152,7 +154,10 @@
             "sPaginationType" : "full_numbers",
             "scrollX": true,
             "autoWidth": true,
-            responsive: true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Все още няма създадени организации"
+            },
         });
         $('#table_organizations_adminOrg').dataTable( {
             "columnDefs":
@@ -164,7 +169,10 @@
             "sPaginationType" : "full_numbers",
             "scrollX": true,
             "autoWidth": true,
-            responsive: true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Няма организации за одобрение"
+            },
         });
         $('#table_activities').dataTable( {
             "columnDefs":
@@ -176,7 +184,10 @@
             "sPaginationType" : "full_numbers",
             "scrollX": true,
             "autoWidth": true,
-            responsive: true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Все още няма създадени активности"
+            },
         });
         $('#table_categories').dataTable( {
             "columnDefs":
@@ -185,6 +196,9 @@
                 "searchable": false,
                 "orderable": false,
             }],
+            "language": {
+                "emptyTable": "Все още няма създадени категории"
+            },
         });
         $('#table_subCategories').dataTable( {
             "columnDefs":
