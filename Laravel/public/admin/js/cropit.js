@@ -670,7 +670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var exportDefaults = {
 	        type: 'image/png',
 	        quality: 0.75,
-	        originalSize: false,
+	        originalSize: true,
 	        fillBg: '#fff'
 	      };
 	      exportOptions = _jquery2['default'].extend({}, exportDefaults, exportOptions);
