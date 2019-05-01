@@ -946,6 +946,23 @@ b i:last-child {
 
 /* portfolio section ==================================================*/
 
+.item-description {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	color: #fff;
+	background: rgba(0, 0, 0, .5);
+	transition:all .5s ease;
+	-moz-transition:all .5s ease;
+	-webkit-transition:all .5s ease;
+}
+
+.portfolio_item:hover .item-description{
+	background:none;
+	bottom:-100%;
+}
+
 #new_row_1 {
 	display: none;
 }
@@ -1065,11 +1082,20 @@ b i:last-child {
 	display: block;
 	color: #fff;
 	font-size: 18px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 	-webkit-transform: translateX(-100px);
 	transform: translateX(-100px);
 	-webkit-transition: all .2s ease-in-out .2s;
 	transition: all .2s ease-in-out .2s;
 	opacity: 0;
+}
+.item-description h5 {
+	text-align: center;
+	padding: 20px 10px;
+	font-size: 20px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .portfolio_item .portfolio_item_hover .item_info .description {
@@ -1096,6 +1122,18 @@ b i:last-child {
 	-webkit-transition: all .3s ease-in-out .3s;
 	transition: all .3s ease-in-out .3s;
 	opacity: 0;
+	font-size: 10px;
+	letter-spacing: 2px;
+}
+.item-description em {
+	text-align: center;
+	font-style: normal;
+	display: inline-block;
+	background-color: #ffbf00;
+	padding: 5px 20px;
+	border-radius: 25px;
+	color: #333;
+	margin-top: 10px;
 	font-size: 10px;
 	letter-spacing: 2px;
 }

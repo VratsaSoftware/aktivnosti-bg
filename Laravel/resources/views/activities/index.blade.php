@@ -63,12 +63,16 @@
 									</div> 
 									<!-- end item logo-->
 								</div>
+								<div class="item-description">
+									<h5>{{$activity->name}}</h5>
+								</div>
 							</a>
 						</div>
 						@endif
 					@endforeach	
 				</div>					
 				<!-- end portfolio_container -->
+				
             </div>
             <!-- portfolio -->
         </div>
