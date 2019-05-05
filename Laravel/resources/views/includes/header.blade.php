@@ -5,7 +5,7 @@
             <a href="{{route('activities.index')}}"><img src="{{asset('img/logo.png')}}"  alt="Logo"></a>
         </div>
             <!-- box-nav -->
-		<a class="box-primary-nav-news" href="{{'news'}}">
+		<a class="box-primary-nav-news" href="{{route('news.index')}}">
 			<span class="box-menu-text"> Новини</span>
 		</a>
         <a class="box-primary-nav-trigger" href="#0">
