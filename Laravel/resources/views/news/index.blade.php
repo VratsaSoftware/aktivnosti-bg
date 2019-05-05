@@ -6,22 +6,7 @@
 		<!-- main-container -->
 		
 	<div class=" container main-container">
-		<!-- itemslimits -->
-		<div class="container col-md-12"> 
 		
-			<div class="container col-md-2 select"> 	<!--		Show Numbers Of Rows 		-->
-				<select name="state" id="maxRows">
-					 <option value="5000">покажи &#8734;</option>
-					 <option value="6">покажи 6</option>
-					 <option value="9">покажи 9</option>
-					 <option value="12">покажи 12</option>
-					 <option value="15">покажи 15</option>
-					 <option value="50">покажи 60</option>
-					 <option value="70">покажи 90</option>
-				</select>			
-			</div>
-		</div>
-		<!-- end itemslimits -->
         <div class="clearfix table table-striped table-class" id= "table-id">
 			<div>
 				@foreach($news as $news)
@@ -32,7 +17,7 @@
 					<img src="{{ asset('user_files/images/news/'.$photo->image_path)}}" alt="{{ $photo->description }}">
 					@endforeach
 					<h3>{{$news->heading}}</h3>
-					<p>{{$news->created_by}} /<span> {{$news->date}}</span></p>
+					<p>{{ $news->article_type::find($news->article_id)->name }} /<span> {{$news->date}}</span></p>
 					
 					<!-- end service-box -->
 					<!-- Trigger the modal with a button -->
@@ -68,22 +53,6 @@
 				@endforeach
 			</div>
 		</div>
-		<!--		Start Pagination -->
-		<div class='pagination-container' >
-			<nav>
-				<ul class="pagination">
-
-					<li data-page="prev" >
-						<span> < <span class="sr-only">(current)</span></span>
-					</li>
-					<!--	Here the JS Function Will Add the Rows -->
-					<li data-page="next" id="prev">
-						 <span> > <span class="sr-only">(current)</span></span>
-					</li>
-				</ul>
-			</nav>
-		</div>
-
 	</div> 
    
     <!-- end main-container -->
