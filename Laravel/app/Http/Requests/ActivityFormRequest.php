@@ -30,7 +30,7 @@ class ActivityFormRequest extends FormRequest
             'name' => 'required|min:3|max:150', 
             'description' => 'required|min:15|max:2000',
             'address' => 'required|string|max:255',
-            'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],   
+            'photo'=> ['required', 'nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],   
             'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'gallery'=> 'array|between:1,5',
             'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',

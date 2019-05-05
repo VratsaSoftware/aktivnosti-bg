@@ -196,16 +196,17 @@ class ActivityController extends Controller
 
                 $photo_purpose=Purpose::firstOrCreate(['description' => 'mine']);
             }
+			 //store image in photos table   
+			$activity->photos()->create([
+					'image_path' => $file_name,
+					'alt' => 'activity photo',
+					'description' => 'activity photo' ,
+					'purpose_id' => $photo_purpose->purpose_id,
+			]);
 
         }
 
-        //store image in photos table   
-        $activity->photos()->create([
-                'image_path' => $file_name,
-                'alt' => 'activity photo',
-                'description' => 'activity photo' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-        ]);
+       
 
         //store activity image in public\user_files\images\activity
         if(isset($request['gallery'])){

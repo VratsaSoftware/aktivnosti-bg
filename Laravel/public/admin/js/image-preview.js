@@ -1,5 +1,5 @@
 $(function() {
-	$('.image-editor').cropit();
+	$('.image-editor').cropit({'minZoom':2});
 	$('#button').click(function() {
 	  // Move cropped image data to hidden input
 	  var imageData = $('.image-editor').cropit('export');

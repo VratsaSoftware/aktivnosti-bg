@@ -23,249 +23,50 @@
 		</div>
 		<!-- end itemslimits -->
         <div class="clearfix table table-striped table-class" id= "table-id">
-		<div>
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-				<!-- service-box -->
-					
-					<img src="img/portfolio/06.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-			
-            </div>
-			<!-- end single news-->
-            <!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
+			<div>
+				@foreach($news as $news)
+				<!-- single news-->
+				<div class="col-md-4 col-sm-6 service-box">
 					<!-- service-box -->
+					@foreach($news->photos as $photo)
+					<img src="{{ asset('user_files/images/news/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+					@endforeach
+					<h3>{{$news->heading}}</h3>
+					<p>{{$news->created_by}} /<span> {{$news->date}}</span></p>
 					
-					<img src="img/portfolio/02.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
+					<!-- end service-box -->
+					<!-- Trigger the modal with a button -->
+					<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
 
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
+					<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+							<!-- Modal -->
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h3>{{$news->heading}}</h3>
+								</div>
+								<div class="modal-body">
+									<div class="col-md-6 col-sm-6">
+										@foreach($news->photos as $photo)
+										<img src="{{ asset('user_files/images/news/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+										@endforeach
+									</div>
+									<div class="col-md-6 col-sm-6">
+										<p>{{$news->description}} </p>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-box" data-dismiss="modal">Затвори</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/04.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/03.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/02.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/01.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/05.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/02.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/05.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-			<!-- single news-->
-			<div class="col-md-4 col-sm-6 service-box">
-					<!-- service-box -->
-					
-					<img src="img/portfolio/02.jpg" alt="pic">
-					<h3>Заглавие на новина</h3>
-					<div class="h-10"></div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliter enim nosmet ipsos nosse non possumus. Inscite autem medicinae </p>
-				
-				<!-- end service-box -->
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
-
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-				@include('news.show')
-						</div>
-					</div>
-				</div>
-            </div>
-			<!-- end single news-->
-        </div>
+				<!-- end single news-->
+				@endforeach
+			</div>
 		</div>
 		<!--		Start Pagination -->
 		<div class='pagination-container' >

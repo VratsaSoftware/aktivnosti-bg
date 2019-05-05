@@ -29,7 +29,7 @@ class Organization extends Model
 
     public function news()
     {
-        return $this->morphMany('App\Models\Models\News', 'article');
+        return $this->morphMany('App\Models\News', 'article');
     }
 
     public function newsletters()

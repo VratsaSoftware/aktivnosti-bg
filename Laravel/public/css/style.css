@@ -2301,7 +2301,10 @@ span.rangeslider__labels__label:first-child {
 
 
 /* contact page ==================================================*/
-
+.overflow-hidden{
+	position: fixed;
+	width: 100%;
+}
 .details-text i {
 	margin-right: 10px;
 }
@@ -2349,7 +2352,7 @@ span.rangeslider__labels__label:first-child {
 	position: relative;
 }
 
-.input-contact input[type="text"] {
+.input-contact input[type="email"] {
 	height: 100%;
 	width: 100%;
 	margin: 0 auto;
@@ -2359,7 +2362,6 @@ span.rangeslider__labels__label:first-child {
 	float: left;
 	position: relative;
 	font-size: 14px;
-	color: #fff;
 	z-index: 1;
 }
 

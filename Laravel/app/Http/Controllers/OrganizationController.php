@@ -268,9 +268,7 @@ class OrganizationController extends Controller
 				foreach($organization->photos as $photo){
 					$old_photo = $photo->image_path;
 					File::delete('user_files/images/organization/'.$old_photo);
-				}
-				
-               
+				}	  
             }
 		}
 		

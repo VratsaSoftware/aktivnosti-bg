@@ -10,7 +10,7 @@ class News extends Model
     use SoftDeletes;
 
     protected $primaryKey = 'news_id';
-    protected $guarded    = ['news_id', 'created_at', 'updated_at', 'deleted_at'];
+	protected $guarded    = ['news_id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function article()
     {
@@ -20,5 +20,9 @@ class News extends Model
     public function photos()
     {
         return $this->morphMany('App\Models\Photo', 'image');
+    }
+	public function isApproved()
+    {
+        return null !== $this->approved_at;
     }
 }
