@@ -73,10 +73,10 @@ class ActivityController extends Controller
         }
 
         if($request->exists('free') || $request->exists('age') ){
-            $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
+            $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(16)->onEachSide(3);
         }
         else{
-            $activities=Activity::latest()->whereNotNull('approved_at')->whereNotNull('category_id')->where('available',1)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->paginate(25)->onEachSide(3);
+            $activities=Activity::latest()->whereNotNull('approved_at')->whereNotNull('category_id')->where('available',1)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->paginate(16)->onEachSide(3);
         }
     
         return view('activities.index', compact('activities', 'categories'));

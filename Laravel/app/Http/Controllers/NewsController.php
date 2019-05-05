@@ -37,7 +37,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::all()->where('approved_at');
+        $news = News::latest()->whereNotNull('approved_at')->paginate(9)->onEachSide(3);
 		$purpose = Purpose::select('purpose_id')->where('description','front')->first();
 		$news_photo =  Photo::all()->where('purpose_id', $purpose->purpose_id);
         return view('news.index')->with(compact(['news', 'news_photo']));

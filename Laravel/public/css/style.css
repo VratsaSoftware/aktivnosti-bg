@@ -33,7 +33,7 @@ body {
 }
 
 .main-container {
-	padding: 50px 0px;
+	padding: 50px 0 0 0;
 }
 
 .center {
@@ -2732,7 +2732,7 @@ img {
 	outline: none!important;
 }
 .pagination {
-	margin: 20px 10px;
+	margin: 10px 10px 0 10px;
 	cursor: pointer;
 }
 .pagination .active span{
@@ -2947,7 +2947,7 @@ img {
 		font-size: 12px;
 	}
 	.main-container {
-		padding: 50px 0;
+		padding: 50px 0 0 0;
 	}
 	.fancybox {
 		position: absolute;
