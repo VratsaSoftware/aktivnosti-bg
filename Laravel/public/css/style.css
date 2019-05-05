@@ -2073,7 +2073,7 @@ span.rangeslider__labels__label:first-child {
 }
 
 .footer-top .site-logo {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     display: block;
     max-width: 170px;
 }
@@ -2082,7 +2082,7 @@ span.rangeslider__labels__label:first-child {
 }
 .footer-top .widget-title {
 	color: #ffffff;
-	margin-bottom: 60px;
+	margin: 30px 0;
 }
 .courses-link-list li+li {
 	margin-top: 10px;
@@ -2091,7 +2091,7 @@ span.rangeslider__labels__label:first-child {
 	color: #ffffff;
 	text-transform: capitalize;
 	font-family: var(--para-font);
-	font-weight: 400;
+	font-weight: 500;
 }
 .courses-link-list li a:hover {
 	color: #ffb606;
@@ -2102,13 +2102,13 @@ span.rangeslider__labels__label:first-child {
 .footer-top .small-post-title a {
 	font-family: var(--para-font);
 	color: #ffffff;
-	font-weight: 400;
+	font-weight: 500;
 }
 .small-post-item .post-date {
 	color: #ffb606;
 	margin-bottom: 3px;
 	font-family: var(--para-font);
-	font-weight: 600;
+	font-weight: 700;
 }
 
 .news-letter-form {
