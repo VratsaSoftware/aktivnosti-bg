@@ -4,7 +4,7 @@
 
 @section('content')
 		<!-- main-container -->
-		
+	@php($i=1)	
 	<div class=" container main-container">
 		<div class="col-md-12 col-sm-12">
 			@foreach($news as $one_news)
@@ -17,11 +17,12 @@
 				<h3>{{$one_news->heading}}</h3>
 				<p>{{ $one_news->article_type::find($one_news->article_id)->name }} / <span> {{Carbon\Carbon::parse($one_news->date)->format('j.m.Y')}}</span></p>
 				
+				@php($i++)
 				<!-- end service-box -->
 				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-box" data-toggle="modal" data-target="#myModal">Прочети</button>
+				<button type="button" class="btn btn-box" data-toggle="modal" data-whatever="@mdo" data-target="#myModal{{$i}}">Прочети</button>
 
-				<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal fade myModal" id="myModal{{$i}}" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
@@ -56,3 +57,6 @@
     <!-- end main-container -->
 
 @endsection
+<script>
+$('.myModal').modal();
+</script>

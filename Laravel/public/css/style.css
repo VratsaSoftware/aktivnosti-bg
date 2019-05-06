@@ -2358,6 +2358,7 @@ span.rangeslider__labels__label:first-child {
 	margin: 0 auto;
 	border: 0;
 	color: #000;
+	border-radius: 20px;
 	background: transparent;
 	padding: 0 20px;
 	float: left;
