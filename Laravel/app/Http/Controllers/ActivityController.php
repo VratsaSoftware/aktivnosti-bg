@@ -23,7 +23,12 @@ use Image;//crop image
 
 
 class ActivityController extends Controller
-{
+{   
+    public function __construct(){
+      //Middleware activities
+        $this->middleware('protect.activity')->except(['index','manage','getSucategories','show','create','store']);;
+    } 
+
     public function getSucategories($category, $subcategory = NULL)
     {
         if($category == 0){
@@ -52,6 +57,9 @@ class ActivityController extends Controller
      */
     public function index(Request $request)
     { 
+        //Be careful here :)
+        //Changes affects front page
+        
         $categories=Category::all();
 
         $age = 0;
@@ -69,26 +77,25 @@ class ActivityController extends Controller
         }
         else {
             $ageCondition = true;
-
         }
 
-        if($request->exists('free') || $request->exists('age') ){
-            $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(16)->onEachSide(3);
-        }
-        else{
-            $activities=Activity::latest()->whereNotNull('approved_at')->whereNotNull('category_id')->where('available',1)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->paginate(16)->onEachSide(3);
-        }
-    
+        $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
+ 
         return view('activities.index', compact('activities', 'categories'));
     }
 
     public function manage()
     {
 
-        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
+        if(Auth::user()->hasRole('admin')){
             
             $activities=Activity::all();
-        
+
+            return view('activities.adminAct', compact('activities'));
+        }
+        elseif(Auth::user()->hasRole('moderator')){
+            $userCategories = Auth::user()->categories->pluck('category_id')->toArray();
+            $activities=Activity::whereIn('category_id',$userCategories)->get();
             return view('activities.adminAct', compact('activities'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
@@ -419,6 +426,7 @@ class ActivityController extends Controller
     {
         $activity = Activity::find($id);
         $activity->approved_at = NULL;
+        $user->updated_by = Auth::user()->email;
         $activity->save();
 
         return redirect()->back()->with('message', 'Одобрението на активността '.$activity->name.' е отменено!');

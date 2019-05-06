@@ -24,7 +24,7 @@ class UsersController extends Controller
    
     public function __construct(){
       //Middleware users
-        $this->middleware('protect.users');
+        $this->middleware('protect.users')->except(['index']);;
     } 
 
     public function index()
@@ -111,10 +111,11 @@ class UsersController extends Controller
         //prepare categories
         $categories = Category::pluck('name', 'category_id');
         $userCategories = $user->categories->pluck('category_id')->toArray();
+        $currentUserCategories = Auth::user()->categories->pluck('category_id')->toArray();
 
         $organizations = ($user->organizations->pluck('name','organization_id')->toArray())+['0' => 'Без Организация']+(Organization::select('organization_id','name')->pluck('name','organization_id')->toArray());
 
-        return view('users.edit')->with(compact(['user', 'roles', 'approvals', 'photo', 'categories', 'userCategories', 'organizations']));
+        return view('users.edit')->with(compact(['user', 'roles', 'approvals', 'photo', 'categories', 'userCategories', 'organizations','currentUserCategories']));
     }
 
     /**
@@ -129,6 +130,19 @@ class UsersController extends Controller
 
         $user = User::find($id);
         $categories = $request->get('categories');
+        //protect moderator rights
+        if($user->hasRole('moderator')){
+            if(Auth::user()->hasRole('moderator')){
+                $currentUserCategories = Auth::user()->categories->pluck('category_id')->toArray();
+                $availableCategories = [];
+                foreach ($currentUserCategories as $key => $value) {
+                    if(in_array($value,$categories)){
+                        $availableCategories[] = $value;
+                    }
+                }
+                $categories = $availableCategories;
+            }
+        }
 
         $user->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
         
@@ -170,9 +184,9 @@ class UsersController extends Controller
         {
             $user->deleted_by = Auth::user()->email;
             $user->save();
-            $message = 'Потребителят е изтрит успешно';
+            $message = 'Потребителят '.$user->name.' '.$user->family.' '.$user->email.' е изтрит успешно';
         }
-        return redirect()->back()->with('message', isset($message) ? $message : 'Грешка');
+        return redirect()->route('users.index')->with('message', isset($message) ? $message : 'Грешка');
     }
 
     public function approve($id)
@@ -188,8 +202,22 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $user->approved_at = NULL;
-        $user->approved_by = Auth::user()->email;
+        $user->updated_by = Auth::user()->email;
         $user->save();
         return redirect()->back()->with('message', 'Одобрението на потребител '.$user->name.' '.$user->family.' '.$user->email.' е отменено!');
+    }
+
+    public function kickUserFromOrganization($id,$organization_id){
+        $user = User::find($id);  
+        if($user->hasRole('organization_member')){
+            $user->organizations()->detach($organization_id);
+            $user->updated_by = Auth::user()->email;
+            $user->save();
+            return redirect()->back()->with('message', 'Потребител '.$user->name.' '.$user->family.' '.$user->email.' е премахнат от организациите ви!');
+        }
+        else
+        {
+            return redirect()->back()->with('message', 'Премахването на потребител '.$user->name.' '.$user->family.' '.$user->email.' е неуспешно!');
+        }
     }
 }

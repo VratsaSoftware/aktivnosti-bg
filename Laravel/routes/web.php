@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 		//dispatch unApprove method in Users Controller 
 		Route::get('citadel/users/unApprove/{id}', 'UsersController@unApprove')->name('users.unApprove');
+
+		//dispatch kickUserFromOrganization method in Users Controller 
+		Route::get('citadel/users/kickUserFromOrganization/{id}/{organization_id}', 'UsersController@kickUserFromOrganization')->name('users.kickUserFromOrganization');
 		
 		//delete organizations
 		Route::delete('citadel/organizations/destroy/{id}', 'OrganizationController@destroy')->name('organizations.destroy');
@@ -86,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/get/news/{organziation}/{activity?}', 'NewsController@getActivities')->name('get.activities');
 
 		//subscriptions management
-		Route::resource('/citadel/subscription', 'NewsController');	
+		Route::resource('/citadel/subscription', 'SubscriptionController');	
 	});
 
 });

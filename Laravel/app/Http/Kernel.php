@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'protect.users' => \App\Http\Middleware\ProtectUsersRoute::class,
         'protect.profile' => \App\Http\Middleware\ProtectProfileRoute::class,
         'protect.organization' => \App\Http\Middleware\ProtectOrganizationRoute::class,
+        'protect.activity' => \App\Http\Middleware\ProtectActivityRoute::class,
+        'protect.category' => \App\Http\Middleware\ProtectCategoryRoute::class,
     ];
 
     /**

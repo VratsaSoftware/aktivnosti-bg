@@ -39,13 +39,13 @@
 									<a class="btn btn btn-info btn-sm" href="{{ route('category.show',$category->category_id)}}">Преглед</a>
 								</td>
 								<td>
-									<a class="btn btn-success btn-sm" href="{{ route('category.edit',$category->category_id)}}">Редактирай</a>
+									<a class="btn btn-success btn-sm {{ (!Auth::user()->hasRole('admin')) ? 'disabled' : ''}}" href="{{ route('category.edit',$category->category_id)}}">Редактирай</a>
 								</td>
 								<td>
 									<form style="display: inline-block" method="POST" action="{{ route('category.destroy',$category->category_id) }}" onsubmit="return ConfirmDelete('{{ 'категория '.$category->name }}')">
 										{{ csrf_field() }}
 										{{ method_field('DELETE') }}
-										<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+										<input class="btn btn-danger btn-sm {{ (!Auth::user()->hasRole('admin')) ? 'disabled' : ''}}" href="{{ route('category.edit',$category->category_id)}}" type="submit" name="submit" value="Изтрий">
 									</form>
 								</td>
 							</tr>

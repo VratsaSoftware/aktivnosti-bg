@@ -22,8 +22,9 @@ class TestController extends Controller
 {
     public function index(){
     	
+
     	
-    	// dd($organization = Organization::with([$user])->get()
+    	
 
     	
 

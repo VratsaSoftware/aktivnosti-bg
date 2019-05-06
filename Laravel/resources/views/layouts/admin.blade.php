@@ -13,10 +13,6 @@
     <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
-    <!-- CONFIRM CSS-->
-    <link href="{{asset('admin/css/jquery-confirm.css')}}" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -84,15 +80,15 @@
                         <li>
                             <a class="{{ (str_contains(Route::currentRouteName(), 'category')) ? 'active-menu' : '' }}" href="{{ route('category.index')}}"><i class="fa fa-list-ul fa-3x"></i></i> Категории</a>
                         </li>
-                        @endif
+
                         <li>
                             <a class="{{ (str_contains(Route::currentRouteName(), 'news')) ? 'active-menu' : '' }}" href="{{ route('news.adminNews')}}"><i class="fa fa-building-o fa-3x"></i> Новини</a>
                         </li>
-
+                        @endif
                         @if (Auth::user()->hasRole('admin'))
-                        <li>
+{{--                         <li>
                             <a lass="{{ (str_contains(Route::currentRouteName(), 'subscription')) ? 'active-menu' : '' }}" href="{{ route('subscription.index')}}"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
-                        </li>
+                        </li> --}}
                         @endif
                     @endif
                 </ul>
@@ -152,6 +148,36 @@
                 "emptyTable": "Няма чакащи потребители"
             },
         });
+        $('#table_unapproved_users').dataTable( {
+            "columnDefs":
+            [{
+
+                "targets": [7],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+            "autoWidth": true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Няма потребители с премахнато одобрение"
+            },
+        });
+        $('#table_moderator_users').dataTable( {
+            "columnDefs":
+            [{
+
+                "targets": [7],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+            "autoWidth": true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Няма потребители"
+            },
+        });        
         $('#table_organizations').dataTable( {
             "columnDefs":
             [{
@@ -217,6 +243,28 @@
             }],
             "language": {
                 "emptyTable": "Все още няма създадени подкатегории"
+            },
+        });
+        $('#table_groups').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [3,4],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "language": {
+                "emptyTable": "Все още няма създадени групи"
+            },
+        });
+        $('#table_schedules').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [3,4],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "language": {
+                "emptyTable": "Все още няма създаденo разписание"
             },
         });
        

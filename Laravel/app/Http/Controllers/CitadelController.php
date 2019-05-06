@@ -17,7 +17,7 @@ class CitadelController extends Controller
     
         if (!$request->user()->isApproved()) {
             //send not approved users to home
-            return view('citadel.home');
+            return view('citadel.home'); 
         }
 
         if ($request->user()->hasRole('admin')) {
@@ -29,16 +29,43 @@ class CitadelController extends Controller
 
         if($request->user()->hasRole('moderator'))
         {
-            //!will be modified after Organization implementation
-            //will return only Organizations with same activities category as moderator
+  
+            $userCategories = Auth::user()->categories->pluck('category_id')->toArray();
+
             $users = User::all()->where('deleted_at', null)->where('approved_at', null);
-            $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
+
+            $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null)->filter(function($organizations) use ($userCategories){
+                $activities = $organizations->activities->pluck('category_id')->toArray();
+                    foreach ($userCategories as $key => $value){
+                        if(in_array($value,$activities)){
+                            return true;
+                    }
+                }
+                return false;       
+            });
+
             return view('citadel.index', compact('organizations','users','purposeLogo'));
         }
 
         if($request->user()->hasRole('organization_manager') || $request->user()->hasRole('organization_memeber')) {
+
             $organizations=Auth::user()->organizations()->orderBy('name')->get();
-            return view('citadel.index', compact('organizations','users','purposeLogo'));
+
+            //prepare data for organization_manager index page 
+            if($request->user()->hasRole('organization_manager')){
+                $users = collect([]);
+                $allUsers = collect([]);
+                foreach($organizations as $organization){ 
+                    foreach ( $organization->users as $user) {
+                        if($user->deleted_at == null && $user->approved_at == null){
+                        $users->push($user);
+                        }
+                        $allUsers->push($user);
+                    }
+                }
+            }
+
+            return view('citadel.index', compact('organizations','users','purposeLogo','allUsers'));
         }
             
         return view('citadel.home');

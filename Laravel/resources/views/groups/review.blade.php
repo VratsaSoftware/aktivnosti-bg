@@ -18,7 +18,7 @@
 			       			 {{ session()->get('message') }}
 			    		</div>   
 					@endif
-			        <table class="table table-striped table-bordered table-hover" id="table_users">
+			        <table class="table table-striped table-bordered table-hover" id="table_groups">
 			            <thead>
 			                <tr>
 			            		<th>Група</th>
@@ -29,11 +29,12 @@
 							</tr>
 			            </thead>
 						<tbody>
-							@forelse($activity->groups as $group)
+						@isset($activity->groups)
+							@foreach($activity->groups as $group)
 							<tr>
 								<td>{{ $group->name }}</td>
 								<td>{{ $group->description }}</td>
-								<td><a class="btn btn-warning btn-sm" href="{{ route('schedule.review',$group->group_id)}}">Разписания</a></td>s
+								<td><a class="btn btn-warning btn-sm" href="{{ route('schedule.review',$group->group_id)}}">Разписания</a></td>
 								<td>
 									<a class="btn btn-success btn-sm" href="{{ route('group.edit',$group->group_id)}}">Редактирай</a>
 								</td>
@@ -45,11 +46,8 @@
 									</form>
 								</td>
 							</tr>
-							@empty
-							<tr>
-								<td colspan="5">Все още няма създадени групи</td>
-							</tr>
-							@endforelse
+							@endforeach
+						@endisset
 						</tbody>
 			        </table>
 			        <a class="btn btn-success btn-sm" href="{{ route('group.show', $activity->activity_id)}}">Преглед</a>

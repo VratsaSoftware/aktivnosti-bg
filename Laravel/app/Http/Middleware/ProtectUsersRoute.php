@@ -18,7 +18,7 @@ class ProtectUsersRoute
     public function handle($request, Closure $next)
     {
         //only admin or moderator can access users
-        if(Auth::user()->hasAnyRole(['admin','moderator']) && Auth::user()->isApproved())
+        if(Auth::user()->hasAnyRole(['admin','moderator','organization_manager']) && Auth::user()->isApproved())
         {
             //moderators can't delete or edit admins
             if(!Auth::user()->hasRole('admin'))
@@ -31,6 +31,20 @@ class ProtectUsersRoute
                         return abort(404);
                     }
                 }
+            }
+
+            //organization managers rules
+            if(Auth::user()->hasRole('organization_manager'))
+            {  
+                $path=$request->path();
+
+                if(!(strpos($path,'/users/kickUserFromOrganization/') || strpos($path,'/users/approve/') || strpos($path,'/users/unApprove/')))
+                {
+
+                    return abort(404);
+                }
+
+
             }
 
             return $next($request);

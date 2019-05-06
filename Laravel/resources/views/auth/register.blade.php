@@ -9,7 +9,6 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
-
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Име') }}<span class="required-fields">&ast;</span></label>
 
@@ -133,9 +132,8 @@
 
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}</label>
-
                             <div class="col-md-6">
-                                {!! Form::select('organization',array_merge(['0' => 'Създай нова организация'],$organizations),'',['class' => 'form-control']) !!}         
+                                {!! Form::select('organization',(['0' => 'Създай нова организация']+$organizations),'',['class' => 'form-control']) !!}         
                                 @if ($errors->has('organization'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('organization') }}</strong>

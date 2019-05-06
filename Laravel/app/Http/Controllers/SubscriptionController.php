@@ -13,7 +13,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        echo "Hello from Subscriptions Controller"
+        echo "Hello from Subscriptions Controller";
     }
 
     /**
