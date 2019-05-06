@@ -39,7 +39,7 @@
                         <h3>Абонирайте се за още новини от {{ $organization->name }}</h3>
                         <form action="#">
                             <div class="input-contact">
-                                <input type="text" name="email">
+                                <input type="email" name="email">
                                 <span>Вашият имейл</span>
                             </div>
                             <div class="button-group">

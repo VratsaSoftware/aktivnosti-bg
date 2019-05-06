@@ -80,7 +80,7 @@ class ActivityController extends Controller
         }
 
         $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
-    
+ 
         return view('activities.index', compact('activities', 'categories'));
     }
 
@@ -203,16 +203,17 @@ class ActivityController extends Controller
 
                 $photo_purpose=Purpose::firstOrCreate(['description' => 'mine']);
             }
+			 //store image in photos table   
+			$activity->photos()->create([
+					'image_path' => $file_name,
+					'alt' => 'activity photo',
+					'description' => 'activity photo' ,
+					'purpose_id' => $photo_purpose->purpose_id,
+			]);
 
         }
 
-        //store image in photos table   
-        $activity->photos()->create([
-                'image_path' => $file_name,
-                'alt' => 'activity photo',
-                'description' => 'activity photo' ,
-                'purpose_id' => $photo_purpose->purpose_id,
-        ]);
+       
 
         //store activity image in public\user_files\images\activity
         if(isset($request['gallery'])){
@@ -402,6 +403,11 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         $activity = Activity::find($id);
+		//delete news
+		foreach($activity ->news as $news){
+			$news->delete();
+		}
+		
         $activity->delete();
 
         return redirect()->back()->with('message', 'Активността '.$activity->name.' е изтрита!');

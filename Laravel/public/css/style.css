@@ -33,7 +33,7 @@ body {
 }
 
 .main-container {
-	padding: 50px 0px;
+	padding: 50px 0 0 0;
 }
 
 .center {
@@ -2073,7 +2073,7 @@ span.rangeslider__labels__label:first-child {
 }
 
 .footer-top .site-logo {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     display: block;
     max-width: 170px;
 }
@@ -2082,7 +2082,7 @@ span.rangeslider__labels__label:first-child {
 }
 .footer-top .widget-title {
 	color: #ffffff;
-	margin-bottom: 60px;
+	margin: 30px 0;
 }
 .courses-link-list li+li {
 	margin-top: 10px;
@@ -2091,7 +2091,7 @@ span.rangeslider__labels__label:first-child {
 	color: #ffffff;
 	text-transform: capitalize;
 	font-family: var(--para-font);
-	font-weight: 400;
+	font-weight: 500;
 }
 .courses-link-list li a:hover {
 	color: #ffb606;
@@ -2102,13 +2102,13 @@ span.rangeslider__labels__label:first-child {
 .footer-top .small-post-title a {
 	font-family: var(--para-font);
 	color: #ffffff;
-	font-weight: 400;
+	font-weight: 500;
 }
 .small-post-item .post-date {
 	color: #ffb606;
 	margin-bottom: 3px;
 	font-family: var(--para-font);
-	font-weight: 600;
+	font-weight: 700;
 }
 
 .news-letter-form {
@@ -2301,7 +2301,10 @@ span.rangeslider__labels__label:first-child {
 
 
 /* contact page ==================================================*/
-
+.overflow-hidden{
+	position: fixed;
+	width: 100%;
+}
 .details-text i {
 	margin-right: 10px;
 }
@@ -2349,17 +2352,18 @@ span.rangeslider__labels__label:first-child {
 	position: relative;
 }
 
-.input-contact input[type="text"] {
+.input-contact input[type="email"] {
 	height: 100%;
 	width: 100%;
 	margin: 0 auto;
 	border: 0;
+	color: #000;
+	border-radius: 20px;
 	background: transparent;
 	padding: 0 20px;
 	float: left;
 	position: relative;
 	font-size: 14px;
-	color: #fff;
 	z-index: 1;
 }
 
@@ -2730,7 +2734,7 @@ img {
 	outline: none!important;
 }
 .pagination {
-	margin: 20px 10px;
+	margin: 10px 10px 0 10px;
 	cursor: pointer;
 }
 .pagination .active span{
@@ -2945,7 +2949,7 @@ img {
 		font-size: 12px;
 	}
 	.main-container {
-		padding: 50px 0;
+		padding: 50px 0 0 0;
 	}
 	.fancybox {
 		position: absolute;

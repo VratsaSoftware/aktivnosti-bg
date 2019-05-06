@@ -77,6 +77,7 @@
             <!-- portfolio -->
         </div>
         <!-- end portfolio div -->
+		{{$activities->links()}}
     </div>
     <!-- end main container -->
 @endsection

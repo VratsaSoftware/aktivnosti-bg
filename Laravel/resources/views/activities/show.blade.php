@@ -45,7 +45,7 @@
 						<h3>Абонирайте се за още новини от Fly yoga</h3>
 						<form action="#">
 							<div class="input-contact">
-								<input type="text" name="email">
+								<input type="email" name="email">
 								<span>Вашият имейл</span>
 							</div>
 							<div class="button-group">
@@ -145,6 +145,8 @@
 		@else
 		<div class="col-md-6 col-sm-12 col-xs-12">
 		@endif
+		@php($activityActivityId = $activity->activity_id)
+		@if(isset($activity->subcategory_id))
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 				<h4 class="h-activity"><span>Подобни активности</span></h4>
@@ -152,11 +154,11 @@
 			<!-- slick-slider-->
 			<div class="responsive">
 					<!--single item-->
+				
 					@php($activitySubcategory = $activity->subcategory_id)
-					@php($activityActivityId = $activity->activity_id)
-					
+						
 					@foreach($activities as $activ)
-						@if(($activ->subcategory_id == $activitySubcategory) && ($activ->activity_id !== $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
+						@if(($activ->subcategory_id == $activitySubcategory) && ($activ->activity_id != $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
 					<div>
 						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
 							@foreach ($activ->photos as $photo)
@@ -178,7 +180,7 @@
 					@endforeach
 				<!--end single item-->
 			</div>
-	
+		@endif
 			<!-- end slick-slider-->
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
@@ -189,7 +191,7 @@
 					<!--single item-->
 					@php($category = $activity->category_id)
 					@foreach($activities as $activ)
-						@if(($activ->category_id == $category) && ($activ->activity_id !== $activityActivityId) && ($activ->subcategory_id !== $activitySubcategory) && (!empty($activ->approved_at)) && ($activ->available == 1))
+						@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
 					<div>
 						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
 							@foreach ($activ->photos as $photo)

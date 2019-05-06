@@ -5,7 +5,7 @@
             <a href="{{route('activities.index')}}"><img src="{{asset('img/logo.png')}}"  alt="Logo"></a>
         </div>
             <!-- box-nav -->
-		<a class="box-primary-nav-news" href="{{'news'}}">
+		<a class="box-primary-nav-news" href="{{route('news.index')}}">
 			<span class="box-menu-text"> Новини</span>
 		</a>
         <a class="box-primary-nav-trigger" href="#0">
@@ -25,7 +25,7 @@
                                     <form action="#">
                                         <div class="input-group">
                                             <div class="input-contact">
-                                                <input type="text" name="email">
+                                                <input type="email" name="email" require>
                                                 <span>Вашият имейл</span>
 
                                             </div>
@@ -33,9 +33,10 @@
                                                 <button class="btn btn-box">Изпрати</button>
                                             </div>
                                             <div class="nopsi-checkbox-container">
+												 @foreach(App\Models\Category::all() as $category)
                                                 <div class="nopsi-checkbox">
                                                     <div class="nopsi-checkbox-text">
-                                                        Спорт
+                                                        {{$category->name}}
                                                     </div>
                                                     <div class="nopsi-checkbox-tool">
                                                         <input class="nopsi-checkbox-tool-chk" checked="checked" type="checkbox">
@@ -44,51 +45,7 @@
                                                         <div class="nopsi-checkbox-tool-lin-down"></div>
                                                     </div>
                                                 </div>
-                                                <div class="nopsi-checkbox">
-                                                    <div class="nopsi-checkbox-text">
-                                                        Обучение
-                                                    </div>
-                                                    <div class="nopsi-checkbox-tool">
-                                                        <input class="nopsi-checkbox-tool-chk" checked="checked" type="checkbox">
-                                                        <div class="nopsi-checkbox-tool-ball"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-up"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-down"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="nopsi-checkbox">
-                                                    <div class="nopsi-checkbox-text">
-                                                        Танци
-                                                    </div>
-                                                    <div class="nopsi-checkbox-tool">
-                                                        <input class="nopsi-checkbox-tool-chk" checked="checked" type="checkbox">
-                                                        <div class="nopsi-checkbox-tool-ball"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-up"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-down"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="nopsi-checkbox">
-                                                    <div class="nopsi-checkbox-text">
-                                                        Изкуство
-                                                    </div>
-                                                    <div class="nopsi-checkbox-tool">
-                                                        <input class="nopsi-checkbox-tool-chk" checked="checked" type="checkbox">
-                                                        <div class="nopsi-checkbox-tool-ball"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-up"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-down"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="nopsi-checkbox">
-                                                    <div class="nopsi-checkbox-text">
-                                                        Развлечение
-                                                    </div>
-                                                    <div class="nopsi-checkbox-tool">
-                                                        <input class="nopsi-checkbox-tool-chk" checked="checked" type="checkbox">
-                                                        <div class="nopsi-checkbox-tool-ball"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-up"></div>
-                                                        <div class="nopsi-checkbox-tool-lin-down"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+												@endforeach
                                         </div>
                                     </form>
                                 </div>

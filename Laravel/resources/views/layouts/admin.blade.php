@@ -82,7 +82,7 @@
                         </li>
 
                         <li>
-                            <a class="{{ (str_contains(Route::currentRouteName(), 'news')) ? 'active-menu' : '' }}" href="{{ route('news.index')}}"><i class="fa fa-building-o fa-3x"></i> Новини</a>
+                            <a class="{{ (str_contains(Route::currentRouteName(), 'news')) ? 'active-menu' : '' }}" href="{{ route('news.adminNews')}}"><i class="fa fa-building-o fa-3x"></i> Новини</a>
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('admin'))
@@ -127,6 +127,8 @@
     <script src="{{ asset('admin/js/dataTables/dataTables.bootstrap.js') }}"></script>
 
     <script src="{{ asset('admin/js/sub-categories-ajax.js') }}"></script>
+	
+	<script src="{{ asset('admin/js/news-ajax.js') }}"></script>
 
     <!-- Data tables settings-->
     <script>

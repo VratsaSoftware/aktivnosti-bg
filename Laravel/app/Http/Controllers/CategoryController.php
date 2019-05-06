@@ -120,6 +120,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
+		//delete news
+		foreach($category ->news as $news){
+			$news->delete();
+		}
+		
         $category->delete();
         return redirect('citadel/category/')->with('message', 'Категория '.$category->name.' е изтрита!');
     }

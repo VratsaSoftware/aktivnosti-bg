@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 		//organizations management
 		Route::resource('/citadel/organizations', 'OrganizationController')->except('destroy');
 		Route::get('citadel/organizations', 'OrganizationController@adminOrg')->name('organizations.adminOrg');
+		
 
 		//users management
 		Route::resource('/citadel/profile', 'ProfileController');
@@ -82,6 +83,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 		//news management
 		Route::resource('/citadel/news', 'NewsController');	
+		Route::get('citadel/news', 'NewsController@adminNews')->name('news.adminNews');
+		Route::get('/citadel/news/approve/{id}', 'NewsController@approve')->name('news.approve');
+		Route::get('/citadel/news/unAapprove/{id}', 'NewsController@unApprove')->name('news.unApprove');
+		Route::get('/get/news/{organziation}/{activity?}', 'NewsController@getActivities')->name('get.activities');
 
 		//subscriptions management
 		Route::resource('/citadel/subscription', 'SubscriptionController');	
@@ -100,8 +105,7 @@ Route::get('/organizations', 'OrganizationController@index')->name('organization
 Route::get('/organizations/{id}', 'OrganizationController@show')->name('organizations.show');
 
 // Route::resource('news', 'NewsController');
-Route::get('news', 'NewsController@showAllNews');
-Route::get('/news', 'NewsController@showAllNews');
+Route::get('/news', 'NewsController@index')->name('news.index');
 
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index')->name('test.index');

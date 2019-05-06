@@ -31,7 +31,7 @@ class OrganizationController extends Controller
     public function index()
     {
 
-		$organizations = Organization::all()->where('approved_at', '!=', null);
+		$organizations = Organization::latest()->whereNotNull('approved_at')->paginate(16)->onEachSide(3);
 		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
 		$logo =  Photo::all()->where('purpose_id', $purpose_logo->purpose_id);
         return view('organizations.index')->with(compact(['organizations', 'logo']));
@@ -285,9 +285,7 @@ class OrganizationController extends Controller
 				foreach($organization->photos as $photo){
 					$old_photo = $photo->image_path;
 					File::delete('user_files/images/organization/'.$old_photo);
-				}
-				
-               
+				}	  
             }
 		}
 		
@@ -328,7 +326,11 @@ class OrganizationController extends Controller
     public function destroy($id)
     {
         $organization = Organization::find($id);
-        $organization->delete();
+        //delete news
+		foreach($organization->news as $news){
+			$news->delete();
+		}
+		$organization->delete();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е изтрита!');
     }
 	/**

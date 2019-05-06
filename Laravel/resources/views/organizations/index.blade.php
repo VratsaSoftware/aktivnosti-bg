@@ -27,5 +27,6 @@
 			<!-- end single organization-->
 			@endforeach
 		</div>
+		{{$organizations->links()}}
 	</div>
 @endsection
