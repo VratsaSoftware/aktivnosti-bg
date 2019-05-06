@@ -6,66 +6,226 @@
 <div class="row">
     <div class="col-md-12">
         <!-- Advanced Tables -->
-        <div class="panel panel-default">
-        	@if(Auth::user()->hasAnyRole(['admin','moderator']))
+       	@if(session()->has('message'))
+    		<div class="alert alert-success">
+       			{{ session()->get('message') }}
+    		</div>   
+		@endif
+      	@if(Auth::user()->hasAnyRole(['admin','moderator','organization_manager']))
+        	<div class="panel panel-default">
             	<div class="panel-heading">
-                	Потребители чакащи одобрение
+                	Нови потребители чакащи одобрение
+                	@if(Auth::user()->hasRole('organization_manager'))и заявили принадлежност към вашите организации 
+            		@endif
             	</div>
         		<div class="panel-body">
-				<div class="table-responsive">
-					@if(session()->has('message'))
-    				<div class="alert alert-success">
-       			 		{{ session()->get('message') }}
-    				</div>   
-					@endif
-        			<table class="table table-striped table-bordered table-hover" id="table_users">
-            		<thead>
-                		<tr>
-            				<th>Име</th>
-							<th>Фамилия</th>
-							<th>Поща</th>
-							<th>Снимка</th>
-							<th>Организация</th>
-							<th>Статус</th>
-							<th>Роля</th>
-							<th>Управление</th>
-						</tr>
-            		</thead>
-					<tbody>
-						@isset ($users)
-							@foreach($users as $user)
-							<tr>
-							<td>
-								<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->name }}</a>
-							</td>
-							<td>
-								<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->family }}</a>
-							</td>
-							<td>{{ $user->email }}</td>
-							<td>
-							@if(isset($user->photo->image_path))
-								<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
-							@else
-								<span>Няма снимка</span>
-							@endif
-							</td>
-							<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
-							<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
-							<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
-							<td>
-								<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
-								@if(!$user->approved_at)
-									<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
-								@endif
-							</td>
-							</tr>
-							@endforeach
-						@endisset
-					</tbody>
-        			</table>
+					<div class="table-responsive">
+        				<table class="table table-striped table-bordered table-hover" id="table_users">
+            				<thead>
+                				<tr>
+            						<th>Име</th>
+									<th>Фамилия</th>
+									<th>Поща</th>
+									<th>Снимка</th>
+									<th>Организация</th>
+									<th>Статус</th>
+									<th>Роля</th>
+									<th>Управление</th>
+								</tr>
+            				</thead>
+							<tbody>
+								@isset ($users)
+									@foreach($users as $user)
+										@if($user->approved_by == NULL && $user->ubdated_by == NULL)
+										<tr>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->name }}</a>
+												@else
+													{{ $user->name }}
+												@endif
+											</td>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->family }}</a>
+												@else
+													{{ $user->family }}
+												@endif
+											</td>
+											<td>{{ $user->email }}</td>
+											<td>
+											@if(isset($user->photo->image_path))
+												<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
+											@else
+												<span>Няма снимка</span>
+											@endif
+											</td>
+											<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
+											<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
+											<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+												@endif
+												@if(!$user->approved_at)
+													<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+												@endif
+												@if(!$user->hasAnyRole(['organization_manager','admin','moderator']) && Auth::user()->hasRole('organization_manager'))
+													<a class="btn btn-danger btn-sm" href="{{ route('users.kickUserFromOrganization',[$user->user_id,$user->organizations()->first()])}}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">Премахни</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+									@endforeach
+								@endisset
+							</tbody>
+        				</table>
+        			</div>	
         		</div>
-    		</div>
-    		@endif
+        	</div>
+        	<div class="panel panel-default">
+				<div class="panel-heading">
+                	Потребители с отменено одобрение @if(Auth::user()->hasRole('organization_manager')) за вашите организации @endif
+            	</div>
+        		<div class="panel-body">
+					<div class="table-responsive">
+        				<table class="table table-striped table-bordered table-hover" id="table_unapproved_users">
+            				<thead>
+                				<tr>
+            						<th>Име</th>
+									<th>Фамилия</th>
+									<th>Поща</th>
+									<th>Снимка</th>
+									<th>Организация</th>
+									<th>Статус</th>
+									<th>Роля</th>
+									<th>Управление</th>
+								</tr>
+            				</thead>
+							<tbody>
+								@isset ($users)
+									@foreach($users as $user)
+										@if($user->approved_by !== NULL && $user->updated_by !== NULL)
+										<tr>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->name }}</a>
+												@else
+													{{ $user->name }}
+												@endif
+											</td>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->family }}</a>
+												@else
+													{{ $user->family }}
+												@endif
+											</td>
+											<td>{{ $user->email }}</td>
+											<td>
+											@if(isset($user->photo->image_path))
+												<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
+											@else
+												<span>Няма снимка</span>
+											@endif
+											</td>
+											<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
+											<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
+											<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+												@endif
+												@if(!$user->approved_at)
+													<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри Отново</a>
+												@if(!$user->hasAnyRole(['organization_manager','admin','moderator']) && Auth::user()->hasRole('organization_manager'))
+													<a class="btn btn-danger btn-sm" href="{{ route('users.kickUserFromOrganization',[$user->user_id,$user->organizations()->first()])}}" onsubmit="return ConfirmDelete()">Премахни</a>
+												@endif
+												@endif
+											</td>
+										</tr>
+										@endif
+									@endforeach
+								@endisset
+							</tbody>
+        				</table>
+        			</div>	
+        		</div>     	     	  	
+        	</div>
+        	@if(Auth::user()->hasRole('organization_manager'))
+        	<div class="panel panel-default">
+				<div class="panel-heading">
+                	Aктивни потребители във вашите организации
+            	</div>
+        		<div class="panel-body">
+					<div class="table-responsive">
+        				<table class="table table-striped table-bordered table-hover" id="table_moderator_users">
+            				<thead>
+                				<tr>
+            						<th>Име</th>
+									<th>Фамилия</th>
+									<th>Поща</th>
+									<th>Снимка</th>
+									<th>Организация</th>
+									<th>Статус</th>
+									<th>Роля</th>
+									<th>Управление</th>
+								</tr>
+            				</thead>
+							<tbody>
+								@isset ($allUsers)
+									@foreach($allUsers as $user)
+										@if($user->isApproved())
+										<tr>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->name }}</a>
+												@else
+													{{ $user->name }}
+												@endif
+											</td>
+											<td>
+												@if(!Auth::user()->hasRole('organization_manager'))
+												<a class="" href="{{ route('users.show',$user->user_id)}}">{{ $user->family }}</a>
+												@else
+													{{ $user->family }}
+												@endif
+											</td>
+											<td>{{ $user->email }}</td>
+											<td>
+											@if(isset($user->photo->image_path))
+												<img class='table-image' src='{{ asset('/user_files/images/profile/').'/'.$user->photo->image_path }}'>
+											@else
+												<span>Няма снимка</span>
+											@endif
+											</td>
+											<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
+											<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
+											<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+											<td>
+											@if(!$user->approved_at)
+													<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+											@else
+											@if(!$user->hasAnyRole(['organization_manager','admin','moderator']))
+												<a class="btn btn-info btn-sm" href="{{ route('users.unApprove',$user->user_id)}}">Неодобрявам</a>
+											@endif
+											@endif
+												@if(!$user->hasAnyRole(['organization_manager','admin','moderator']))
+												<a class="btn btn-danger btn-sm" href="{{ route('users.kickUserFromOrganization',[$user->user_id,$user->organizations()->first()])}}" onsubmit="return ConfirmDelete()">Премахни</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+									@endforeach
+								@endisset
+							</tbody>
+        				</table>
+        			</div>	
+        		</div>     	     	  	
+        	</div>
+        	@endif
+        @endif
+        <div class="panel panel-default">
     		 <div class="panel-heading">
     		 	@if(Auth::user()->hasAnyRole(['admin','moderator']))
                 	Организации чакащи одобрение
@@ -75,11 +235,6 @@
             </div>
         	<div class="panel-body">
 				<div class="table-responsive">
-					@if(session()->has('message'))
-    				<div class="alert alert-success">
-       			 		{{ session()->get('message') }}
-    				</div>   
-					@endif
         			<table class="table table-striped table-bordered table-hover" id="table_organizations">
             		<thead>
                 		<tr>
@@ -123,7 +278,7 @@
         			</table>
         		</div>
     		</div>
-    	</div>
+    	</div><!--end panel default-->
     </div>
 </div>
 

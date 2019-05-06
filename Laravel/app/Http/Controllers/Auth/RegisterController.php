@@ -49,7 +49,6 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $organizations=Organization::select('organization_id','name')->pluck('name','organization_id')->toArray();
-
         return view('auth.register',compact('organizations'));
     }
 

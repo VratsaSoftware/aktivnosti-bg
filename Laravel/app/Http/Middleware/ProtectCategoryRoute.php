@@ -6,8 +6,11 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Organization;
+use App\Models\Activity;
+use App\Models\Category;
 
-class ProtectOrganizationRoute
+
+class ProtectCategoryRoute
 {
     /**
      * Handle an incoming request.
@@ -18,12 +21,11 @@ class ProtectOrganizationRoute
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->hasAnyRole(['admin','moderator'])){
-            $userOrganizations = Auth::user()->organizations()->pluck('organizations.organization_id')->toArray();
-            if(!in_array($request->organization, $userOrganizations)){
+        if(!Auth::user()->hasRole('admin')){
+
             return abort(404);     
-            }
         }
-        return $next($request); 
+        
+        return $next($request);
     }
 }

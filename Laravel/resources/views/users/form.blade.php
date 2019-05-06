@@ -12,7 +12,6 @@
 </div>
 
 @if (Auth::user()->hasAnyRole(['admin','moderator']))
-
 	<div class="form-group">
 		{!! Form::label('organization', 'Организация') !!}
     	{!! Form::select('organization',$organizations,null,['class' => 'form-control']) !!}         
@@ -20,8 +19,10 @@
     		<div class="alert alert-danger">{{ $errors->first('organization') }}</div>
     	@endif
     </div>
-
 	@isset ($categories)
+	@php  
+		(Auth::user()->hasRole('moderator')) ? $toggleCategory = 'disabled' : $toggleCategory = '';
+	@endphp
 	<div class='form-group' id='moderator_categories'>
 		<div>
 			<label>Категории (Модератор)</label>
@@ -29,7 +30,7 @@
 	@foreach ($categories as $category_id => $name)
 		<span style="display: inline-block; padding-right: 0.5%;">
 			{{ Form::label('cat'.$category_id,$name) }}
-			{{ Form::checkbox( 'categories[]',$category_id, (in_array($category_id, $userCategories) ? true: false) ,['id' => 'cat'.$category_id])}}
+			{{ Form::checkbox( 'categories[]',$category_id, (in_array($category_id, $userCategories) ? true: false) ,[(in_array($category_id,$currentUserCategories) ? '' : $toggleCategory),'id' => 'cat'.$category_id])}}
 		</span>
 	@endforeach    
 	</div>
@@ -40,4 +41,5 @@
  {!! Form::submit($submitButtonText, ['class' => 'btn btn-warning']) !!}
  <a class="btn btn-default" href="{{ url()->previous() }}">Обратно</a>
 </div>
+
 

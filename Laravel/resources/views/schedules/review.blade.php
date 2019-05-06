@@ -21,7 +21,7 @@
 			       			 {{ session()->get('message') }}
 			    		</div>   
 					@endif
-			        <table class="table table-striped table-bordered table-hover" id="table_users">
+			        <table class="table table-striped table-bordered table-hover" id="table_schedules">
 			            <thead>
 			                <tr>
 			            		<th>Ден</th>
@@ -32,7 +32,8 @@
 							</tr>
 			            </thead>
 						<tbody>
-							@forelse($group->schedules as $schedule)
+							@isset($group->schedules)
+							@foreach($group->schedules as $schedule)
 							<tr>
 								<td>{{ $schedule->day }}</td>
 								<td>{{ $schedule->start_time }}</td>
@@ -48,11 +49,8 @@
 									</form>	
 								</td>
 							</tr>
-							@empty
-							
-								<td colspan="5">Все още няма създадени разписания</td>
-							
-							@endforelse
+							@endforeach
+							@endisset
 						</tbody>
 			        </table>
 			       

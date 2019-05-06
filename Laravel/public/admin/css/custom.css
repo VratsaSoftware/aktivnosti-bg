@@ -403,8 +403,6 @@ line-height: 1.428571429;
 	text-decoration: none;
 }
 /*==============================================
-<<<<<<< HEAD
-=======
     CROP IMAGE STYLES   
     =============================================*/
 .cropit-preview {
@@ -438,8 +436,19 @@ line-height: 1.428571429;
 	font-size:30px;
 	padding-top:5px;
 }
+
+/*================================================
+    CUSTOM STYLES
+=================================================*/
+#table_unapproved_users th{
+    color: #ff0000;
+}
+
+#table_unapproved_users td a{
+    text-decoration: none;
+}
+
 /*==============================================
->>>>>>> origin/dev
     MEDIA QUERIES     
     =============================================*/
  

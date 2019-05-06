@@ -23,6 +23,10 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+      //Middleware organizations
+        $this->middleware('protect.organization')->except(['index','adminOrg','show','create','store']);;
+    } 
 	 
     public function index()
     {
@@ -39,7 +43,20 @@ class OrganizationController extends Controller
 			
 			$organizations = Organization::all();
 
-			
+            if(Auth::user()->hasRole('moderator')){
+
+                $userCategories = Auth::user()->categories->pluck('category_id')->toArray();
+                $organizations = $organizations->filter(function($organizations) use ($userCategories){
+                $activities = $organizations->activities->pluck('category_id')->toArray();
+                    foreach ($userCategories as $key => $value){
+                        if(in_array($value,$activities)){
+                            return true;
+                    }
+                }
+                return false;       
+                });
+            }
+
 			return view('organizations.adminOrg', compact('organizations'));
 		}
 		elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
@@ -338,6 +355,7 @@ class OrganizationController extends Controller
     {
       $organization = Organization::find($id);
       $organization->approved_at = NULL;
+      $user->updated_by = Auth::user()->email;
       $organization->save();
       return redirect()->back()->with('message', 'Одобрението на организация '.$organization->name.' е отменено!');
     }

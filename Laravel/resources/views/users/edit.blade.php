@@ -107,7 +107,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Допълнителна информация
@@ -115,9 +114,16 @@
                         <div class="panel-body">
                             {{ $user->description }}
                         </div>
-                    </div>
+                    </div>        
                 </div>
             </div>
+            <div class="col-md-12">            
+                <form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                    <input class="btn btn-danger" type="submit" name="submit" value="Изтрий потребител">
+                </form>
+            </div> 
             <div class="col-md-10">
     			{!! Form::model($user, ['enctype' => 'multipart/form-data', 'method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
         		@include('users.form', ['submitButtonText' => 'Запази промените'])

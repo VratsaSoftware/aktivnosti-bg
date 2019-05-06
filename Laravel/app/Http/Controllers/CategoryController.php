@@ -13,6 +13,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+      //Middleware category
+        $this->middleware('protect.category')->except(['index','show']);;
+    } 
+
     public function index()
     {
         $categories = Category::all();

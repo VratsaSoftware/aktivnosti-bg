@@ -104,7 +104,9 @@
 								</div>
 								<!-- item logo-->
 								<div class="item_logo">
-									<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+									@isset($activity->category->description)
+										<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+									@endisset
 								</div> 
 								<!-- end item logo-->
 							</div>
