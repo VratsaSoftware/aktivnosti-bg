@@ -309,7 +309,11 @@ class OrganizationController extends Controller
     public function destroy($id)
     {
         $organization = Organization::find($id);
-        $organization->delete();
+        //delete news
+		foreach($organization->news as $news){
+			$news->delete();
+		}
+		$organization->delete();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е изтрита!');
     }
 	/**

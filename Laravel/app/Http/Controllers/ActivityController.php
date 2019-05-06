@@ -396,6 +396,11 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         $activity = Activity::find($id);
+		//delete news
+		foreach($activity ->news as $news){
+			$news->delete();
+		}
+		
         $activity->delete();
 
         return redirect()->back()->with('message', 'Активността '.$activity->name.' е изтрита!');
