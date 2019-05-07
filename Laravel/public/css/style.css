@@ -1097,6 +1097,9 @@ b i:last-child {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
+.news_img img{
+	width: 100%;
+}
 
 .portfolio_item .portfolio_item_hover .item_info .description {
 	font-size: 12px;
