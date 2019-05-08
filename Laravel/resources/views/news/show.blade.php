@@ -44,10 +44,10 @@
 				<div class="tz-gallery">
 					<div class="tz">
 						@foreach($news->photos as $photo)
-						<div class="col-xs-6 col-sm-6 col-md-4">
+						<div class="col-xs-6 col-sm-6 col-md-3">
 							<div class="marg">
-								<a class="lightbox" href="{{ asset('user_files/images/news/'.$photo->image_path)}}">
-									<img src="{{ asset('user_files/images/nesw/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+								<a class="lightbox news_img" href="{{ asset('user_files/images/news/'.$photo->image_path)}}">
+									<img src="{{ asset('user_files/images/news/'.$photo->image_path)}}" alt="image" class="img-responsive" />
 								</a>
 							</div>
 						</div>

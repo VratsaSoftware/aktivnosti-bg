@@ -106,6 +106,7 @@ Route::get('/organizations/{id}', 'OrganizationController@show')->name('organiza
 
 // Route::resource('news', 'NewsController');
 Route::get('/news', 'NewsController@index')->name('news.index');
+Route::get('/news/{id}', 'NewsController@show')->name('news.show');
 
 //for test purposes, will be deleted later
 Route::get('/test','TestController@index')->name('test.index');
