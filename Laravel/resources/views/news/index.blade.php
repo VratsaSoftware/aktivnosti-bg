@@ -38,7 +38,7 @@
 									@endforeach
 								</div>
 								<div class="col-md-6 col-sm-6">
-									<p>{{str_limit($one_news->description, 250)}} </p><a href="{{route('news.show', $one_news->news_id)}}"> цялата новина</a>
+									<p class="description-text">{{str_limit($one_news->description, 250)}} </p><a href="{{route('news.show', $one_news->news_id)}}"> цялата новина</a>
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -51,9 +51,9 @@
 			<!-- end single news-->
 			@endforeach
 		</div>		
-		
+		{{$news->links()}}
 	</div> 
-   {{$news->links()}}
+   
     <!-- end main-container -->
 
 @endsection

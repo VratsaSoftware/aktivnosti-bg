@@ -40,7 +40,7 @@
 					
 					@foreach($activities as $activity)
 						@if(isset($activity->approved_at) && ($activity->available == 1))
-						<div class="col-md-3 col-sm-6 col-xs-12 {{$activity->category->name}}">	
+						<div class="col-md-3 col-sm-6 col-xs-12 @isset($activity->category->name){{$activity->category->name}}@endisset">	
 							<a href="{{ route('activities.show', $activity->activity_id)}}" class="portfolio_item">
 								@if(!$activity->price)
 									<div class="offert">Безплатен</div>
@@ -54,12 +54,16 @@
 									<div class="portfolio-border clearfix">
 										<div class="item_info">
 											<span>{{$activity->name}}</span>
+											@isset($activity->organization->name)
 											<em>{{$activity->organization->name}}</em>
+											@endisset
 										</div>
 									</div>
 									<!-- item logo-->
 									<div class="item_logo">
+									@isset($activity->category->name)
 										<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
+									@endisset
 									</div> 
 									<!-- end item logo-->
 								</div>
