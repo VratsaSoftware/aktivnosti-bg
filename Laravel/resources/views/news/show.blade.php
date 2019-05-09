@@ -16,12 +16,12 @@
 			@endforeach
             </div>
 			<!--social list-->
-			<ul class="social-ul">
-				<li class="box-social"><a href="#0"><i class="fab fa-facebook-f"></i></a></li>
-				<li class="box-social"><a href="#0"><i class="fab fa-instagram"></i></a></li>
-				<li class="box-social"><a href="#0"><i class="fab fa-google-plus-g"></i></a></li>
-				<li class="box-social"><a href="#0"><i class="fab fa-twitter"></i></a></li>
-			</ul>
+			{!! Share::currentPage()
+				->facebook(['class' => 'my-class', 'id' => 'my-id'])
+				->twitter()
+				->googlePlus()
+				->linkedin(); !!}
+			<!--end social list-->
         </div>
 		<!-- end left side -->
 		<!-- right side -->

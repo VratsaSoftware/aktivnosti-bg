@@ -94,6 +94,8 @@
 	<script src="{{asset('js/schedule.js')}}"></script>
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
+	<script src="{{ asset('js/share.js') }}"></script>
+
     <!-- Free/Paid check box and age slider management-->
      <script type="text/javascript"> 
         var inputRange = $('input[type="range"]');

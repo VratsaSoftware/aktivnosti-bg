@@ -2261,25 +2261,25 @@ span.rangeslider__labels__label:first-child {
 	height: 100px;
 }
 
-.social-ul {
+#social-links ul {
 	list-style: none;
 	display: inline-block;
 	padding-left: 0;
 }
 
-.social-ul li {
+#social-links ul li {
 	margin: 0 10px;
 	float: left;
 }
 
-.social-ul li a {
+#social-links ul li a {
 	font-size: 25px;
 	color: #555;
 	-webkit-transition: all .3s;
 	transition: all .3s;
 }
 
-.social-ul li a:hover {
+#social-links ul li a:hover {
 	color: #888;
 }
 

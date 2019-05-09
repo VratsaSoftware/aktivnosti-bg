@@ -93,7 +93,7 @@ class NewsController extends Controller
 			$news_type = Activity::find($request['activity']);
 			
 		}else{
-			$news_type = Organization::find(1);
+			$news_type = Organization::where('name', 'aktivnosti.bg')->whereNotNull('approved_at')->get(1);
 		}
 		$news_type->news()->create([
 			'heading' => $request->get('name'),
