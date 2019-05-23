@@ -179,7 +179,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 		//Laravel Image
 		Intervention\Image\ImageServiceProvider::class,
-		//Laravel Shere
+		//Laravel Share
 		Jorenvh\Share\Providers\ShareServiceProvider::class,
     ],
 

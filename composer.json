@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jorenvanhocht/laravel-share": "^2.0"
+    }
+}
