@@ -1,14 +1,25 @@
 {{-- @extends('layouts.app') --}}
 @extends('layouts.admin')
+@section('title', 'Регистрация')
 @section('content')
-<div class="" style ="padding: 0 33.3% 3%;"><h2>{{ __('Регистрация') }}</h2></div>
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                     <img src="{{ asset('/admin/img').'/registration_roadmap.png' }}" class="roadmap-image">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
+                        <h4>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Регистриране на  нов потребител
+                        </h4>
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Име') }}<span class="required-fields">&ast;</span></label>
 
@@ -75,10 +86,10 @@
 
 
                         <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}<span class="required-fields">&ast;</span></label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" autofocus>
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">
@@ -90,7 +101,7 @@
 
 
                         <div class="form-group row">
-                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Град') }}<span class="required-fields">&ast;</span></label>
+                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Град') }}</label>
 
                             <div class="col-md-6">
                                 <input id="city" type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="Враца" required autofocus disabled>
@@ -129,7 +140,12 @@
                                 @endif  
                             </div>
                         </div>
-
+                        <hr>
+                        <h4>
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>&nbsp;
+                            Изберете организация от списъка или създайте нова&nbsp;
+                            <span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>
+                        </h4>
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}</label>
                             <div class="col-md-6">
@@ -141,17 +157,18 @@
                                 @endif
                             </div>
                         </div>
-
+                        <hr>  
                         <div class="form-group row">
                             <div class="col-md-10 col-form-label required-fields-note text-center">
-                                Полетата означени със звездичка са задължителни!
+                                Полетата означени със звезда са задължителни!
                             </div>
                         </div>
-
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-warning">
-                                    {{ __('Регистрирай се!') }}
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-warning" id="register_button">
+                                    {{ __('Продължи') }}
+                                    &nbsp;
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
                                 </button>
                             </div>
                         </div>

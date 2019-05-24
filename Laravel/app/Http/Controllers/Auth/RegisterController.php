@@ -73,11 +73,11 @@ class RegisterController extends Controller
             'password:required' => 'Въведете парола',  
             'password:min' => 'Паролата трябва да има минимум шест символа',
             'password:confirmed' => 'Повторението на паролата не съвпада',
-            'address.required' => 'Моля въведете адрес',
             'phone.regex' => 'Моля въведете валиден телефонен номер',
             'photo.mimes' => 'Формата на изображението не се поддържа',
             'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
             'organization.in' => 'Невалидна организация',
+            'address.max' => 'Не повече от 255 символа',
 
         ];
 
@@ -86,7 +86,7 @@ class RegisterController extends Controller
             'family' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'address' => ['required', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable','regex:/^[0-9\-\(\)\/\+\s]*$/'],
             'photo'=> ['nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'],
             'organization' => ['in:'.$organizations],

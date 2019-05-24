@@ -16,6 +16,14 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.container{
+    padding: 0 5%;
+}
+
+.title{
+    padding: 0 33.3% 3%;
+}
+
  #wrapper {
     width: 100%;
     background:#202020;
@@ -46,6 +54,7 @@ h2 {
 }
 h4 {
     padding-top:10px;
+    padding-bottom:10px;
 }
 .square-btn-adjust {
     border: 0px solid transparent; 
@@ -59,6 +68,9 @@ p {
     line-height:25px;
     padding-top:20px;
 }
+.card-body{
+    padding-left: 5%; 
+}
 /*==============================================
    DASHBOARD STYLES    
     =============================================*/
@@ -66,12 +78,12 @@ p {
     background-color:#F8F8F8;
 
 }
-   .noti-box {
+.noti-box {
 min-height: 100px;
 padding: 20px;
 }
 
-    .noti-box .icon-box {
+.noti-box .icon-box {
 display: block;
 float: left;
 margin: 0 15px 10px 0;
@@ -95,25 +107,25 @@ font-size: 40px;
 border-radius: 50px;
 
 }
-    .bg-color-green {
+.bg-color-green {
 background-color: #00CE6F;
 color: #fff;
 }
- .bg-color-blue {
+.bg-color-blue {
 background-color: #A95DF0;
 color: #fff;
 }
-  .bg-color-red {
+.bg-color-red {
 background-color: #DB0630;
 color: #fff;
 }
-  .bg-color-brown {
+.bg-color-brown {
 background-color: #B94A00;
 color: #fff;
 }
 
 
- .icon-box-right {
+.icon-box-right {
 display: block;
 float: right;
 margin: 0 15px 10px 0;
@@ -125,7 +137,7 @@ text-align: center;
 font-size: 40px;
 }
 
- .main-temp-back {
+.main-temp-back {
 background: #8702A8;
 color: #FFFFFF;
 font-size: 16px;
@@ -218,8 +230,16 @@ width:60px;
 
 }
 
+.roadmap-image {
+
+    max-width: 100%;
+    max-height: auto;
+
+
+}
+
 .navbar-cls-top .navbar-brand {
-	color: #fff;
+color: #fff;
 background: #ffbf00;
 width: 260px;
 text-align: center;
@@ -454,13 +474,13 @@ line-height: 1.428571429;
  
  @media(min-width:768px) {
      #page-wrapper{
-               margin: 0 0 0 260px;
+        margin: 0 0 0 260px;
         padding: 15px 30px;
         min-height: 1200px;
 		
     }
 	
-	
+
     .navbar-side {
         z-index: 1;
         position: absolute;
@@ -468,8 +488,13 @@ line-height: 1.428571429;
     }
 
    .navbar {
- border-radius: 0px; 
-}
+    border-radius: 0px; 
+
+    }
+
+    .card-body{
+    padding-left: 0
+    }
    
 }
 

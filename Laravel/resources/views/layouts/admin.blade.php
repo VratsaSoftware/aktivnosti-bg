@@ -99,7 +99,7 @@
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         <h2>@yield('title')</h2>
                         @isset(Auth::user()->name)
                             <h5>Здравей {{ Auth::user()->name }}!</h5>
