@@ -101,7 +101,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2>@yield('title')</h2>
-                        <h5>Здравей {{ isset(Auth::user()->name) ? Auth::user()->name : ' Гост'  }}!</h5>
+                        @isset(Auth::user()->name)
+                            <h5>Здравей {{ Auth::user()->name }}!</h5>
+                        @endisset
                     </div>
                 </div>
                 <!-- /. ROW  -->
