@@ -5,11 +5,12 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+	<p><a href="{{ route('organizations.create')}}" class=" btn btn-warning btn-md">Създай нова организация</a></p>
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички Организации
-				<a href="{{ route('organizations.create')}}">Създай нова организация</a>
+				
             </div>
         <div class="panel-body">
 	<div class="table-responsive">

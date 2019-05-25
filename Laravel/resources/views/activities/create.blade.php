@@ -54,7 +54,7 @@
                         <div class="form-group row">
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Описание на активността') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
-                                <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus></textarea>
+                                <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>{{ old('description') }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="invalid-feedback" role="alert">
@@ -155,13 +155,13 @@
                                 <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Избери заглавна снимка') }}<span class="required-fields">&ast;</span></label>
                                 <div class="col-md-6">
                                     <input type="file" id="photo" name="photo" class="cropit-image-input">
-                                    <div class="cropit-preview col-md-6"></div>
+                                    <div class="cropit-preview"></div>
                                     <div class="image-size-label">
 										<input type="hidden" name="crop" class="crop" />
-                                        <a class="back">назад</a>
                                     </div>
                                     <input type="range" class="cropit-image-zoom-input">
-                                    <button id="crop_button" form="crop_form" type="submit">Изрежи<span class="required-fields">&ast;</span></button>
+									<a class="back btn btn-warning btn-sm">назад</a>
+                                    <button id="crop_button" class=" btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
                                     @if ($errors->has('photo'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('photo') }}</strong>

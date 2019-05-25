@@ -5,14 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+		<p><a href="{{ route('subcategorycategory.create', $category->category_id)}}" class=" btn btn-warning btn-md">Създай нова подкатегория</a></p>
         <!-- Advanced Tables -->
         <div class="panel panel-default">
-            <div class="panel-heading">
-            	
+            <div class="panel-heading">            	
             	<span>Категория: {{$category->name}}</span>
-                
-                
-				<a href="{{ route('subcategorycategory.create', $category->category_id)}}">Създай нова подкатегория</a>
             </div>
         	<div class="panel-body">
 				<div class="table-responsive">

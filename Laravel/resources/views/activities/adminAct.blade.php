@@ -5,11 +5,12 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+		<p><a href="{{ route('activities.create')}}" class=" btn btn-warning btn-md">Създай нова активност</a></p>
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички активности
-				<a href="{{ route('activities.create')}}">Създай нова активност</a>
+				
             </div>
 	        <div class="panel-body">
 				<div class="table-responsive">
