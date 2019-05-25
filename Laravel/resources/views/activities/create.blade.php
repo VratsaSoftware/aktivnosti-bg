@@ -35,6 +35,11 @@
                                        <option value="{{$category_id}}" data-url="{{route('get.subcategories',$category_id)}}">{{$name}}</option>
                                    @endforeach
                                </select>
+							    @if ($errors->has('category_id'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('category_id') }}</strong>
+                                </span>
+                                @endif
                             </div>
                         </div>
                         

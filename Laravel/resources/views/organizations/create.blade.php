@@ -70,10 +70,10 @@
                         </div>
 						
                         <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}<span class="required-fields">&ast;</span></label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}">
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">

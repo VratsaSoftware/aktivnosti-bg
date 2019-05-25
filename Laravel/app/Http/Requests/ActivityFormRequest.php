@@ -28,6 +28,7 @@ class ActivityFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:150', 
+			'category_id' => 'gt:0',
             'description' => 'required|min:15|max:2000',
             'address' => 'required|string|max:255',
             'photo'=> ['required', 'nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'], 
@@ -48,7 +49,7 @@ class ActivityFormRequest extends FormRequest
             'end_date' => 'nullable|date|after:start_date',
             'duration' => 'nullable|string|max:255',
             'requirements' => 'nullable|string|max:255',
-            'organization_id' => 'required',
+            'organization_id' => 'required',			
             'available' => 'required',
             'fixed_start' => 'required',
         ];
@@ -70,6 +71,7 @@ class ActivityFormRequest extends FormRequest
             'duration.max' => 'Описанието е твърде дълго',
             'requirements.max' => 'Описанието е твърде дълго',
             'organization_id.required' => 'Моля изберете организация',
+			'category_id.gt' =>'Моля изберете категория',
             'available.required' => 'Моля направете избор за наличност',
             'fixed_start.required' => 'Моля направете избор за фиксиран старт',
             'price.regex' => 'Въведете положително число, което не е нула',

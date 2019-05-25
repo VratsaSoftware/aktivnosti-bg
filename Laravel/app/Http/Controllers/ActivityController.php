@@ -167,6 +167,7 @@ class ActivityController extends Controller
         $activity->duration = $request->get('duration');
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
+		
         if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
             $activity->category_id = $request->get('category_id');
         }
