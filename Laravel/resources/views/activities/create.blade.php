@@ -5,9 +5,18 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 col-md-offset-2">
             <div class="card">          
                 <div class="card-body">
+                @if($newActivityFlag === 1)
+                        <div class="alert alert-success">
+                            Организацията е създадена успешно! Моля продължете с последната стъпка - създаване на нова активност.
+                        </div>  
+                <div class="card-body">
+                     <img src="{{ asset('/admin/img').'/registration_roadmap_act.png' }}" class="roadmap-image">
+                </div> 
+                 @endif
+
                     <form method="POST" action="{{ route('activities.store') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -185,7 +194,7 @@
                         </div>
                     
                         {{-- organization --}}
-                        
+                        @if($newActivityFlag !== 1)
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
@@ -203,8 +212,12 @@
                                 </select>
                             </div>
                         </div>
+                        @else
+                            <input name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
+                        @endif
 
                         {{-- fixed start --}}
+                        @if($newActivityFlag !== 1)
                         <div class="form-group row">
                             <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('фиксиран старт') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
@@ -217,6 +230,9 @@
                                 @endif
                             </div>
                         </div>
+                        @else
+                            <input name="fixed_start" type="hidden" value="0">
+                        @endif
 
                         {{-- start date --}}
                         <div class="form-group row">
@@ -263,6 +279,7 @@
                         </div>
 
                         {{-- available --}}
+                        @if($newActivityFlag !== 1)
                         <div class="form-group row">
                             <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Наличен') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
@@ -276,6 +293,10 @@
                             @endif
                             </div> 
                         </div>
+                        @else
+                            <input name="available" type="hidden" value="1">
+                        @endif
+
                         
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
@@ -284,10 +305,18 @@
                         </div>
     
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                            @if($newActivityFlag === 1)
+                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-success">
+                                   {{ __('Завърши регистрацията') }}
+                                    &nbsp;
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            @else   
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Регистрирай') }}
                                 </button>
+                            @endif
                             </div>
                         </div>
                     </form>

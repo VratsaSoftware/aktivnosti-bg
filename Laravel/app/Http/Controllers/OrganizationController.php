@@ -79,7 +79,10 @@ class OrganizationController extends Controller
 	 
     public function create()
     {
-        return view('organizations.create');
+        $newOrganizationFlag = NULL;
+        (session('newOrganizationFlag')) ? $newOrganizationFlag = session('newOrganizationFlag') : '';
+
+        return view('organizations.create')->with('newOrganizationFlag',$newOrganizationFlag);
     }
 
     /**
@@ -90,7 +93,6 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationFormRequest $request)
     {
-		
 		//set default city
         $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
 		
@@ -166,14 +168,19 @@ class OrganizationController extends Controller
             $user = Auth::user();
             $user->role_id = $role;
             $user->save();
-              return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
+                if($request->get('activity') == 1){
+                    session(['newActivityFlag' => 1]);
+                    return redirect()->action('ActivityController@create');
+                }
+
+                return view('citadel.home')->with('message','Регистрирахте профил и организация успешно!');  
             }
             else
             {
                 return view('citadel.home')->with('message','Регистрирахте профил, но регистрацията на организация бе неуспешна! Моля свържете се с нас на team@aktivnosti.bg');
             } 
         }
-				
+
         return redirect('citadel/organizations')->with('message', 'Създадена е нова организация');
     }//end of create
 

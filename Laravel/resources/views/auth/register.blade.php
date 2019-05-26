@@ -164,9 +164,9 @@
                             </div>
                         </div>
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-warning" id="register_button">
-                                    {{ __('Продължи') }}
+                            <div class="col-md-10 text-center">
+                                <button type="submit" class="btn btn-success" id="register_button">
+                                    {{ __('Продължи към стъпка 2') }}
                                     &nbsp;
                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
                                 </button>

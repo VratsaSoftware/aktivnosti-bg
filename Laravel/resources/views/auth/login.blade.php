@@ -1,8 +1,7 @@
 {{-- @extends('layouts.app') --}}
 @extends('layouts.admin')
-
+@section('title', 'Вход')
 @section('content')
-<div class="" style ="padding: 0 33.3% 3%;"><h2>{{ __('Вход') }}</h2></div>
 <div class="container">
     <div class="row justify-content-center">
 

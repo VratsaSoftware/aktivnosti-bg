@@ -24,7 +24,7 @@ class TestController extends Controller
     	
 
     	
-    	
+    	dd(Auth::user()->organizations->first()->organization_id);
 
     	
 
