@@ -18,12 +18,6 @@
 								@else
 								<li><i class="fas fa-envelope"></i>contacts@aktivnosti.bg</li>
 								@endif
-								@if(isset($organization->phone))
-								<li><i class="fas fa-phone"></i>{{$organization->phone}}</li>
-								@else
-								<li><i class="fas fa-phone"></i>0123456789</li>
-								@endif
-								<li><i class="fas fa-clock"></i>Пон. - Пет. 9.00 - 18.00</li>
 							</ul>
 						</div>
 					</div><!-- widget end -->

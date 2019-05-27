@@ -171,10 +171,10 @@
                                     <div class="cropit-preview col-md-6"></div>
                                     <div class="image-size-label">
                                         <input type="hidden" name="crop" class="crop" />
-                                        <a class="back">назад</a>
                                     </div>
                                     <input type="range" class="cropit-image-zoom-input">
-                                    <button id="crop_button" form="crop_form" type="submit">Изрежи<span class="required-fields">&ast;</span></button>
+                                    <a class="back btn btn-warning btn-sm">назад</a>
+                                    <button id="crop_button" class=" btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
                                 @if ($errors->has('photo'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('photo') }}</strong>

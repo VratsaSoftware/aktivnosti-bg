@@ -31,7 +31,7 @@
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Описание') }}<span class="required-fields">&ast;</span></label>
 
                             <div class="col-md-6">
-                                <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus></textarea>
+                                <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>{{ old('description') }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="invalid-feedback" role="alert">
@@ -70,10 +70,10 @@
                         </div>
 						
                         <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}<span class="required-fields">&ast;</span></label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}">
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">
