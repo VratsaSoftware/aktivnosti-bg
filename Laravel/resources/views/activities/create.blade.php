@@ -8,6 +8,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="card">          
                 <div class="card-body">
+
                 @if($newActivityFlag === 1)
                         <div class="alert alert-success">
                             Организацията е създадена успешно! Моля продължете с последната стъпка - създаване на нова активност.
@@ -195,14 +196,13 @@
                     
                         {{-- organization --}}
                         @if($newActivityFlag !== 1)
+
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
                                     @foreach($organizations as $organization)
-                                    @if(isset($organization->approved_at))
                                     <option value="{{$organization->organization_id}}">{{$organization->name}}</option>
-                                    @endif
                                     @endforeach
                                     @if ($errors->has('organization'))
                                     <span class="invalid-feedback" role="alert">
