@@ -221,23 +221,8 @@
                             <input name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
                         @endif
 
-                        {{-- fixed start --}}
-                        @if($newActivityFlag !== 1)
-                        <div class="form-group row">
-                            <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('фиксиран старт') }}<span class="required-fields">&ast;</span></label>
-                            <div class="col-md-6">
-                                <input type="radio" name="fixed_start" value=1>да<br>
-                                <input type="radio" name="fixed_start" value=0>не
-                                @if ($errors->has('fixed_start'))
-                                    <p><span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('fixed_start') }}</strong>
-                                    </span></p>
-                                @endif
-                            </div>
-                        </div>
-                        @else
-                            <input name="fixed_start" type="hidden" value="0">
-                        @endif
+                        {{-- fixed start (disabled since 27.05.19)--}}
+                        <input name="fixed_start" type="hidden" value="0">
 
                         {{-- start date --}}
                         <div class="form-group row">
@@ -254,25 +239,14 @@
                             </div>
                         </div>
 
-                        {{-- duration --}}
-                        <div class="form-group row">
-                            <label for="duration" class="col-md-4 col-form-label text-md-right">{{ __('Продължителност') }}</label>
-                            <div class="col-md-6">
-                                <input id="duration" type="text" class="form-control{{ $errors->has('duration') ? ' is-invalid' : '' }}" name="duration" value="{{ old('duration') }}">
+                        {{-- duration (disabled since 27.05.19)--}}
 
-                                @if ($errors->has('duration'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('duration') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
 
                         {{-- end date --}}
                         <div class="form-group row">
                             <label for="end_date" class="col-md-4 col-form-label text-md-right">{{ __('Дата на приключване') }}</label>
                             <div class="col-md-6">
-                                {!! Form::date('end_date', \Illuminate\Support\Carbon::now(), ['class'=>'form-control']) !!}
+                                {!! Form::date('end_date', '', ['class'=>'form-control']) !!}
 
                                 @if ($errors->has('end_date'))
                                     <span class="invalid-feedback" role="alert">
@@ -285,10 +259,11 @@
 
                         {{-- available --}}
                         @if($newActivityFlag !== 1)
+                        <hr>
                         <div class="form-group row">
                             <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Наличен') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
-                                <input type="radio" name="available" value=1>да<br>
+                                <input type="radio" name="available" value=1 checked>да<br>
                                 <input type="radio" name="available" value=0>не
 
                             @if ($errors->has('available'))
@@ -298,10 +273,16 @@
                             @endif
                             </div> 
                         </div>
+                        <div class="form-group row">
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                С полето "наличен" определяте дали дадена активност е налична в момента. Пример - при запълване на групите може да отбележите, че активноста не е налична и тя няма да се появява на началната страница. При освобождаване на места или разширяване на групите, може отново да отбележите "да".
+                            </div>
+                        </div>
+                        <hr>
                         @else
                             <input name="available" type="hidden" value="1">
                         @endif
-
+                        
                         
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">

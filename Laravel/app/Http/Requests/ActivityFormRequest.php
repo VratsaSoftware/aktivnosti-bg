@@ -47,11 +47,9 @@ class ActivityFormRequest extends FormRequest
             ],
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after:start_date',
-            'duration' => 'nullable|string|max:255',
             'requirements' => 'nullable|string|max:255',
             'organization_id' => 'required',			
             'available' => 'required',
-            'fixed_start' => 'required',
         ];
     }
     public function messages()
@@ -68,12 +66,10 @@ class ActivityFormRequest extends FormRequest
 			'photo.dimensions' => 'снимката е с много ниска резолюция',
             'start_date.required' => 'Моля въведете начална дата',
             'end_date.after' => 'Датата на приключване на активността трябва да е след датата на започване',
-            'duration.max' => 'Описанието е твърде дълго',
             'requirements.max' => 'Описанието е твърде дълго',
             'organization_id.required' => 'Моля изберете организация',
 			'category_id.gt' =>'Моля изберете категория',
             'available.required' => 'Моля направете избор за наличност',
-            'fixed_start.required' => 'Моля направете избор за фиксиран старт',
             'price.regex' => 'Въведете положително число, което не е нула',
             'min_age.required' => 'Въведете минимална възраст на участниците',
             'min_age.integer' => 'Въведете цяло положително число, което не е нула',

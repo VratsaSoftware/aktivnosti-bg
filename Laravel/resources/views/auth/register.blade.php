@@ -160,7 +160,7 @@
                         <hr>  
                         <div class="form-group row">
                             <div class="col-md-10 col-form-label required-fields-note text-center">
-                                Полетата означени със звезда са задължителни!
+                                Полетата означени със звездичка (<span class="required-fields">&ast;</span>) са задължителни!
                             </div>
                         </div>
                         <div class="form-group row mb-0">

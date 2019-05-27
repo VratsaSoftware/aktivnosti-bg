@@ -1,5 +1,6 @@
 	<div class='form-group'>
  		{!! Form::label('name', 'Име') !!}
+ 		<span class="required-fields">&ast;</span></label>
  		{!! Form::text('name', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('name'))
@@ -8,6 +9,7 @@
 
 	<div class='form-group'>
  		{!! Form::label('family','Фамилия') !!}
+ 		<span class="required-fields">&ast;</span></label>
  		{!! Form::text('family', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('family'))
@@ -16,6 +18,7 @@
 	
 	<div class='form-group'>
  		{!! Form::label('email','Поща') !!}
+ 		<span class="required-fields">&ast;</span></label>
  		{!! Form::text('email', null, ['class' => 'form-control']) !!}
 	</div>
 	@if ($errors->has('email'))
@@ -60,6 +63,12 @@
 	@if ($errors->has('description'))
     <div class="alert alert-danger">{{ $errors->first('description') }}</div>
 	@endif
+
+	                        <div class="form-group row">
+                            <div class="col-md-10 col-form-label required-fields-note text-center">
+                                Полетата означени със звездичка (<span class="required-fields">&ast;</span>) са задължителни!
+                            </div>
+                        </div>
 
 <div class='form-group'>
  {!! Form::submit($submitButtonText, ['class' => 'btn btn-warning']) !!}

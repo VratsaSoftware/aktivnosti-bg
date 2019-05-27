@@ -214,7 +214,7 @@
         $('#table_activities').dataTable( {
             "columnDefs":
             [{
-                "targets": [17,18],
+                "targets": [13,14],
                 "searchable": false,
                 "orderable": false,
             }],

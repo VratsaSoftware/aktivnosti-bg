@@ -392,12 +392,12 @@ class ActivityController extends Controller
             }
         }
 
-        if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
+        //disabled unapproved on edit. will be used later
+        // if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
 
+        //     $activity->approved_at = NULL;
 
-            $activity->approved_at = NULL;
-
-        }
+        // }
 
         $activity->save();
 

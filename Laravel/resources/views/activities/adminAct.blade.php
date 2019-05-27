@@ -23,16 +23,12 @@
 			            <thead>
 			                <tr>
 			            		<th>Активност</th>
-								<th>Описание</th>
 								<th>Минимална възраст</th>
 								<th>Максимална възраст</th>
 								<th>Цена</th>
 								<th>Дата на започване</th>
 								<th>Дата на приключване</th>
-								<th>Продължителност</th>
 								<th>Наличен</th>
-								<th>Носете си</th>
-								<th>Fixed start</th>
 								<th>Адрес</th>
 								<th>Организация</th>
 								<th>Категория</th>
@@ -47,16 +43,12 @@
 							@foreach($activities as $activity)
 							<tr>
 								<td>{{ $activity->name }}</td>
-								<td>{{str_limit($activity->description, $limit = 20, $end = '...')}}</td>
 								<td>{{ $activity->min_age }}</td>
 								<td>{{ $activity->max_age }}</td>
 								<td>{{ $activity->price }}</td>
 								<td>{{ $activity->start_date }}</td>
 								<td>{{ $activity->end_date }}</td>
-								<td>{{ $activity->duration }}</td>
 								<td>{{ $activity->available }}</td>
-								<td>{{ $activity->requirements }}</td>
-								<td>{{ $activity->fixed_start }}</td>
 								<td>{{str_limit($activity->address, $limit = 20, $end = '...')}}</td>
 								<td>
 									@isset($activity->organization->name)

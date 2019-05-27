@@ -229,27 +229,8 @@
                             </div>
                         </div>
   
-                        {{-- fixed start --}}
-                        <div class="form-group row">
-                            <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('Фиксиран старт') }}<span class="required-fields">&ast;</span></label>
-
-                            <div class="col-md-6">
-                                @if($activity->fixed_start === 1)
-                                <input type="radio" name="fixed_start" value=1 checked>да<br>
-                                <input type="radio" name="fixed_start" value=0>не
-                                @else
-                                <input type="radio" name="fixed_start" value=1>да<br>
-                                <input type="radio" name="fixed_start" value=0 checked>не
-                                @endif
-
-                                @if ($errors->has('fixed_start'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('fixed_start') }}</strong>
-                                    </span>
-                                @endif
-
-                            </div>
-                        </div>
+                        {{-- fixed start (disabled since 27.05.19) --}}
+                            <input name="fixed_start" type="hidden" value="0">
 
                         {{-- start date --}}
                         <div class="form-group row">
@@ -260,21 +241,7 @@
                             </div>
                         </div>
 
-                        {{-- duration --}}
-                        <div class="form-group row">
-                            <label for="duration" class="col-md-4 col-form-label text-md-right">{{ __('Продължителност') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="duration" type="text" class="form-control{{ $errors->has('duration') ? ' is-invalid' : '' }}" name="duration" value="{{ $activity->duration}}">
-
-                                @if ($errors->has('duration'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('duration') }}</strong>
-                                    </span>
-                                @endif
-
-                            </div>
-                        </div>
+                        {{-- duration (disabled since 27.05.19) --}}
 
                         {{-- end date --}}
                         <div class="form-group row">
@@ -293,6 +260,8 @@
                         </div>
 
                         {{-- available --}}
+                        <hr>
+
                         <div class="form-group row">
                             <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Наличен') }}<span class="required-fields">&ast;</span></label>
 
@@ -306,16 +275,17 @@
                                 @endif 
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                С полето "наличен" определяте дали дадена активност е налична в момента. Пример - при запълване на групите може да отбележите, че активноста не е налична и тя няма да се появява на началната страница. При освобождаване на места или разширяване на групите, може отново да отбележите "да".
+                            </div>
+                        </div>
+
+                        <hr>
                         
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Полетата означени с <span class="required-fields">&ast;</span> са задължителни, а полетата означени с  <span class="recommended-fields">&ast;</span> - препоръчителни!
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-12 col-form-label required-fields-note text-left">
-                                След редактиране е необходимо активността да бъде одобрена отново от модератор или администратор!
                             </div>
                         </div>
 
