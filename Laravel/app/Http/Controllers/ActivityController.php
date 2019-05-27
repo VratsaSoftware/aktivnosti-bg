@@ -121,17 +121,21 @@ class ActivityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        
+    {    
         $categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+
+        //in case of new user->organization->activity registration
+        $newActivityFlag = 0;
+        (session('newActivityFlag')) ? $newActivityFlag = session('newActivityFlag') : '';
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             
             $organizations = Organization::all();
 
         
-            return view('activities.create', compact('categories', 'subcategories', 'organizations'));
+            return view('activities.create', compact('categories', 'subcategories', 'organizations','newActivityFlag'));
         }
+
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
         
@@ -139,7 +143,7 @@ class ActivityController extends Controller
             
             if($organizations){
                 
-                return view('activities.create', compact('categories', 'subcategories', 'organizations'));
+                return view('activities.create', compact('categories', 'subcategories', 'organizations','newActivityFlag'));
             }
         } 
     }
@@ -153,8 +157,8 @@ class ActivityController extends Controller
     public function store(ActivityFormRequest $request)
     {
         //set default city
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']); 
-        
+        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
+
         $activity = new Activity;
         $activity->name = $request->get('name');
         $activity->description = $request->get('description');
@@ -214,8 +218,6 @@ class ActivityController extends Controller
 
         }
 
-       
-
         //store activity image in public\user_files\images\activity
         if(isset($request['gallery'])){
 
@@ -241,6 +243,13 @@ class ActivityController extends Controller
                     'purpose_id' => $gallery_purpose->purpose_id,
                 ]);
             }
+        }
+
+        //when method is called during the registration process
+        $newActivityFlag = $request->session()->pull('newActivityFlag', 'default');
+        if($newActivityFlag == 1){
+            
+            return view('citadel.home')->with('message','Регистрирахте профил,организация и активност успешно!');  
         }
 
         return redirect('/citadel/activity')->with('message', 'Създадена е нова активност');

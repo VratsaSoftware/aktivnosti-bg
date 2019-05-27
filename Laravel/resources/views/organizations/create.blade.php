@@ -6,10 +6,18 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card"> 
                
                 <div class="card-body">
+                    @if($newOrganizationFlag === 1)
+                        <div class="alert alert-success">
+                            Потребителят е създаден успешно! Моля продължете със създаването на нова организация.
+                        </div>  
+                <div class="card-body">
+                     <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
+                </div> 
+                    @endif
                     <form id="register" method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -145,6 +153,16 @@
 							</div>
 						</div>
 						<!--end gallery form-group -->
+                        @if($newOrganizationFlag === 1)
+                        <hr>
+                        <div class="form-group row">
+                            <label for="activity" class="col-md-6 col-form-label text-md-right">Създай нова активност след регистрацията на организация</label>
+                            <div class="col-md-2">
+                                <input id="activity" name="activity" type="checkbox" value="1" checked>
+                            </div>
+                        </div>
+                        <hr>
+                        @endif
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note ">
                                 Полетата означени със звездичка са задължителни!
@@ -152,10 +170,18 @@
                         </div>
 						
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                            @if($newOrganizationFlag === 1)
+                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-success">
+                                   {{ __('Продължи към стъпка 3') }}
+                                    &nbsp;
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                                </button>
+                            @else
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Регистрирай!') }}
                                 </button>
+                            @endif
                             </div>
                         </div>
                     </form>

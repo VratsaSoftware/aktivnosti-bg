@@ -34,6 +34,9 @@
                         <a style="color: #ffbf00;" href="{{ route('register') }}">{{ __('Регистрация') }} </a>
                     @endif
                 @else
+                    @isset(Auth::user()->name)
+                        Здравей {{ Auth::user()->name }}! &nbsp;
+                    @endisset
                     <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">{{ __('Изход') }}</a> 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -58,7 +61,8 @@
                         <a class="{{ (str_contains(Route::currentRouteName(), 'profile')) ? 'active-menu' : '' }}" href="{{ route('profile.index')}}"><i class="fa fa-user fa-3x"></i> Профил</a>
                     </li>
 
-                    @if (Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']) && Auth::user()->isApproved())
+                    @if ((Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']) && Auth::user()->isApproved()) ||
+                    Auth::user()->hasRole('organization_manager')) 
                         <li>
                             <a class="{{ (Route::currentRouteName() == 'citadel.index') ? 'active-menu' : '' }}" href="{{ route('citadel.index')}}"><i class="fa fa-compass fa-3x"></i> Начало</a>
                         </li>
@@ -100,10 +104,7 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>@yield('title')</h2>
-                        @isset(Auth::user()->name)
-                            <h5>Здравей {{ Auth::user()->name }}!</h5>
-                        @endisset
+                        <h2 class="text-center">@yield('title')</h2>
                     </div>
                 </div>
                 <!-- /. ROW  -->
