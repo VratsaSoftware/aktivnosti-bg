@@ -46,7 +46,7 @@
 			<div class="popup" >
 				<div class="popuptext" id="myPopup">
 					<div class="well">
-						<h3>Абонирайте се за още новини от Fly yoga</h3>
+						<h3>Абонирайте се за още новини от {{$activity->name}}</h3>
 						<form action="#">
 							<div class="input-contact">
 								<input type="email" name="email">
@@ -149,11 +149,11 @@
 		@else
 		<div class="col-md-6 col-sm-12 col-xs-12">
 		@endif
+		<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 		@php($activityActivityId = $activity->activity_id)
-		@php($subcat=$activities->where('category_id',$activity->subcategory_id))
+		@php($subcat=$activities->where('subcategory_id',$activity->subcategory_id))
 		@if(count($subcat)>1)
 			<div class="h-section">
-				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 				<h4 class="h-activity"><span>Подобни активности</span></h4>
 			</div>
 			<!-- slick-slider-->
@@ -190,7 +190,7 @@
 		@endif
 			<!-- end slick-slider-->
 			<div class="h-section">
-				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+				
 				<h4 class="h-activity"><span>Предложения от категория {{$activity->category->name}}</span></h4>
 			</div>
 			<!-- slick-slider-->
@@ -210,7 +210,6 @@
 								<div class="portfolio-border clearfix">
 									<div class="item_info">
 										<span class="description">{{$activ->name}}</span>
-										ame}}</span>
 										@isset($activ->organization->name)
 										<em class="name">{{$activ->organization->name}}</em>
 										@endisset

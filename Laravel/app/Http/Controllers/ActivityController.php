@@ -264,7 +264,7 @@ class ActivityController extends Controller
      */
     public function show($id)
     {
-        $activities=Activity::all();
+        $activities=Activity::where('available',1)->where('approved_at','!=', null)->where('category_id','!=',null)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->get();
         $activity = Activity::findOrFail($id);
         $purpose_gallery = Purpose::select('purpose_id')->where('description','gallery')->first();
 		$purpose_logo = Purpose::select('purpose_id')->where('description','mine')->first();

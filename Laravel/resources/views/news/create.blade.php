@@ -10,6 +10,11 @@
             <div class="card">
                
                 <div class="card-body">
+					@if(session()->has('message'))
+					<div class="alert alert-success">
+						{{ session()->get('message') }}
+					</div>   
+					@endif
                     <form id="register" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
                         @csrf
 						@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator'))

@@ -1,3 +1,5 @@
+@php($news= App\Models\News::all()->where('approved_at'))
+
 <div class="container-fluid">
         <!-- box-header -->
     <header class="box-header">
@@ -5,9 +7,11 @@
             <a href="{{route('activities.index')}}"><img src="{{asset('img/logo.png')}}"  alt="Logo"></a>
         </div>
             <!-- box-nav -->
+		@if($news->isNotEmpty())
 		<a class="box-primary-nav-news" href="{{route('news.index')}}">
 			<span class="box-menu-text"> Новини</span>
 		</a>
+		@endif
         <a class="box-primary-nav-trigger" href="#0">
 			<span class="box-menu-text">Абонирай се</span><span class="box-menu-icon"></span>
 		</a>

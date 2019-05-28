@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\NewsFormRequest;
 use App\Models\Organization;
 use App\Models\Photo;
@@ -93,7 +94,18 @@ class NewsController extends Controller
 			$news_type = Activity::find($request['activity']);
 			
 		}else{
-			$news_type = Organization::where('name', 'aktivnosti.bg')->whereNotNull('approved_at')->get(1);
+			
+			$news_type = Organization::where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first();
+			//if no organization Ativnosti.bg
+			if($news_type==null){
+				
+				$validator = Validator::make($request->all(), [
+					'organization_id' => 'required',
+					
+				]);
+				
+				return redirect()->back()->withInput()->with('message', 'Моля изберете категория, организация или активност');
+			}
 		}
 		$news_type->news()->create([
 			'heading' => $request->get('name'),

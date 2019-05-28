@@ -68,6 +68,7 @@
 									<!-- end item logo-->
 								</div>
 								<div class="item-description">
+									<i class="fas fa-eye"></i>
 									<h5>{{$activity->name}}</h5>
 								</div>
 							</a>
