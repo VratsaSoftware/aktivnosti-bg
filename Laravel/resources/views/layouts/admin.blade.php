@@ -299,7 +299,22 @@
 	<script src="{{ asset('admin/js/cropit.js') }}"></script>
     <script src="{{ asset('admin/js/custom.js') }}"></script>
     <script src="{{ asset('admin/js/activnosti.js') }}"></script>
-
+	<script>
+		$( window ).load(function() {
+			if($('.is-invalid').length == 0){
+			 var sampleAmount = $('#select option:selected').data('amount');
+			 $('.address').val(sampleAmount);
+			 console.log(sampleAmount);
+			}
+			
+		});
+		$( '#select' ).change(function() {
+			 var sampleAmount = $('#select option:selected').data('amount');
+			 $('.address').val(sampleAmount);
+			 console.log(sampleAmount);
+			
+		});
+	</script>
 </body>
 
 </html>

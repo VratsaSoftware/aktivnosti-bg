@@ -35,7 +35,27 @@
 
                             </div>
                         </div>
+						{{-- organization --}}
+                        @if($newActivityFlag !== 1)
 
+                        <div class="form-group row">
+                            <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
+                            <div class="col-md-6">
+                                <select id="select" class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
+                                    @foreach($organizations as $organization)
+                                    <option value="{{$organization->organization_id}}" data-amount="{{$organization->address}}">{{$organization->name}}</option>
+                                    @endforeach
+                                    @if ($errors->has('organization'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('organization') }}</strong>
+                                    </span>
+                                    @endif 
+                                </select>
+                            </div>
+                        </div>
+                        @else
+                            <input name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
+                        @endif
                         {{-- category --}}
                         <div class="form-group row">
                             <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}<span class="required-fields">&ast;</span></label>
@@ -107,7 +127,7 @@
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+                                <input id="address" type="text" class="address form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">
@@ -197,29 +217,7 @@
                                 </span>
                                 @endif  
                             </div>
-                        </div>
-                    
-                        {{-- organization --}}
-                        @if($newActivityFlag !== 1)
-
-                        <div class="form-group row">
-                            <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
-                            <div class="col-md-6">
-                                <select class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
-                                    @foreach($organizations as $organization)
-                                    <option value="{{$organization->organization_id}}">{{$organization->name}}</option>
-                                    @endforeach
-                                    @if ($errors->has('organization'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('organization') }}</strong>
-                                    </span>
-                                    @endif 
-                                </select>
-                            </div>
-                        </div>
-                        @else
-                            <input name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
-                        @endif
+                        </div>    
 
                         {{-- fixed start (disabled since 27.05.19)--}}
                         <input name="fixed_start" type="hidden" value="0">
@@ -312,5 +310,20 @@
         </div>
     </div>
 </div>
-
+<script>
+	$( window ).load(function() {
+		if($('.is-invalid').length == 0){
+		 var sampleAmount = $('#select option:selected').data('amount');
+		 $('#address').val(sampleAmount);
+		 console.log(sampleAmount);
+		}
+		
+	});
+	$( '#select' ).change(function() {
+		 var sampleAmount = $('#select option:selected').data('amount');
+		 $('#address').val(sampleAmount);
+		 console.log(sampleAmount);
+		
+	});
+</script>
 @endsection

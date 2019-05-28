@@ -6,22 +6,28 @@
 <!-- main-container -->
     <div class="container main-container">
 		<!-- left side -->
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-5 col-sm-6 col-xs-12">
 
             <!--pictures from Adobe Stock-->
             <div class="org-img">
+			@if(count($logo)!= 0)
 			@foreach($logo as $photo)
-				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">			
+				@if($photo->image_path!='logo.png')
+				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
+				
+				@endif			
 			@endforeach
+			@else
+				<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
+			@endif
             </div>
             <div class="h-30"></div>
         </div>
 		<!-- end left side -->
 		<!-- right side -->
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-7 col-sm-6 col-xs-12">
             <h5 class="org"><span>Организация:&nbsp;&nbsp;</span>{{ $organization->name }}</h5>
             <ul class="cat-ul">
-                <li><i class="fas fa-calendar-alt"></i>Понеделник до петък от 9:00 до 18:00 ч.</li>
 				@if($organization->website)
 				<li><i class="fas fa-blog"></i>{{ $organization->website }}</li>
 				@endif
@@ -64,6 +70,7 @@
 					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 					<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>	
 				</div>
+				@if(count($gallery) != 0)
 				<div class="gallery-container">
 					<div class="tz-gallery">
 						<div class="tz">
@@ -78,8 +85,11 @@
 							@endforeach						   
 						</div>
 					</div>
-				</div>	
-			</div>
+				</div>
+			@else
+				<h5>Няма добавени снимки</h5>
+			@endif
+			</div> 
 			<!-- org activity -->
 			<div class="col-md-6 col-sm-12 col-xs-12">
 				<div class="h-section">

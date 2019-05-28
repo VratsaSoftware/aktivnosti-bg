@@ -1056,7 +1056,7 @@ b i:last-child {
 	font-size: 1.7rem;
 }
 
-.description-text{
+.description-text, p, h1, h2, h3, h4, h5, h6, a{
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
@@ -1333,7 +1333,9 @@ b i:last-child {
 	overflow-x: scroll;
 	-webkit-overflow-scrolling: touch;
 }
-
+org_img img{
+	width: 100%
+}
 .cd-schedule .events .events-group>ul::after {
 	/* never visible - used to add a right padding to .events-group > ul */
 	display: inline-block;
@@ -1470,6 +1472,7 @@ b i:last-child {
 }
 
 @media only screen and (min-width: 1000px) {
+	
 	.cd-schedule .events {
 		/* 60px is the .timeline element width */
 		width: calc(100% - 60px);

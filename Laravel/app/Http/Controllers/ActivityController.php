@@ -334,6 +334,8 @@ class ActivityController extends Controller
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;
         
+		$purpose_mine = Purpose::select('purpose_id')->where('description','mine')->first();
+		$mine =  $activity->photos->where('purpose_id', $purpose_mine->purpose_id);  
         if(isset($request['photo'])){
 
             $photo = $request->file('photo');
@@ -360,12 +362,28 @@ class ActivityController extends Controller
                 $photo_purpose=Purpose::firstOrCreate(['description' => 'mine']);
             }
             
-        $activity->photos()->update([
+       
+            ]);
+			if(count($mine)<1){
+				$activity->photos()->update([
                 'image_path' => $file_name,
                 'alt' => 'activity mine photo',
                 'description' => 'mine',
                 'purpose_id' => $photo_purpose->purpose_id,
-            ]);
+            }
+            else
+            {
+                $activity->photos()->update([
+				'image_path' => $file_name
+				]);
+				
+				//delete old photo
+				foreach($activity->photos as $photo){
+					$old_photo = $photo->image_path;
+				
+					File::delete('user_files/images/activity/'.$old_photo);
+				}	  
+            }
         } 
 
         if(isset($request['gallery'])){
