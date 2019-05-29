@@ -69,7 +69,7 @@
 								</div>
 								<div class="item-description">
 									<i class="fas fa-eye"></i>
-									<h5>{{$activity->name}}</h5>
+									<h5>{{str_limit($activity->name, 60)}}</h5>
 								</div>
 							</a>
 						</div>

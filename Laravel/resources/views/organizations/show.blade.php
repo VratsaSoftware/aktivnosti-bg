@@ -10,7 +10,8 @@
 
             <!--pictures from Adobe Stock-->
             <div class="org-img">
-			@if(count($logo)!= 0)
+		
+			@if(count($logo)!=0)
 			@foreach($logo as $photo)
 				@if($photo->image_path!='logo.png')
 				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
@@ -68,7 +69,7 @@
 			<div class="col-md-6 col-sm-12 col-xs-12">
 				<div class="h-section">
 					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-					<h4 class="h-activity"><span>Снимки на {{ $organization->name }}</span></h4>	
+					<h4 class="h-activity"><span>Снимки на {{ str_limit( $organization->name, 15) }}</span></h4>	
 				</div>
 				@if(count($gallery) != 0)
 				<div class="gallery-container">
@@ -92,9 +93,10 @@
 			</div> 
 			<!-- org activity -->
 			<div class="col-md-6 col-sm-12 col-xs-12">
+			@if(count($activities->all())!=0)
 				<div class="h-section">
 					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-					<h4 class="h-activity"><span>Активности на {{ $organization->name }}</span></h4>
+					<h4 class="h-activity"><span>Активности на {{str_limit( $organization->name, 15) }}</span></h4>
 				</div>
 				<div class="responsive">
 					<!-- single work -->
@@ -125,6 +127,7 @@
 						@endforeach
 					<!-- end single work -->
 				</div>
+			@endif
 			</div>
 		</div>
 		<!-- end org activity -->

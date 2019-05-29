@@ -960,6 +960,7 @@ b i:last-child {
 .item-description h5{
 	color: #fff;
 	margin-top: 0;
+	height: 55px;
 	padding: 5px 10px 20px 10px!important;
 }
 .item-description i{
@@ -2765,6 +2766,34 @@ img {
 }
 
 /* Responsive media queries ==================================================*/
+@media (min-width: 1200px) {
+	.org_image{
+		height: 270px;
+	}	
+}
+@media (max-width: 1200px) and (min-width: 998px) {
+	.org_image{
+		height: 220px;
+	}		
+}
+@media (min-width: 770px) and (max-width: 998px) {
+	.org_image{
+		
+		height: 360px;
+	}		
+}
+@media (max-width: 770px) and (min-width: 620px) {
+	.org_image{
+		width:295px;
+		height: 295px;
+	}		
+}
+@media (min-width: 550px) and (max-width: 620px) {
+	.org_image{
+		width:260px;
+		height: 260px;
+	}		
+}
 @media (min-width: 800px) {
 	.box-logo img{
 		width: 120px;
@@ -2832,8 +2861,13 @@ img {
 		width: 400px!important;
 		max-width: 300%;
 		border-radius: 0;
-		position: relative;
-		left: -100px;
+		position: absolute;
+		margin: auto 4px;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		
 	}
 	.org-img {
 		height: 420px;
