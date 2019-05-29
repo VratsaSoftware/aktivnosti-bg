@@ -336,40 +336,40 @@ class ActivityController extends Controller
         
 		$purpose_mine = Purpose::select('purpose_id')->where('description','mine')->first();
 		$mine =  $activity->photos->where('purpose_id', $purpose_mine->purpose_id);  
-        if(isset($request['photo'])){
+        if(isset($request['photo'])) {
 
             $photo = $request->file('photo');
             $original_name = $request['photo']->getClientOriginalName();
-            $file_name = uniqid().$original_name;
+            $file_name = uniqid() . $original_name;
 
             //crop image
-            $crop = $request->get('crop');                       
-                if($crop){    
-				
-                    $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop)); 
-                    $img = Image::make($info);                                                          
-                    $img->save(public_path('user_files/images/activity/'.$file_name));             
-                } 
-                else {
+            $crop = $request->get('crop');
+            if ($crop) {
+
+                $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop));
+                $img = Image::make($info);
+                $img->save(public_path('user_files/images/activity/' . $file_name));
+            } else {
 
                 $store_file = $request['photo']->move('user_files/images/activity/', $file_name);
-                }
-
-            $photo_purpose = Purpose::where('description','mine')->first();
-
-            if(!$photo_purpose){
-
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'mine']);
             }
-            
-       
-            ]);
+
+            $photo_purpose = Purpose::where('description', 'mine')->first();
+
+            if (!$photo_purpose) {
+
+                $photo_purpose = Purpose::firstOrCreate(['description' => 'mine']);
+            }
+
+
+
 			if(count($mine)<1){
 				$activity->photos()->update([
                 'image_path' => $file_name,
                 'alt' => 'activity mine photo',
                 'description' => 'mine',
                 'purpose_id' => $photo_purpose->purpose_id,
+                ]);
             }
             else
             {
