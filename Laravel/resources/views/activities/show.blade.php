@@ -104,8 +104,8 @@
 							<td><p>{{ $group->name }}</p></td>
 							<td><p>{{ $group->description }}</p></td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->start_time }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->end_time }}</p>@endforeach</td>	
+							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->start_time)->format('h:i')  }}</p>@endforeach</td>
+							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->end_time)->format('h:i')  }}</p>@endforeach</td>	
 						</tr>
 						@endforeach
 					</tbody>
@@ -121,7 +121,7 @@
 		<div class="col-md-6 col-sm-12">
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-				<h4 class="h-activity"><span>Снимки на {{ $activity->name }}</span></h4>
+				<h4 class="h-activity"><span>Снимки на {{ str_limit($activity->name, 20) }}</span></h4>
 			</div>
 			@if(count($gallery) != 0)
 			<div class="gallery-container">

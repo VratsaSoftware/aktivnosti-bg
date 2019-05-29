@@ -210,16 +210,29 @@
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
-                                    {{$organization_name = $activity->organization->name}}
-                                    @foreach($organizations as $organization)
-                                    @if(isset($organization->approved_at))
-                                    @if($organization->name === $organization_name )
-                                        <option value="{{$organization->organization_id}}" selected>{{$organization->name}}</option>
-                                        @else
-                                        <option value="{{$organization->organization_id}}">{{$organization->name}}</option>
-                                    @endif
-                                    @endif
-                                    @endforeach
+									if(@isset($activity->organization->name))
+                                    @php($organization_name = $activity->organization->name)
+									
+										@foreach($organizations as $organization)
+											@if(isset($organization->approved_at))
+												
+													@if($organization->name === $organization_name)
+					
+										<option value="{{$organization->organization_id}}" selected>{{$organization->name}}</option>
+													@else
+										<option value="{{$organization->organization_id}}">{{$organization->name}}</option>
+													@endif
+												
+											@endif
+										@endforeach
+									@else										
+										@foreach($organizations as $organization)
+											@if(isset($organization->approved_at))						
+										<option value="{{$organization->organization_id}}">{{$organization->name}}</option>
+																						
+											@endif
+										@endforeach
+									@endif
                                     @if ($errors->has('organization'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('organization') }}</strong>
