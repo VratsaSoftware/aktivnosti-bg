@@ -23,13 +23,11 @@
             <thead>
                 <tr>
             		<th>Организация</th>
-					<th>Сайт</th>
 					<th>Поща</th>
 					<th>Адрес</th>
 					<th>Телефон</th>
 					<th>Снимка</th>
 					<th>Одобрен</th>
-					<th>Преглед</th>
 					<th>Управление</th>
 				</tr>
             </thead>
@@ -37,7 +35,6 @@
 				@foreach($organizations as $organization)
 				<tr>
 					<td>{{ $organization->name }}</td>
-					<td>{{ $organization->website }}</td>
 					<td>{{ $organization->email }}</td>
 					<td>{{ $organization->address }}</td>
 					<td>{{ $organization->phone }}</td>
@@ -52,21 +49,21 @@
 					@endforeach
 					</td>
 					<td>{{ (isset($organization->approved_at)) ? 'Одобрена': 'Неодобрена' }}</td>
+						
 					<td>
-						<a class="btn btn btn-info btn-sm" href="{{ route('organizations.show',$organization->organization_id)}}">Преглед</a>
-						</td>
-					<td>
-						<a class="btn btn-success btn-sm" href="{{ route('organizations.edit',$organization->organization_id)}}">Редактирай</a>
+						<a class="btn btn btn-info btn-sm btn-block" href="{{ route('organizations.show',$organization->organization_id)}}" target="_blank">Преглед</a>
+
+						<a class="btn btn-success btn-sm btn-block" href="{{ route('organizations.edit',$organization->organization_id)}}">Редактирай</a>
 						@if( Auth::user()->hasRole('admin')||Auth::user()->hasRole('moderator'))
 							@if(!$organization->approved_at)
-						<a class="btn btn-warning btn-sm" href="{{ route('organizations.approve',$organization->organization_id)}}">Одобри</a>
+						<a class="btn btn-warning btn-sm btn-block" href="{{ route('organizations.approve',$organization->organization_id)}}">Одобри</a>
 							@endif
 						@endif
 						@if( Auth::user()->hasRole('admin'))
-						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroy',$organization->organization_id) }}" onsubmit="return ConfirmDelete('{{ 'организация '.$organization->name.' '.$organization->email }}')">
+						<form method="POST" action="{{ 	route('organizations.destroy',$organization->organization_id) }}" onsubmit="return ConfirmDelete('{{ 'организация '.$organization->name.' '.$organization->email }}')">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
-							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+							<input class="btn btn-danger btn-sm btn-block" type="submit" name="submit" value="Изтрий">
 						</form>
 						@endif
 					</td>

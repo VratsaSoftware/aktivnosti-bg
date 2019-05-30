@@ -43,7 +43,7 @@
                             <div class="col-md-6">
                                 <select id="select" class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
                                     @foreach($organizations as $organization)
-                                    <option value="{{$organization->organization_id}}" data-amount="{{$organization->address}}">{{$organization->name}}</option>
+                                    <option value="{{$organization->organization_id}}" data-amount="{{$organization->address}}"@if($organization->organization_id==old('organization_id')) selected @endif>{{$organization->name}}</option>
                                     @endforeach
                                     @if ($errors->has('organization'))
                                     <span class="invalid-feedback" role="alert">
@@ -60,9 +60,13 @@
                         <div class="form-group row">
                             <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
+							
                                 <select class="form-control" type="text" data-error="Subject is required." name="category_id" id="category_select">
+									
                                    @foreach($categories as $category_id => $name)
-                                       <option value="{{$category_id}}" data-url="{{route('get.subcategories',$category_id)}}">{{$name}}</option>
+									
+                                       <option value="{{$category_id}}" data-url="{{route('get.subcategories',$category_id)}}" @if($category_id==old('category_id')) selected @endif >{{$name}}</option>
+									   
                                    @endforeach
                                </select>
 							    @if ($errors->has('category_id'))
@@ -77,7 +81,7 @@
                         <div class="form-group row">
                             <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}<span class="recommended-fields">&ast;</span></label>
                             <div class="col-md-6">
-                                <select class="form-control" type="text" data-error="Subject is required." name="subcategory_id" id="subcategory_id">
+                                <select class="form-control" type="text"  name="subcategory_id" id="subcategory_id">
                                    <option disabled="disabled" selected>
                                        Първо изберете категория 
                                    </option>
@@ -326,4 +330,5 @@
 		
 	});
 </script>
+
 @endsection

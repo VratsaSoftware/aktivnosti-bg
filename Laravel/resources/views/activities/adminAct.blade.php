@@ -23,33 +23,21 @@
 			            <thead>
 			                <tr>
 			            		<th>Активност</th>
-								<th>Минимална възраст</th>
-								<th>Максимална възраст</th>
-								<th>Цена</th>
-								<th>Дата на започване</th>
-								<th>Дата на приключване</th>
 								<th>Наличен</th>
-								<th>Адрес</th>
 								<th>Организация</th>
 								<th>Категория</th>
 								<th>Подкатегория</th>
+								<th>Създадена на</th>
 								<th>Снимка</th>
 								<th>Статус</th>
-								<th>Групи</th>
 								<th>Управление</th>
 							</tr>
 			            </thead>
 						<tbody>
 							@foreach($activities as $activity)
 							<tr>
-								<td>{{ $activity->name }}</td>
-								<td>{{ $activity->min_age }}</td>
-								<td>{{ $activity->max_age }}</td>
-								<td>{{ $activity->price }}</td>
-								<td>{{ $activity->start_date }}</td>
-								<td>{{ $activity->end_date }}</td>
+								<td>{{ str_limit($activity->name, 40) }}</td>
 								<td>{{ $activity->available }}</td>
-								<td>{{str_limit($activity->address, $limit = 20, $end = '...')}}</td>
 								<td>
 									@isset($activity->organization->name)
 									{{ $activity->organization->name }}
@@ -65,6 +53,7 @@
 								@else
 								<td>Подкатегорията е премахната</td>
 								@endif
+								<td>{{Carbon\Carbon::parse( $activity->created_at)->format('d m Y H:i') }}</td> 
 								<td>
 									@foreach ($activity->photos as $photo)
 										@if ($photo->purpose->description == 'mine')
@@ -75,22 +64,21 @@
 								<td>
 									{{ (isset($activity->approved_at)) ? 'Одобрена': 'Неодобрена' }}
 								</td>
-								<td><a class="btn btn-primary btn-sm" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
-								</td>
 								<td>
-									<a class="btn btn btn-info btn-sm" href="{{ route('activities.show',$activity->activity_id)}}">Преглед</a>
-									<a class="btn btn-success btn-sm" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
+									<a class="btn btn-primary btn-sm btn-block" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
+									<a class="btn btn btn-info btn-sm btn-block" href="{{ route('activities.show',$activity->activity_id)}}" target="_blank">Преглед</a>
+									<a class="btn btn-success btn-sm btn-block" href="{{ route('activities.edit',$activity->activity_id)}}">Редактирай</a>
 									@if(Auth::user()->hasAnyRole(['admin','moderator']))
 									@if(!$activity->approved_at)
-										<a class="btn btn-warning btn-sm" href="{{ route('activities.approve',$activity->activity_id)}}">Одобри</a>
+										<a class="btn btn-warning btn-sm btn-block" href="{{ route('activities.approve',$activity->activity_id)}}">Одобри</a>
 									@else
-										<a class="btn btn-info btn-sm" href="{{ route('activities.unApprove',$activity->activity_id)}}">Премахни одобрение</a>
+										<a class="btn btn-info btn-sm btn-block" href="{{ route('activities.unApprove',$activity->activity_id)}}">Премахни одобрение</a>
 									@endif
 									@endif
-									<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroy',$activity->activity_id) }}" onsubmit="return ConfirmDelete('{{ 'активност '.$activity->name }}')">
+									<form  method="POST" action="{{ 	route('activities.destroy',$activity->activity_id) }}" onsubmit="return ConfirmDelete('{{ 'активност '.$activity->name }}')">
 										{{ csrf_field() }}
 										{{ method_field('DELETE') }}
-										<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+										<input class="btn btn-danger btn-sm btn-block" type="submit" name="submit" value="Изтрий">
 									</form>
 								</td>
 							</tr>

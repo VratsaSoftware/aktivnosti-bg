@@ -199,7 +199,7 @@
         $('#table_organizations_adminOrg').dataTable( {
             "columnDefs":
             [{
-                "targets": [7,8],
+                "targets": [6],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -214,7 +214,7 @@
         $('#table_activities').dataTable( {
             "columnDefs":
             [{
-                "targets": [13,14],
+                "targets": [7],
                 "searchable": false,
                 "orderable": false,
             }],

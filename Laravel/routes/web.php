@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('citadel/organizations/unAapprove/{id}', 'OrganizationController@unApprove')->name('organizations.unApprove');
 		
 		//delete gallery photo
+		Route::delete('citadel/activities/destroyGallery/{id}', 'ActivityController@destroyGallery')->name('activities.destroyGallery');
 		Route::delete('citadel/organizations/destroyGallery/{id}', 'OrganizationController@destroyGallery')->name('organizations.destroyGallery');
 		
 		//activities management
