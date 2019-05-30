@@ -32,6 +32,7 @@ class ActivityController extends Controller
     public function getSucategories($category, $subcategory = NULL)
     {
         if($category == 0){
+
             return response()->json(array(['subcategory_id' => '0', 'name' => 'Първо изберете категория']));
         }
 
@@ -225,7 +226,7 @@ class ActivityController extends Controller
 
                 $gallery_name = $gallery->getClientOriginalName();
                 $file_galery = uniqid().$gallery_name;
-                $store_file = $gallery->move('user_files/images/activity', $gallery_name);
+                $store_file = $gallery->move('user_files/images/activity/gallery', $gallery_name);
                 
                 $gallery_purpose = Purpose::where('description','gallery')->first();
 
@@ -282,20 +283,21 @@ class ActivityController extends Controller
     public function edit($id)
     {
         $activity = Activity::findOrFail($id);
-
+		$purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
+		$gallery =  $activity->photos->where('purpose_id', $purpose->purpose_id);
         $haveCategory = (isset($activity->category->category_id) ? [$activity->category->category_id => $activity->category->name ] : [ 0 => 'Изберете Категория'] );
 
         $categories = $haveCategory + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             $organizations = Organization::all();        
-            return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations'));
+            return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations', 'gallery'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
             $organizations=Auth::user()->organizations()->get();   
             if($organizations){
-                return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations'));
+                return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations','gallery'));
             }
         } 
     }
@@ -392,7 +394,7 @@ class ActivityController extends Controller
 
                 $gallery_name = $gallery->getClientOriginalName();
                 $file_gallery = uniqid().$gallery_name;
-                $store_file = $gallery->move('user_files/images/activity', $file_gallery);
+                $store_file = $gallery->move('user_files/images/activity/gallery', $file_gallery);
                 
                 $gallery_purpose = Purpose::where('description','gallery')->first();
 
@@ -458,5 +460,16 @@ class ActivityController extends Controller
         $activity->save();
 
         return redirect()->back()->with('message', 'Одобрението на активността '.$activity->name.' е отменено!');
+    }
+	public function destroyGallery($id)
+    {
+		$photoGallery = Photo::find($id);
+		//delete old photo
+		foreach($photoGallery as $photo){
+			$old_photo = $photoGallery->image_path;
+			File::delete('user_files/images/activity/gallery/'.$old_photo);
+		}
+		$photoGallery->delete();
+        return redirect()->back();
     }
 }

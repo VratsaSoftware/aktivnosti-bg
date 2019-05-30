@@ -989,7 +989,7 @@ b i:last-child {
 	list-style: none;
 	margin: 10px;
 	font-size: 1.3em;
-	width: 9em;
+	min-width: 9em;
 	height: 2em;
 }
 
@@ -2764,7 +2764,9 @@ img {
 	background:#efb50a;
 	border:solid 1px #efb50a;
 }
-
+.org_image img{
+		width: 100%;
+	}	
 /* Responsive media queries ==================================================*/
 @media (min-width: 1200px) {
 	.org_image{

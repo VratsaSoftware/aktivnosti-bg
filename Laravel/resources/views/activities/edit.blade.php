@@ -8,6 +8,19 @@
         <div class="col-md-8">
             <div class="card">      
                 <div class="card-body">
+				@foreach ($activity->photos as $photo)
+					<div class="row">
+					
+						<div class="col-md-6 old-img">
+							
+							@if ($photo->purpose->description == 'mine')
+							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+							@endif
+										   
+						</div>
+					
+					</div>
+					@endforeach
                     <form id="register" method="POST" action="{{ route('activities.update', $activity->activity_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -159,13 +172,7 @@
                         {{-- photo --}}
                         <div class="form-group row">
                             <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка') }}</label>
-
                             <div class="col-md-6">
-                                @foreach ($activity->photos as $photo)
-                                    @if ($photo->purpose->description == 'mine')
-                                    <img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-                                    @endif
-                                @endforeach
                                 <div class="image-editor">
                                 <input type="file" id="photo" name="photo" class="cropit-image-input">
                                     <div class="cropit-preview col-md-6"></div>
@@ -189,11 +196,6 @@
                             <label for="gallery" class="col-md-4 col-form-label text-md-right">{{ __('Галерия') }}</label>
 
                             <div class="col-md-6">
-                                @foreach ($activity->photos as $photo)
-                                    @if ($photo->purpose->description == 'gallery')
-                                    <img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-                                    @endif
-                                @endforeach
                                 <input type="file" id="gallery" name="gallery[]" multiple>
                                 @if ($errors->has('gallery'))
                                     <span class="invalid-feedback" role="alert">
@@ -309,6 +311,7 @@
                                 </button>
                             </div>
                         </div>
+					
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-warning" href="{{ url()->previous() }}">
@@ -317,6 +320,18 @@
                             </div>
                         </div>
                     </form>
+					<div class="row">
+						@foreach($gallery as $photo)					
+						<div class="col-md-3 old-img">							
+							<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroyGallery',$photo->photo_id) }}" >
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+								<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+							</form>
+							<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
+						</div>							
+						@endforeach
+					</div>
                 </div>
             </div>
         </div>

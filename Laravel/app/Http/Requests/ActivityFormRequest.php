@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 
 class ActivityFormRequest extends FormRequest
 {
@@ -24,33 +25,63 @@ class ActivityFormRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            'name' => 'required|min:3|max:150', 
-			'category_id' => 'gt:0',
-            'description' => 'required|min:15|max:2000',
-            'address' => 'required|string|max:255',
-            'photo'=> ['required', 'nullable','mimes:jpg,png,jpeg,gif,svg','max:2048'], 
-			'photo' => 'dimensions:min_width=400,min_height=400',			
-            'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'gallery'=> 'array|between:1,5',
-            'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
-            'min_age' => 'nullable|integer|between:1,100',
-            'max_age' => ['nullable','integer','between:1,100',
-            function($attribute, $value, $fail) {
-                $min_age = Input::get('min_age');
-                if ($value < $min_age) {
-                    return $fail('Максималната възраст e по-малка от минималната');
-                }
-            }
-            ],
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
-            'requirements' => 'nullable|string|max:255',
-            'organization_id' => 'required',			
-            'available' => 'required',
-        ];
+		if($request->isMethod('put')) 
+		{
+			// Update rules here - Don't require image here
+			return [
+				'name' => 'required|min:3|max:150', 
+				'category_id' => 'gt:0',
+				'description' => 'required|min:15|max:2000',
+				'address' => 'required|string|max:255',
+				'photo'=> 'sometimes|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
+				'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+				'gallery'=> 'array|between:1,5',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
+				'min_age' => 'nullable|integer|between:1,100',
+				'max_age' => ['nullable','integer','between:1,100',
+					function($attribute, $value, $fail) {
+						$min_age = Input::get('min_age');
+						if ($value < $min_age) {
+							return $fail('Максималната възраст e по-малка от минималната');
+						}
+					}
+				],
+				'start_date' => 'required|date',
+				'end_date' => 'nullable|date|after:start_date',
+				'requirements' => 'nullable|string|max:255',
+				'organization_id' => 'required',			
+				'available' => 'required',
+			];
+			
+		}else{
+			// Store rules
+			return [
+				'name' => 'required|min:3|max:150', 
+				'category_id' => 'gt:0',
+				'description' => 'required|min:15|max:2000',
+				'address' => 'required|string|max:255',
+				'photo'=> 'required|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
+				'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+				'gallery'=> 'array|between:1,5',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
+				'min_age' => 'nullable|integer|between:1,100',
+				'max_age' => ['nullable','integer','between:1,100',
+				function($attribute, $value, $fail) {
+					$min_age = Input::get('min_age');
+					if ($value < $min_age) {
+						return $fail('Максималната възраст e по-малка от минималната');
+					}
+				}
+				],
+				'start_date' => 'required|date',
+				'end_date' => 'nullable|date|after:start_date',
+				'requirements' => 'nullable|string|max:255',
+				'organization_id' => 'required',			
+				'available' => 'required',
+			];
+		}
     }
     public function messages()
     {

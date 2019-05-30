@@ -104,8 +104,8 @@
 							<td><p>{{ $group->name }}</p></td>
 							<td><p>{{ $group->description }}</p></td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->start_time)->format('h:i')  }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->end_time)->format('h:i')  }}</p>@endforeach</td>	
+							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->start_time)->format('H:i')  }}</p>@endforeach</td>
+							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->end_time)->format('H:i')  }}</p>@endforeach</td>	
 						</tr>
 						@endforeach
 					</tbody>

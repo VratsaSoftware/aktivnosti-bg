@@ -28,7 +28,7 @@ class OrganizationFormRequest extends FormRequest
 			'name' => 'required|max:255',
             'description' => 'required|max:1000',
             'email' => 'required|string|email|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'sometimes|max:255',
 			'website' => 'max:255',
             'phone' => 'regex:/^[0-9\-\(\)\/\+\s]*$/', 
 			'photo'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
