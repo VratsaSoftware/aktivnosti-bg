@@ -65,10 +65,9 @@
                             </div>
                         </div>
 
-                        {{-- start time --}}
+                        {{-- start time --}} 
                         <div class="form-group row">
                             <label for="start_time" class="col-md-4 col-form-label text-md-right">{{ __('Начален час') }}</label>
-
                             <div class="col-md-6">
                                 {{ Form::time('start_time', Carbon\Carbon::now()->format('H:i'), ['class'=>'form-control']) }}
                                 @if ($errors->has('start_time'))

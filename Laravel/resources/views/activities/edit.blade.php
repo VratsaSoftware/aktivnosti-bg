@@ -243,9 +243,7 @@
                                 </select>
                             </div>
                         </div>
-  
-                        {{-- fixed start (disabled since 27.05.19) --}}
-                            <input name="fixed_start" type="hidden" value="0">
+
 
                         {{-- start date --}}
                         <div class="form-group row">
@@ -271,6 +269,37 @@
                                     </span>
                                 @endif
 
+                            </div>
+                        </div>
+
+                        {{-- fixed start --}}
+                        <hr>
+
+                        <div class="form-group row">
+                            <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('Фиксиран старт') }}<span class="required-fields">&ast;</span></label>
+
+                            <div class="col-md-6">
+                                @if($activity->fixed_start == 1)
+                                <input type="radio" name="fixed_start" value=1 checked>Да<br>
+                                <input type="radio" name="fixed_start" value=0>Не
+                                @else
+                                <input type="radio" name="fixed_start" value=1>Да<br>
+                                <input type="radio" name="fixed_start" value=0 checked>Не
+                                @endif
+
+                                @if ($errors->has('fixed_start'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('fixed_start') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                Моля отбележете "Да" ако вашата активност е с фиксирано начало, след посочената в по-горе начална дата. Пример - обучение, летен лагер.
+                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.  
                             </div>
                         </div>
 
@@ -307,7 +336,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
-                                    {{ __('Редактирай') }}
+                                    {{ __('Запази промените') }}
                                 </button>
                             </div>
                         </div>

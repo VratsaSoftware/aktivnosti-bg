@@ -1,10 +1,26 @@
+
 @extends('layouts.master')
 
 @section('title', $activity->name)
 
 @section('content')
-		
-		<!-- main-container -->
+
+@push('head')
+	<!-- Maps support -->
+	<script>
+		//prepare variables for js
+		var latitude = '{{  $activity->latitude }}';
+		var longitude = '{{  $activity->longitude }}';
+		var auth = '{{ env('MAP_KEY','') }}';
+		var activity_id = '{{  $activity->activity_id }}';
+		var city = '{{ $activity->city->name }}';
+		var address = '{{ $activity->address }}';		
+	</script>
+	<script src="{{ asset('js/map.js') }}"></script>
+	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+@endpush
+
+	<!-- main-container -->
 	<div class="container main-container">
 		<div class="col-md-6 col-sm-6 col-xs-12">
 		   <!--pictures from Adobe Stock-->
@@ -22,15 +38,16 @@
 			<a href="{{ route('organizations.show', $activity->organization->organization_id) }}"><h5 class="org"><span>Организация:&nbsp;&nbsp;</span>{{$activity->organization->name}}</h5></a>
 			@endisset
 			<ul class="cat-ul">
+			{{-- Start date will be shown when activity has fixed start--}}
 			@if($activity->fixed_start == 1)
-			
 				<li><i class="fas fa-calendar-alt"></i>Дата на започване: {{Carbon\Carbon::parse($activity->start_date)->format('j . m . Y')}}</li>
-				@if(isset($activity->end_date))
-				<li><i class="fas fa-calendar-alt"></i>Дата на приключване: {{Carbon\Carbon::parse($activity->end_date)->format('j . m . Y')}}</li>
-				@endif
 				@if(isset($activity->duration))
 				<li><li><i class="fas fa-clock"></i>Продължителност: {{$activity->duration}}</li>
 				@endif
+			@endif
+			{{-- End date will be shown if available--}}
+			@if(isset($activity->end_date))
+				<li><i class="fas fa-calendar-alt"></i>Дата на приключване: {{Carbon\Carbon::parse($activity->end_date)->format('j . m . Y')}}</li>
 			@endif
 				@if(isset($activity->requirements))
 				<li><i class="fas fa-tasks"></i>Носете си: <span class="task">{{$activity->requirements}}</span></li>
@@ -40,7 +57,10 @@
 				<li><i class="fas fa-mobile-alt"></i>{{$activity->organization->phone}}</li>
 				@endisset
 				<li><i class="fas fa-map-marked"></i>{{$activity->address}}</li>
-				<li><iframe  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.237680849323!2d23.561281315213787!3d43.204503889346924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40ab1918e0ad3683%3A0x8f5b83eedef3b7ed!2z0KHQn9Ce0KDQotCd0J4g0KPQp9CY0JvQmNCp0JUg0JrQm9CY0JzQldCd0KIg0J7QpdCg0JjQlNCh0JrQmA!5e0!3m2!1sbg!2sbg!4v1549027551316" width="100%" height="130" frameborder="0" style="border:0" allowfullscreen></iframe></li>
+				<li>
+					 <div id="myMap" style="position:relative;width:100%;height:130px;"></div>
+
+					</li>
 			</ul>
 			<!-- Subscribe button-->
 			<div class="popup" >

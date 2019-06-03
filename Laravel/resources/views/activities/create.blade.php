@@ -223,9 +223,6 @@
                             </div>
                         </div>    
 
-                        {{-- fixed start (disabled since 27.05.19)--}}
-                        <input name="fixed_start" type="hidden" value="0">
-
                         {{-- start date --}}
                         <div class="form-group row">
                             <label for="start_date" class="col-md-4 col-form-label text-md-right">{{ __('Начална дата') }}<span class="required-fields">&ast;</span></label>
@@ -243,7 +240,6 @@
 
                         {{-- duration (disabled since 27.05.19)--}}
 
-
                         {{-- end date --}}
                         <div class="form-group row">
                             <label for="end_date" class="col-md-4 col-form-label text-md-right">{{ __('Дата на приключване') }}</label>
@@ -256,6 +252,32 @@
                                     </span>
                                 @endif
 
+                            </div>
+                        </div>
+
+                        {{-- fixed start --}}
+                        <hr>
+
+                        <div class="form-group row">
+                            <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('Фиксиран старт') }}<span class="required-fields">&ast;</span></label>
+
+                            <div class="col-md-6">
+                                <input type="radio" name="fixed_start" value=1 checked>Да<br>
+                                <input type="radio" name="fixed_start" value=0>Не
+
+                                @if ($errors->has('fixed_start'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('fixed_start') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12 col-form-label required-fields-note text-left">
+                                Моля отбележете "Да" ако вашата активност е с фиксирано начало, след посочената в по-горе начална дата. Пример - обучение, летен лагер.
+                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.  
                             </div>
                         </div>
 

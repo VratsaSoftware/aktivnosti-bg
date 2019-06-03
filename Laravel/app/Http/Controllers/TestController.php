@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Photo;
 use App\Models\Purpose;
 use App\Models\Role;
+use Carbon\Carbon;
 
 
 
@@ -24,7 +25,7 @@ class TestController extends Controller
     	
 
     	
-    	dd(Auth::user()->organizations->first()->organization_id);
+    	dd(Activity::firstOrfail()->city->name);
 
     	
 
