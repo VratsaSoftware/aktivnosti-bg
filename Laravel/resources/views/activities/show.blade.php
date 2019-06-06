@@ -11,7 +11,7 @@
 		//prepare variables for js
 		var latitude = '{{  $activity->latitude }}';
 		var longitude = '{{  $activity->longitude }}';
-		var auth = '{{ env('MAP_KEY','') }}';
+		var auth = '{{ env("MAP_KEY",'') }}';
 		var activity_id = '{{  $activity->activity_id }}';
 		var city = '{{ $activity->city->name }}';
 		var address = '{{ $activity->address }}';		
@@ -59,8 +59,7 @@
 				<li><i class="fas fa-map-marked"></i>{{$activity->address}}</li>
 				<li>
 					 <div id="myMap" style="position:relative;width:100%;height:130px;"></div>
-
-					</li>
+				</li>
 			</ul>
 			<!-- Subscribe button-->
 			<div class="popup" >
@@ -139,19 +138,21 @@
 		<!--right side-->
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="col-md-6 col-sm-12">
+		
+		@if($gallery->isNotEmpty())
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 				<h4 class="h-activity"><span>Снимки на {{ str_limit($activity->name, 20) }}</span></h4>
 			</div>
-			@if(count($gallery) != 0)
+			
 			<div class="gallery-container">
 				<div class="tz-gallery">
 					<div class="col-sm-12 tz">
 						@foreach($gallery as $photo)
 						<div class="col-xs-6 col-sm-6 col-md-4">
 							<div class="marg">
-								<a class="lightbox" href="{{ asset('user_files/images/activity/'.$photo->image_path)}}">
-									<img src="{{ asset('user_files/images/activity/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+								<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
+									<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
 								</a>
 							</div>
 						</div>
@@ -159,31 +160,32 @@
 					</div>
 				</div>
 			</div>
-			@else
-				<h5>Няма добавени снимки</h5>
-			@endif
-		</div>
-		
-		@if(count($gallery) != 0)
+			
+		@endif
+		</div>		
+		@if($gallery)
 		<div class="col-md-6 col-sm-12 col-xs-12">
 		@else
 		<div class="col-md-6 col-sm-12 col-xs-12">
 		@endif
-		<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+		@php($category = $activity->category_id)
 		@php($activityActivityId = $activity->activity_id)
 		@php($subcat=$activities->where('subcategory_id',$activity->subcategory_id))
-		@if(count($subcat)>1)
+		@php($activitySubcategory = $activity->subcategory_id)
+		
+		<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
+		
+		@if($activitySubcategory)
+			
 			<div class="h-section">
 				<h4 class="h-activity"><span>Подобни активности</span></h4>
 			</div>
 			<!-- slick-slider-->
 			<div class="responsive">
-					<!--single item-->
-				
-					@php($activitySubcategory = $activity->subcategory_id)
-						
+					<!--single item-->				
+											
 					@foreach($activities as $activ)
-						@if(($activ->subcategory_id == $activitySubcategory) && ($activ->activity_id != $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
+						@if((isset($activitySubcategory) && $activ->subcategory_id == $activitySubcategory) && ($activ->activity_id != $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
 					<div>
 						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
 							@foreach ($activ->photos as $photo)
@@ -209,14 +211,13 @@
 			</div>
 		@endif
 			<!-- end slick-slider-->
-			<div class="h-section">
-				
+			<div class="h-section">				
 				<h4 class="h-activity"><span>Предложения от категория {{$activity->category->name}}</span></h4>
 			</div>
 			<!-- slick-slider-->
 			<div class="responsive">
 					<!--single item-->
-					@php($category = $activity->category_id)
+					
 					@foreach($activities as $activ)
 						@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
 					<div>
@@ -248,4 +249,9 @@
 	</div>
 	<!-- end main-container -->
 
+@endsection
+@section('og')
+<meta property="og:title" content="{{ $activity->name }}" />
+<meta property="og:image" content="@foreach($logo as $photo) @if($photo->image_path!='logo.png'){{ asset('user_files/images/activity/'.$photo->image_path)}} @endif @endforeach"/>
+<meta property="og:type" content="{{$activity->description}}" />
 @endsection

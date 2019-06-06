@@ -86,3 +86,11 @@
     </div>
     <!-- end main container -->
 @endsection
+@section('og')
+@if(App\Models\Organization::select()->where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first())
+@php($organization = App\Models\Organization::select()->where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first())
+<meta property="og:title" content="{{$organization->name}}"/>
+<meta property="og:image" content="{{ asset('/img/portfolio/logo2.jpg')}}"/>
+<meta property="og:type" content="{{$organization->description}}" />
+@endif
+@endsection

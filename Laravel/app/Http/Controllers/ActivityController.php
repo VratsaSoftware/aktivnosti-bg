@@ -80,7 +80,7 @@ class ActivityController extends Controller
             $ageCondition = true;
         }
 
-        $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('start_date  <= curdate()+90 and IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
+        $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
  
         return view('activities.index', compact('activities', 'categories'));
     }
@@ -456,7 +456,7 @@ class ActivityController extends Controller
     {
         $activity = Activity::find($id);
         $activity->approved_at = NULL;
-        $user->updated_by = Auth::user()->email;
+        $activity->updated_by = Auth::user()->email;
         $activity->save();
 
         return redirect()->back()->with('message', 'Одобрението на активността '.$activity->name.' е отменено!');

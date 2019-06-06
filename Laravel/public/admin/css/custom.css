@@ -467,7 +467,16 @@ line-height: 1.428571429;
 #table_unapproved_users td a{
     text-decoration: none;
 }
-
+td form{
+	margin-top: 5px;
+}
+td img{
+	width: 85px;
+	height: 85px;
+}
+th{
+	cursor: pointer;
+}
 /*==============================================
     MEDIA QUERIES     
     =============================================*/

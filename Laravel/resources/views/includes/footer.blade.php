@@ -49,7 +49,7 @@
 								</li><!-- small-post-item end -->
 								<li>
 									<div class="small-post-item">
-										<a href="{{'news'}}" class="post-date">Новини</a>
+										<a href="{{route('news.index')}}" class="post-date">Новини</a>
 									</div>
 								</li><!-- small-post-item end -->
 								<li>

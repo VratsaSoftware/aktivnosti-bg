@@ -97,4 +97,8 @@ $(document).on("click", ".img-c.active", function() {
 	</script>
     <!-- end main-container -->
 @endsection
-						
+@section('og')
+<meta property="og:title" content="{{ $news->heading }}" />
+<meta property="og:image" content="@foreach($news->photos as $photo){{ asset('user_files/images/news/'.$photo->image_path)}}@break @endforeach"/>
+<meta property="og:type" content="{{$news->description}}" />
+@endsection							

@@ -32,3 +32,9 @@
 		{{$organizations->links()}}
 	</div>
 @endsection
+@section('og')
+@php($organization = App\Models\Organization::select()->where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first())
+<meta property="og:title" content="{{$organization->name}}"/>
+<meta property="og:image" content="{{ asset('/img/portfolio/logo2.jpg')}}"/>
+<meta property="og:type" content="{{$organization->description}}" />
+@endsection

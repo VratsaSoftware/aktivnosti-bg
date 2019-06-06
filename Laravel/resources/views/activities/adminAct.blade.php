@@ -46,12 +46,12 @@
 								@if(isset($activity->category->name))
 								<td>{{ $activity->category->name }}</td> 
 								@else
-								<td>Категорията е премахната</td>
+								<td>Няма</td>
 								@endif
 								@if(isset($activity->subcategory->name))
 								<td>{{ $activity->subcategory->name }}</td> 
 								@else
-								<td>Подкатегорията е премахната</td>
+								<td>Няма</td>
 								@endif
 								<td>{{Carbon\Carbon::parse( $activity->created_at)->format('d m Y H:i') }}</td> 
 								<td>

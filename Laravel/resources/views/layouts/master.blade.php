@@ -23,9 +23,8 @@
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -90,14 +89,13 @@
     <script src="{{asset('js/rangeslider.js')}}"></script>
     <!-- single page script-->
 	<script src="{{asset('js/modernizr.js')}}"></script>
-    <script src="{{asset('js/slider.js')}}"></script>
     <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
 	<script src="{{asset('js/schedule.js')}}"></script>
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
 	<script src="{{ asset('js/share.js') }}"></script>
-
+	<script src="{{ asset('js/map.js') }}"></script>
     <!-- Free/Paid check box and age slider management-->
      <script type="text/javascript"> 
         var inputRange = $('input[type="range"]');

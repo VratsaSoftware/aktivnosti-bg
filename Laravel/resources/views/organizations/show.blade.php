@@ -3,10 +3,11 @@
 @section('title', $organization->name)
 
 @section('content')
+
 <!-- main-container -->
     <div class="container main-container">
 		<!-- left side -->
-        <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
 
             <!--pictures from Adobe Stock-->
             <div class="org-img">
@@ -26,7 +27,7 @@
         </div>
 		<!-- end left side -->
 		<!-- right side -->
-        <div class="col-md-7 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h5 class="org"><span>Организация:&nbsp;&nbsp;</span>{{ $organization->name }}</h5>
             <ul class="cat-ul">
 				@if($organization->website)
@@ -35,9 +36,6 @@
                 <li><i class="fas fa-envelope"></i>{{ $organization->email }}</li>
                 <li><i class="fas fa-mobile-alt"></i>{{ $organization->phone }}</li>
                 <li><i class="fas fa-map-marked"></i>{{ $organization->address }}</li>
-                <li>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2908.188047764412!2d23.561882!3d43.205545!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xab9ab71f982bf1c5!2z0JjQoiDRhtC10L3RgtGK0YAgLSDQktGA0LDRhtCwINGB0L7RhNGC0YPQtdGA!5e0!3m2!1sen!2sus!4v1551269161962" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
-                </li>
             </ul>
             <!-- Subscribe button-->
             <div class="popup">
@@ -58,6 +56,14 @@
                 <span class="btn btn-box" onclick="myFunction()"><i class="fas fa-plus"></i>Абонирайте се!</span>
             </div>
             <!-- end Subscribe button-->
+			<!--social list-->
+			<h4 class="social-h4">Сподели</h4>
+			{!! Share::currentPage()
+				->facebook(['class' => 'my-class', 'id' => 'my-id'])
+				->twitter()
+				->googlePlus()
+				->linkedin(); !!}
+			<!--end social list-->
         </div>
 		<!-- end right side -->
 		<div class="col-md-12 col-sm-12">
@@ -111,7 +117,7 @@
 							<div class="portfolio_item_hover">
 								<div class="portfolio-border clearfix">
 									<div class="item_info">
-										<span>{{$activity->name}}</span>
+										<span>{{str_limit( $activity->name, 15)}}</span>
 									</div>
 								</div>
 								<!-- item logo-->
@@ -174,4 +180,9 @@ $(document).on("click", ".img-c.active", function() {
 })
 	</script>
     <!-- end main-container -->
+@endsection
+@section('og')
+<meta property="og:title" content="{{ $organization->name }}" />
+<meta property="og:image" content="@if(count($logo)!=0) @foreach($logo as $photo) @if($photo->image_path!='logo.png'){{ asset('user_files/images/organization/'.$photo->image_path)}} @endif @endforeach @else {{ asset('/img/portfolio/logo2.jpg')}} @endif"/>
+<meta property="og:type" content="{{$organization->description}}" />
 @endsection

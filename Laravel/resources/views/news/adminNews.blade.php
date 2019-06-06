@@ -5,11 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+	<p><a href="{{ route('news.create')}}" class=" btn btn-warning btn-md">Създай новина</a></p>
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички Новини
-				<a href="{{ route('news.create')}}">Създай новина</a>
             </div>
         <div class="panel-body">
 	<div class="table-responsive">
@@ -25,41 +25,43 @@
 					<th>Принадлежи на</th>
 					<th>Снимка</th>
 					<th>Одобрен</th>
-					<th>Преглед</th>
 					<th>Управление</th>
 				</tr>
             </thead>
 			<tbody>
-				@foreach($news as $news)
+				@foreach($news as $one_news)
 				<tr>
-					<td>{{ $news->heading }}</td>
-					<td>{{ $news->article_type::find($news->article_id)->name }}</td>
+					<td>{{ $one_news->heading }}</td>
+					@if(isset($one_news->article_type::find($one_news->article_id)->name))
+					<td>{{ $one_news->article_type::find($one_news->article_id)->name }}</td>
+					@else
+					<td>...</td>
+					@endif
 					<td>				
-					@foreach($news->photos as $photo)
+					@foreach($one_news->photos as $photo)
 						@if($photo->purpose->description == 'front')	
 						<img src="{{ asset('/user_files/images/news/').'/'.$photo->image_path }}" alt="{{ $photo->purpose->description }}"
 						width="50" height="30">
 						@endif
 					@endforeach
 					</td>
-					<td>{{ (isset($news->approved_at)) ? 'Одобрена': 'Неодобрена' }}</td>
+					<td>{{ (isset($one_news->approved_at)) ? 'Одобрена': 'Неодобрена' }}</td>
+					
 					<td>
-						<a class="btn btn btn-info btn-sm" href="{{ route('news.show',$news->news_id)}}">Преглед</a>
-						</td>
-					<td>
-						<a class="btn btn-success btn-sm" href="{{ route('news.edit',$news->news_id)}}">Редактирай</a>
+						<a class="btn btn btn-info btn-block btn-sm" href="{{ route('news.show',$one_news->news_id)}}">Преглед</a>
+						<a class="btn btn-success btn-sm btn-block" href="{{ route('news.edit',$one_news->news_id)}}">Редактирай</a>
 						@if(Auth::user()->hasAnyRole(['admin','moderator']))
-							@if(!$news->approved_at)
-						<a class="btn btn-warning btn-sm" href="{{ route('news.approve',$news->news_id)}}">Одобри</a>
+							@if(!$one_news->approved_at)
+						<a class="btn btn-warning btn-sm btn-block" href="{{ route('news.approve',$one_news->news_id)}}">Одобри</a>
 							@else
-						<a class="btn btn-info btn-sm" href="{{ route('news.unApprove',$news->news_id)}}">Премахни одобрение</a>
+						<a class="btn btn-info btn-sm btn-block" href="{{ route('news.unApprove',$one_news->news_id)}}">Премахни одобрение</a>
 							@endif
 						@endif
 						@if( Auth::user()->hasRole('admin'))
-						<form style="display: inline-block" method="POST" action="{{ 	route('news.destroy',$news->news_id) }}" onsubmit="return ConfirmDelete('{{ 'новина '.$news->name }}')">
+						<form  method="POST" action="{{ 	route('news.destroy',$one_news->news_id) }}" onsubmit="return ConfirmDelete('{{ 'новина '.$one_news->name }}')">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
-							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+							<input class="btn btn-danger btn-sm btn-block" type="submit" name="submit" value="Изтрий">
 						</form>
 						@endif
 					</td>

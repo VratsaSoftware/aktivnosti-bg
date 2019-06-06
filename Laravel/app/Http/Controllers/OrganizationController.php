@@ -364,7 +364,7 @@ class OrganizationController extends Controller
     {
       $organization = Organization::find($id);
       $organization->approved_at = NULL;
-      $user->updated_by = Auth::user()->email;
+      $organization->updated_by = Auth::user()->email;
       $organization->save();
       return redirect()->back()->with('message', 'Одобрението на организация '.$organization->name.' е отменено!');
     }

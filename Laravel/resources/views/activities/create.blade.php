@@ -3,12 +3,20 @@
 @section('title', 'Създаване на активност')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
+	@if(count($organizations)==0)
+		<div class="text-center">
+			<h3>За да създадете активност първо трябва да имате организация</h3>
+			<p><a href="{{ route('organizations.create')}}" class=" btn btn-warning btn-md">Създай организация</a></p>
+		</div>
+		@else	
         <div class="col-md-8 col-md-offset-2">
-            <div class="card">          
+            <div class="card"> 
+						
                 <div class="card-body">
-
+				
                 @if($newActivityFlag === 1)
                         <div class="alert alert-success">
                             Организацията е създадена успешно! Моля продължете с последната стъпка - създаване на нова активност.
@@ -352,5 +360,5 @@
 		
 	});
 </script>
-
+@endif
 @endsection

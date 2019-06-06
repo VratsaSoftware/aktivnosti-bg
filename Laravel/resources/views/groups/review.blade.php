@@ -5,11 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+		<p><a href="{{ route('groupactivity.create', $activity->activity_id)}}" class=" btn btn-warning btn-md">Създай нова група</a></p>
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 Активност: {{$activity->name}}
-				<a href="{{ route('groupactivity.create', $activity->activity_id)}}">Създай нова група</a>
             </div>
         	<div class="panel-body">
 				<div class="table-responsive">

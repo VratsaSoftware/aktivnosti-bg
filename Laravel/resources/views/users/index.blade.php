@@ -48,16 +48,16 @@
 					<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 					<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
 					<td>
-						<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
+						<a class="btn btn-success btn-sm btn-block" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
 							@if(!$user->approved_at)
-								<a class="btn btn-warning btn-sm" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
+								<a class="btn btn-warning btn-sm btn-block" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
 							@else
-								<a class="btn btn-info btn-sm" href="{{ route('users.unApprove',$user->user_id)}}">Неодобрявам</a>	
+								<a class="btn btn-info btn-sm btn-block" href="{{ route('users.unApprove',$user->user_id)}}">Неодобрявам</a>	
 							@endif
-						<form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
+						<form method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
-							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+							<input class="btn btn-danger btn-sm btn-block" type="submit" name="submit" value="Изтрий">
 						</form>
 					</td>
 				</tr>
