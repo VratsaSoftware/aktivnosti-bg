@@ -13,7 +13,6 @@
                 var searchManager = new Microsoft.Maps.Search.SearchManager(map);
                 var requestOptions = {
                     bounds: map.getBounds(),
-                    showLocateMeButton: false,
                     where: 'България,'+city+','+address,
                     callback: function (answer, userData) {
                         map.setView({ bounds: answer.results[0].bestView });
