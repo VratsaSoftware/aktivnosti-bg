@@ -5,12 +5,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-11">
             <div class="card">
                 <div class="card-body">
                      <img src="{{ asset('/admin/img').'/registration_roadmap.png' }}" class="roadmap-image"> 
                 </div>
             </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">

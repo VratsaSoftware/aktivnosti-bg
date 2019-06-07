@@ -6,18 +6,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="card"> 
-               
+        <div class="col-md-11">
+            <div class="card">
                 <div class="card-body">
                     @if($newOrganizationFlag === 1)
                         <div class="alert alert-success">
                             Потребителят е създаден успешно! Моля продължете със създаването на нова организация.
                         </div>  
-                <div class="card-body">
-                     <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
-                </div> 
+                        <div class="card-body">
+                            <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
+                        </div> 
                     @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card"> 
+                <div class="card-body">
                     <form id="register" method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
                         @csrf
 

@@ -9,12 +9,12 @@
 	<!-- Maps support -->
 	<script>
 		//prepare variables for js
-		var latitude = '{{  $activity->latitude }}';
-		var longitude = '{{  $activity->longitude }}';
-		var auth = '{{ env("MAP_KEY",'') }}';
-		var activity_id = '{{  $activity->activity_id }}';
-		var city = '{{ $activity->city->name }}';
-		var address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';		
+		var latitude = '{{  $activity->latitude }}',
+			longitude = '{{  $activity->longitude }}',
+			auth = '{{ env("MAP_KEY",'') }}',
+			activity_id = '{{  $activity->activity_id }}',
+			city = '{{ $activity->city->name }}',
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';		
 	</script>
 	<script src="{{ asset('js/map.js') }}"></script>
 	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
@@ -59,7 +59,7 @@
 				<li><i class="fas fa-map-marked"></i>{{$activity->address}}</li>
 				<li>
 					 <div id="myMap" style="position:relative;width:100%;height:130px;"></div>
-				</li>
+				</li> 
 			</ul>
 			<!-- Subscribe button-->
 			<div class="popup" >

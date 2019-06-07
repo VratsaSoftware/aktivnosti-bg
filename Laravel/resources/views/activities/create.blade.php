@@ -11,21 +11,22 @@
 			<h3>За да създадете активност първо трябва да имате организация</h3>
 			<p><a href="{{ route('organizations.create')}}" class=" btn btn-warning btn-md">Създай организация</a></p>
 		</div>
-		@else	
-        <div class="col-md-8 col-md-offset-2">
-            <div class="card"> 
-						
-                <div class="card-body">
-				
-                @if($newActivityFlag === 1)
+		@else
+            @if($newActivityFlag === 1)
+                <div class="col-md-11">
+                    <div class="card">
                         <div class="alert alert-success">
                             Организацията е създадена успешно! Моля продължете с последната стъпка - създаване на нова активност.
                         </div>  
+                        <div class="card-body">
+                            <img src="{{ asset('/admin/img').'/registration_roadmap_act.png' }}" class="roadmap-image">
+                         </div> 
+                    </div>
+                </div>  
+            @endif
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card"> 						
                 <div class="card-body">
-                     <img src="{{ asset('/admin/img').'/registration_roadmap_act.png' }}" class="roadmap-image">
-                </div> 
-                 @endif
-
                     <form method="POST" action="{{ route('activities.store') }}" enctype="multipart/form-data">
                         @csrf
 

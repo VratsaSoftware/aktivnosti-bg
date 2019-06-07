@@ -23,9 +23,8 @@
 
                     <p>Влязохте в профила си успешно!</p>
                     <p>След одобрение от модератор ще имате достъп до другите функционалности на сайта!</p>
+                    <p> Може да се свържете с нас на <a href="mailto:contacts@aktivnosti.bg">contacts@aktivnosti.bg</a></p>
                     <button type="button" class="btn btn-primary" onclick="window.location='{{ url("/") }}'">Начална страница</button>
-
-
                 </div>
             </div>
         </div>

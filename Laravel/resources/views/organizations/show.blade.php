@@ -4,6 +4,20 @@
 
 @section('content')
 
+@push('head')
+	<!-- Maps support -->
+	<script>
+		//prepare variables for js
+		var latitude,
+			longitude,
+			auth = '{{ env("MAP_KEY",'') }}',
+			city = '{{ $organization->city->name }}',
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$organization->address) }}';		
+	</script>
+	<script src="{{ asset('js/map.js') }}"></script>
+	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+@endpush
+
 <!-- main-container -->
     <div class="container main-container">
 		<!-- left side -->
@@ -36,6 +50,9 @@
                 <li><i class="fas fa-envelope"></i>{{ $organization->email }}</li>
                 <li><i class="fas fa-mobile-alt"></i>{{ $organization->phone }}</li>
                 <li><i class="fas fa-map-marked"></i>{{ $organization->address }}</li>
+                <li>
+					<div id="myMap" style="position:relative;width:100%;height:130px;"></div>
+				</li> 
             </ul>
             <!-- Subscribe button-->
             <div class="popup">
