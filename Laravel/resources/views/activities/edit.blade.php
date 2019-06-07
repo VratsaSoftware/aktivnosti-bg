@@ -197,9 +197,9 @@
 
                             <div class="col-md-6">
                                 <input type="file" id="gallery" name="gallery[]" multiple>
-                                @if ($errors->has('gallery'))
+                                @if ($errors->has('gallery.*'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('gallery') }}</strong>
+                                        <strong>{{ $errors->first('gallery.*') }}</strong>
                                     </span>
                                 @endif 
 

@@ -5,7 +5,6 @@
 @section('content')
 		<!-- main-container -->	
 	<div class=" container main-container">
-		
 			@foreach($organizations as $organization)
 			<!-- single organization-->
 				<div class="col-md-3 col-sm-6 service-box">
@@ -34,7 +33,9 @@
 @endsection
 @section('og')
 @php($organization = App\Models\Organization::select()->where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first())
-<meta property="og:title" content="{{$organization->name}}"/>
-<meta property="og:image" content="{{ asset('/img/portfolio/logo2.jpg')}}"/>
-<meta property="og:type" content="{{$organization->description}}" />
+@isset($organization)
+	<meta property="og:title" content="{{$organization->name}}"/>
+	<meta property="og:image" content="{{ asset('/img/portfolio/logo2.jpg')}}"/>
+	<meta property="og:type" content="{{$organization->description}}" />
+@endisset
 @endsection

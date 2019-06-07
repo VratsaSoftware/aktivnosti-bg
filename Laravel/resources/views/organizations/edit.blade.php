@@ -153,9 +153,9 @@
 							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
 							<div class="col-md-6">
 								<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
-								@if ($errors->has('gallery'))
+								@if ($errors->has('gallery.*'))
 								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('gallery') }}</strong>
+									<strong>{{ $errors->first('gallery.*') }}</strong>
 								</span>
 								@endif  
 							</div>

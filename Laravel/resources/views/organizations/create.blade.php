@@ -6,18 +6,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="card"> 
-               
+        <div class="col-md-11">
+            <div class="card">
                 <div class="card-body">
                     @if($newOrganizationFlag === 1)
                         <div class="alert alert-success">
                             Потребителят е създаден успешно! Моля продължете със създаването на нова организация.
                         </div>  
-                <div class="card-body">
-                     <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
-                </div> 
+                        <div class="card-body">
+                            <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
+                        </div> 
                     @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card"> 
+                <div class="card-body">
                     <form id="register" method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -145,9 +150,9 @@
 							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
 							<div class="col-md-6">
 								<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
-								@if ($errors->has('gallery'))
+								@if ($errors->has('gallery.*'))
 								<span class="invalid-feedback" role="alert">
-									<strong>{{ $errors->first('gallery') }}</strong>
+									<strong>{{ $errors->first('gallery.*') }}</strong>
 								</span>
 								@endif  
 							</div>

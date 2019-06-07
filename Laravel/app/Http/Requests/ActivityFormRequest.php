@@ -35,8 +35,9 @@ class ActivityFormRequest extends FormRequest
 				'category_id' => 'gt:0',
 				'description' => 'required|min:15|max:2000',
 				'address' => 'required|string|max:255',
-				'photo'=> 'sometimes|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
-				'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+				'photo'=> 'sometimes|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
+				'crop' => 'max:1024',
+				'gallery.*'=> 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
 				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
 				'min_age' => 'nullable|integer|between:1,100',
@@ -62,8 +63,8 @@ class ActivityFormRequest extends FormRequest
 				'category_id' => 'gt:0',
 				'description' => 'required|min:15|max:2000',
 				'address' => 'required|string|max:255',
-				'photo'=> 'required|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
-				'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+				'photo'=> 'required|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
+				'gallery.*'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
 				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
 				'min_age' => 'nullable|integer|between:1,100',
@@ -112,8 +113,8 @@ class ActivityFormRequest extends FormRequest
             'photo.required' => 'Изборът на снимка е задължителен',
             'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
             'gallery.between' => 'Броя на снимките е надвишен',
-            'gallery.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
-            'gallery.mimes' => 'Формата на изображението не се поддържа',
+            'gallery.*.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
+            'gallery.*.mimes' => 'Формата на изображението не се поддържа',
         ];
     }
 }
