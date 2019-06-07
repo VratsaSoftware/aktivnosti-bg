@@ -32,7 +32,7 @@ class OrganizationFormRequest extends FormRequest
 			'website' => 'max:255',
             'phone' => 'regex:/^[0-9\-\(\)\/\+\s]*$/', 
 			'photo'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
-			'crop' => 'max:1024',
+			'crop' => 'max:2048',
 			'photo' => 'dimensions:min_width=400,min_height=400',
 			'gallery.*'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 			'gallery'=> 'array|between:1,6',
