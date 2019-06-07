@@ -32,8 +32,9 @@ class OrganizationFormRequest extends FormRequest
 			'website' => 'max:255',
             'phone' => 'regex:/^[0-9\-\(\)\/\+\s]*$/', 
 			'photo'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+			'crop' => 'max:1024',
 			'photo' => 'dimensions:min_width=400,min_height=400',
-			'gallery'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
+			'gallery.*'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 			'gallery'=> 'array|between:1,6',
         ];
     }
@@ -49,10 +50,11 @@ class OrganizationFormRequest extends FormRequest
             'phone.regex' => 'Моля въведете валиден телефонен номер',
 			'photo.mimes' => 'Формата на изображението не се поддържа',
             'photo.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
+            'crop.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',			
 			'photo.dimensions' => 'снимката е с много ниска резолюция',
-			'gallery.between' => 'Броя на снимките е надвишен',
-			'gallery.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
-			'gallery.mimes' => 'Формата на изображението не се поддържа',
+			'gallery.*.between' => 'Броя на снимките е надвишен',
+			'gallery.*.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
+			'gallery.*.mimes' => 'Формата на изображението не се поддържа',
         ];
     }
 }
