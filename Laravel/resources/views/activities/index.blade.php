@@ -49,6 +49,7 @@
 									@if ($photo->purpose->description == 'mine')
 										<img class="activity-img"src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 									@endif
+									@break
 								@endforeach
 								<div class="portfolio_item_hover">
 									<div class="portfolio-border clearfix">

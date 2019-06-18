@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         @else
-                            <input name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
+                            <input id="hidden" data-amount="{{Auth::user()->organizations->first()->address}}" name="organization_id" type="hidden" value="{{ Auth::user()->organizations->first()->organization_id }}">
                         @endif
                         {{-- category --}}
                         <div class="form-group row">
@@ -345,21 +345,6 @@
         </div>
     </div>
 </div>
-<script>
-	$( window ).load(function() {
-		if($('.is-invalid').length == 0){
-		 var sampleAmount = $('#select option:selected').data('amount');
-		 $('#address').val(sampleAmount);
-		 console.log(sampleAmount);
-		}
-		
-	});
-	$( '#select' ).change(function() {
-		 var sampleAmount = $('#select option:selected').data('amount');
-		 $('#address').val(sampleAmount);
-		 console.log(sampleAmount);
-		
-	});
-</script>
+
 @endif
 @endsection

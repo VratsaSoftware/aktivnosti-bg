@@ -31,7 +31,8 @@
 				@if($photo->image_path!='logo.png')
 				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
 				
-				@endif			
+				@endif
+				@break				
 			@endforeach
 			@else
 				<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">

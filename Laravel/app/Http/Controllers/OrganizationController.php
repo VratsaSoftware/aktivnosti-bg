@@ -247,8 +247,6 @@ class OrganizationController extends Controller
 		}
 		
 		$organization->save();
-		
-		
 		$purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
 		$logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);  
 		
@@ -264,6 +262,9 @@ class OrganizationController extends Controller
 			if($crop){
 				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop));
 				$img = Image::make($info);
+				// get file size
+				$size = $img->filesize();
+				dd($size);
 				$img->save(public_path('user_files/images/organization/'.$file_name));
 			}else{
 				$store_file = $request['photo']->move('user_files/images/organization', $file_name);

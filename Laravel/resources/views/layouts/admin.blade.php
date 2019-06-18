@@ -301,18 +301,20 @@
     <script src="{{ asset('admin/js/activnosti.js') }}"></script>
 	<script>
 		$( window ).load(function() {
-			if($('.is-invalid').length == 0){
-			 var sampleAmount = $('#select option:selected').data('amount');
-			 $('.address').val(sampleAmount);
-			 console.log(sampleAmount);
-			}
 			
+			if($('.is-invalid').length == 0){
+				
+				if($( '#select option' ).data('amount')){
+					 var sampleAmount = $('#select option:selected').data('amount');
+				}else{
+					 var sampleAmount = $('#hidden').data('amount');	
+				}
+				$('.address').val(sampleAmount);
+			}			
 		});
 		$( '#select' ).change(function() {
 			 var sampleAmount = $('#select option:selected').data('amount');
-			 $('.address').val(sampleAmount);
-			 console.log(sampleAmount);
-			
+			 $('.address').val(sampleAmount);	
 		});
 	</script>
 </body>
