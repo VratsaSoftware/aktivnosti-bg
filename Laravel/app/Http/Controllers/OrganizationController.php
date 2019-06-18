@@ -262,9 +262,6 @@ class OrganizationController extends Controller
 			if($crop){
 				$info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop));
 				$img = Image::make($info);
-				// get file size
-				$size = $img->filesize();
-				dd($size);
 				$img->save(public_path('user_files/images/organization/'.$file_name));
 			}else{
 				$store_file = $request['photo']->move('user_files/images/organization', $file_name);
