@@ -59,3 +59,9 @@ $(window).load(function () {
         }
     });
 });
+$('.portfolio_filter li a').click(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+        scrollTop: $('.clearfix').offset().top
+    }, 800);
+});

@@ -28,8 +28,7 @@ body {
 }
 
 .no-padding [class^="col-"] {
-	padding-left: 0;
-	padding-right: 0;
+	padding:2px;
 }
 
 .main-container {
@@ -2976,8 +2975,13 @@ img {
 }
 
 @media only screen and (max-width: 560px) {
+	.portfolio .categories-grid .categories ul{
+		display: block;
+	}
 	.portfolio .categories-grid .categories ul li {
 		float: none;
+		width: 40%;
+		display: inline-block;
 	}
 	#new_row_1 {
 		display: none;
