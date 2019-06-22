@@ -2,6 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-51734359-9"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){
+			dataLayer.push(arguments);
+			}
+		gtag('js', new Date());
+		gtag('config', 'UA-51734359-9');
+	</script>	
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name', 'Aktivnosti-bg') }}</title>
