@@ -52,13 +52,5 @@
               $handle.text(val);
           },
           // Callback function
-          onSlideEnd: function(position, value) {
-            //bobby call controller with age and free/paid check box
-            if(free){
-              window.location.href = basePath+'?age='+value+'&free=1';   
-            }
-            else{
-              window.location.href=basePath+'?age='+value;
-            }
-          }
+          
       });
