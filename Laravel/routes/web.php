@@ -110,4 +110,4 @@ Route::get('/news', 'NewsController@index')->name('news.index');
 Route::get('/news/{id}', 'NewsController@show')->name('news.show');
 
 //for test purposes, will be deleted later
-Route::get('/test','TestController@index')->name('test.index');
+//Route::get('/test','TestController@index')->name('test.index');

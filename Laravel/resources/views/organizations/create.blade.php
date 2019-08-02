@@ -166,7 +166,7 @@
 						<!--end crop image-->
 						<!--gallery form-group -->
 						<div class="form-group row">
-							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
+							<label for="gallery" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
 							<div class="col-md-6">
 								<input type="file" id="gallery" name="gallery[]" class="cropit-image-input" multiple>
 								@if ($errors->has('gallery.*'))

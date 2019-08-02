@@ -134,7 +134,7 @@
 									<input type="file" id="photo" name="photo" class="cropit-image-input">
 									<div class="cropit-preview"></div>
 									<div class="image-size-label">
-									<input type="hidden" name="crop" class="crop" />	
+										<input type="hidden" name="crop" class="crop" />	
 										<a class="btn btn-warning btn-sm back">назад</a>
 									</div>
 									<input type="range" class="cropit-image-zoom-input">

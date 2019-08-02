@@ -28,8 +28,7 @@ body {
 }
 
 .no-padding [class^="col-"] {
-	padding-left: 0;
-	padding-right: 0;
+	padding:2px;
 }
 
 .main-container {
@@ -65,7 +64,18 @@ a:link{
 	color: #ffbf00;
 	font-size: 11px;
 }
-
+.loading {
+            background: lightgrey;
+            padding: 15px;
+            position: fixed;
+            border-radius: 4px;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+            margin: -40px 0 0 -50px;
+            z-index: 2000;
+            display: none;
+        }
 
 /* typography ==================================================*/
 
@@ -131,6 +141,55 @@ h5 {
 }
 
 .double-bounce2 {
+	-webkit-animation-delay: -1.0s;
+	animation-delay: -1.0s;
+}
+#preloaderA {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #f5f5f5b0;
+	/* change if the mask should be a color other than white */
+	z-index: 1000;
+	/* makes sure it stays on top */
+}
+
+.pre-containerA {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	bottom: auto;
+	right: auto;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+	text-align: center;
+}
+
+.spinnerA {
+	width: 40px;
+	height: 40px;
+	position: relative;
+	margin: 100px auto;
+}
+
+.double-bounce1A,
+.double-bounce2A {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #ffbf00;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-animation: bounce 2.0s infinite ease-in-out;
+	animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2A {
 	-webkit-animation-delay: -1.0s;
 	animation-delay: -1.0s;
 }
@@ -928,6 +987,7 @@ b i:last-child {
     width: 100%;
     height: 100%;
     opacity: 0;
+	margin-left: 4px;
     background-color: rgba(46, 132, 206, 0.7);
     content: '';
     transition: 0.4s;
@@ -2975,8 +3035,13 @@ img {
 }
 
 @media only screen and (max-width: 560px) {
+	.portfolio .categories-grid .categories ul{
+		display: block;
+	}
 	.portfolio .categories-grid .categories ul li {
 		float: none;
+		width: 40%;
+		display: inline-block;
 	}
 	#new_row_1 {
 		display: none;

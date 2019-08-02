@@ -56,35 +56,54 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    { 
-        //Be careful here :)
-        //Changes affects front page
-        
+   
+	public function index(Request $request){
+
+		//Be careful here :)
+        //Changes affects front page  
         $categories=Category::all();
-
-        $age = 0;
-
-        if($request->has('free') and $request->free == 1){
-            $priceCondition = "price is NULL";
+		$activities = new Activity;
+		
+		$request->session()->put('free', $request->has('free') ? $request->get('free') : ($request->session()->has('free') ?$request->session()->get('free') : 0));
+		$request->session()->put('cat', $request->has('cat') ? $request->get('cat') : ($request->session()->has('cat') ? $request->session()->get('cat') : 0));
+		$request->session()->put('age', $request->has('age') ? $request->get('age') : ($request->session()->has('age') ?$request->session()->get('age') : 0));
+       		
+		if($request->session()->get('free') > 0 ){
+            $priceCondition = "price is NULL";		
         }
         else{
-            $priceCondition = true;
+            $priceCondition = true;			
         }
-
-        if($request->has('age') && $request->age > 0 ){
-            $age = $request->age;
-            $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
-        }
-        else {
-            $ageCondition = true;
-        }
-
-        $activities=Activity::latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->whereRaw($priceCondition)->whereRaw($ageCondition)->paginate(25)->onEachSide(3);
- 
-        return view('activities.index', compact('activities', 'categories'));
-    }
-
+        			
+		if($request->session()->get('age') > 0 ){
+			$age = $request->session()->get('age');	
+			$ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
+		
+        }else{
+			$ageCondition = true;
+		}
+		        
+				
+		if ($request->session()->get('cat')>0){
+			$activities=$activities->where('category_id', $request->session()->get('cat'));
+			$activities=$activities->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(42)->onEachSide(3);
+		}else{
+			$activities=$activities->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(24)->onEachSide(3);
+		}
+		
+        if ($request->ajax()){
+            return view('activities.index', compact('activities', 'categories'));
+			
+        }else{
+			
+			$request->session()->flush();
+			$activities = new Activity;			
+			$activities=$activities->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(24)->onEachSide(3);
+			
+            return view('activities.ajax', compact('activities', 'categories'));
+		}
+		
+	}
     public function manage()
     {
 

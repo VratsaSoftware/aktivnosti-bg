@@ -216,7 +216,7 @@
                                     @php($organization_name = $activity->organization->name)
 									
 										@foreach($organizations as $organization)
-											@if(isset($organization->approved_at))
+											
 												
 													@if($organization->name === $organization_name)
 					
@@ -225,7 +225,7 @@
 										<option value="{{$organization->organization_id}}">{{$organization->name}}</option>
 													@endif
 												
-											@endif
+											
 										@endforeach
 									@else										
 										@foreach($organizations as $organization)

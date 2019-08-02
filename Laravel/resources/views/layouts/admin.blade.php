@@ -2,6 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-51734359-9"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){
+			dataLayer.push(arguments);
+			}
+		gtag('js', new Date());
+		gtag('config', 'UA-51734359-9');
+	</script>	
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name', 'Aktivnosti-bg') }}</title>
@@ -301,18 +311,20 @@
     <script src="{{ asset('admin/js/activnosti.js') }}"></script>
 	<script>
 		$( window ).load(function() {
-			if($('.is-invalid').length == 0){
-			 var sampleAmount = $('#select option:selected').data('amount');
-			 $('.address').val(sampleAmount);
-			 console.log(sampleAmount);
-			}
 			
+			if($('.is-invalid').length == 0){
+				
+				if($( '#select option' ).data('amount')){
+					 var sampleAmount = $('#select option:selected').data('amount');
+				}else{
+					 var sampleAmount = $('#hidden').data('amount');	
+				}
+				$('.address').val(sampleAmount);
+			}			
 		});
 		$( '#select' ).change(function() {
 			 var sampleAmount = $('#select option:selected').data('amount');
-			 $('.address').val(sampleAmount);
-			 console.log(sampleAmount);
-			
+			 $('.address').val(sampleAmount);	
 		});
 	</script>
 </body>

@@ -178,6 +178,7 @@ class OrganizationController extends Controller
     public function show($id)
     {
         $organization = Organization::findOrFail($id);
+
         $activities = Activity::where('organization_id', $id)->where('available',1)->where('approved_at','!=', null)->where('category_id','!=',null)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->get();
         $purpose_gallery = Purpose::select('purpose_id')->where('description','gallery')->first();
         $purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
@@ -222,6 +223,7 @@ class OrganizationController extends Controller
         $organization->website = $request->get('website');
         $organization->address = $request->get('address');
         $organization->phone = $request->get('phone');
+
         $organization->city_id = $default_city->city_id;
 
         if(Auth::user()->hasAnyRole(['admin','moderator'])){
@@ -234,8 +236,6 @@ class OrganizationController extends Controller
         $logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);
 
         if(isset($request['photo'])){
-
-
 
             $original_name = $request['photo']->getClientOriginalName();
             $file_name = uniqid().$original_name;

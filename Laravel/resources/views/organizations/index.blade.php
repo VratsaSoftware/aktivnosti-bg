@@ -11,16 +11,17 @@
 					<a href="{{ route('organizations.show',$organization->organization_id)}}">
 						<!-- service-box -->
 						<div class="org_image">
-						@if(!empty($organization->photos->all()))
+						
 						@foreach($organization->photos as $photo)
 							@if($photo->purpose->description == 'logo'&& $photo->purpose->description != 'gallery' &&$photo->image_path!='logo.png')													
 							<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
-							
-							@endif
+								@break
+							@else
+							<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">	
+								@break						
+							@endif	
 						@endforeach
-						@else
-							<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">							
-						@endif						
+											
 						</div>
 						<h4>{{$organization->name}}</h4>
 						<div class="h-10"></div>

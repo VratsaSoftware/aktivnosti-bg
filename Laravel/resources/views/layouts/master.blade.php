@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-51734359-9"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){
+			dataLayer.push(arguments);
+			}
+		gtag('js', new Date());
+		gtag('config', 'UA-51734359-9');
+	</script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
 	<!-- range slider -->
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
+	@yield('css')
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -65,7 +76,9 @@
     <!-- back to top -->
     <a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
     <!-- end back to top -->
+	
     <!-- jQuery -->
+
     <script src="{{asset('js/jquery-2.1.1.js')}}"></script>
     <!-- <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/jquery-migrate-3.0.0.min.js"></script> -->
@@ -86,7 +99,7 @@
             age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
     </script>
     <script src="{{asset('js/rangeslider.min.js')}}"></script>
-    <script src="{{asset('js/rangeslider.js')}}"></script>
+
     <!-- single page script-->
 	<script src="{{asset('js/modernizr.js')}}"></script>
     <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
@@ -97,36 +110,28 @@
 	<script src="{{ asset('js/share.js') }}"></script>
 	<script src="{{ asset('js/map.js') }}"></script>
     <!-- Free/Paid check box and age slider management-->
-     <script type="text/javascript"> 
-        var inputRange = $('input[type="range"]');
-        if(age){
-            inputRange.val(age);
-            inputRange.rangeslider('update', true);
-        }
-        if(free){
-            $('#check').prop('checked',true);
-        }
-        else{
-            $('#check').prop('checked',false);
-        }
-        $(function(){
-            $('#check').on('change',function(){
-                if ($('#check').is(':checked')) {
-                    if(age){
-                        window.location.href = basePath+'?age='+age+'&free=1';   
-                    }
-                    else{
-                        window.location.href = "{{route('activities.index',['free' => 1])}}";
-                    }
-                }
-                else{
-                    window.location.href = "{{route('activities.index')}}";
-                }
-            });
-        });
+     <script> 
+        //Prepare variables to grant access from scripts below 
+        var basePath = '<?php echo $basePath ?>',
+            free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
+            age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
     </script>
-
-
+    <script src="{{asset('js/rangeslider.min.js')}}"></script>
+    <script src="{{asset('js/rangeslider.js')}}"></script>
+    <!-- single page script-->
+	<script src="{{asset('js/modernizr.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
+	<script src="{{asset('js/limititems.js')}}"></script>
+	<script src="{{ asset('js/share.js') }}"></script>
+	<script src="{{ asset('js/slick.js') }}"></script>
+	<script src="{{ asset('js/map.js') }}"></script>
+    <!-- Free/Paid check box and age slider management-->
+     
+	
+	<script src="{{asset('/js/filterAjax.js')}}"></script>
+    <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
 
 </body>
 

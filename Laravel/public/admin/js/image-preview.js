@@ -22,3 +22,7 @@ $(document).ready(function(){
 submitForms = function(){
     document.getElementById("register").submit();
 }
+ $(window).bind("pageshow", function() {
+      //clear input file after back button
+      $('input[id="photo"]').val('').end();
+   });

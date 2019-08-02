@@ -27,7 +27,8 @@
 			@foreach ($logo as $photo)
 			<div class="act-img">
 				<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-			</div>						
+			</div>	
+				@break
 			@endforeach
 			<div class="h-30"></div>
 		</div>
@@ -132,7 +133,7 @@
 			</div>
 		</div>
 		@else
-		<p class="description-text">{{$activity->description}}</p>
+		<p class="description-text"><span>Подробности за {{$activity->name}}:</span> {{$activity->description}}</p>
 		@endif
 	</div>
 		<!--right side-->
@@ -174,15 +175,15 @@
 		@php($activitySubcategory = $activity->subcategory_id)
 		
 		<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-		
+		<!--
 		@if($activitySubcategory)
 			
 			<div class="h-section">
 				<h4 class="h-activity"><span>Подобни активности</span></h4>
 			</div>
-			<!-- slick-slider-->
+			
 			<div class="responsive">
-					<!--single item-->				
+							
 											
 					@foreach($activities as $activ)
 						@if((isset($activitySubcategory) && $activ->subcategory_id == $activitySubcategory) && ($activ->activity_id != $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
@@ -207,10 +208,10 @@
 					</div>
 						@endif
 					@endforeach
-				<!--end single item-->
+				
 			</div>
 		@endif
-			<!-- end slick-slider-->
+		-->	
 			<div class="h-section">				
 				<h4 class="h-activity"><span>Предложения от категория {{$activity->category->name}}</span></h4>
 			</div>
