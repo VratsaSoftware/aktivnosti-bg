@@ -12,16 +12,29 @@
                     @if($newOrganizationFlag === 1)
                         <div class="alert alert-success">
                             Потребителят е създаден успешно! Моля продължете със създаването на нова организация.
-                        </div>  
+                        </div>
                         <div class="card-body">
                             <img src="{{ asset('/admin/img').'/registration_roadmap_org.png' }}" class="roadmap-image">
-                        </div> 
+                        </div>
                     @endif
+                </div>
+                <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            Следните полета не са попълнени коректно, моля въведете валидни данни:
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                         </ul>
+                    </div>
+                @endif
                 </div>
             </div>
         </div>
+        {{ var_dump($errors) }}
         <div class="col-md-8 col-md-offset-2">
-            <div class="card"> 
+            <div class="card">
                 <div class="card-body">
                     <form id="register" method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
                         @csrf
@@ -67,7 +80,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
 						<div class="form-group row">
                             <label for="website" class="col-md-4 col-form-label text-md-right">{{ __('Сайт на организацията') }}</label>
 
@@ -81,7 +94,7 @@
                                 @endif
                             </div>
                         </div>
-						
+
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}</label>
 
@@ -127,6 +140,17 @@
                         <div class="form-group row">
 							<div class="image-editor">
 								<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Изберете заглавна снимка') }}</label>
+                                 @if ($errors->has('photo'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('photo') }}</strong>
+                                    </span>
+                                @endif
+
+                                @if ($errors->has('crop'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('crop') }}</strong>
+                                        </span>
+                                 @endif
 								<div class="col-md-6">
 									<input type="file" id="photo" name="photo" class="cropit-image-input">
 									<div class="cropit-preview"></div>
@@ -136,16 +160,11 @@
 									</div>
 									<input type="range" class="cropit-image-zoom-input">
 									<button id="crop_button" class="btn btn-warning btn-sm" form="crop_form" type="submit">Изрежи</button>
-									@if ($errors->has('photo'))
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $errors->first('photo') }}</strong>
-									</span>
-									@endif  
 								</div>
 							</div>
 						</div>
 						<!--end crop image-->
-						<!--gallery form-group -->										
+						<!--gallery form-group -->
 						<div class="form-group row">
 							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
 							<div class="col-md-6">
@@ -154,7 +173,7 @@
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $errors->first('gallery.*') }}</strong>
 								</span>
-								@endif  
+								@endif
 							</div>
 						</div>
 						<!--end gallery form-group -->
@@ -173,7 +192,7 @@
                                 Полетата означени със звездичка са задължителни!
                             </div>
                         </div>
-						
+
                         <div class="form-group row mb-0">
                             <div class="col-md-8 col-md-offset-2 text-center">
                             @if($newOrganizationFlag === 1)
