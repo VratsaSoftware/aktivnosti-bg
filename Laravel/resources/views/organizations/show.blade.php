@@ -12,7 +12,7 @@
 			longitude,
 			auth = '{{ env("MAP_KEY",'') }}',
 			city = '{{ $organization->city->name }}',
-			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$organization->address) }}';		
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$organization->address) }}';
 	</script>
 	<script src="{{ asset('js/map.js') }}"></script>
 	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
@@ -25,14 +25,13 @@
 
             <!--pictures from Adobe Stock-->
             <div class="org-img">
-		
+
 			@if(count($logo)!=0)
-			@foreach($logo as $photo)
+			@foreach($logo->sortByDesc('updated_at') as $photo)
 				@if($photo->image_path!='logo.png')
 				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
-				
+                @break
 				@endif
-				@break				
 			@endforeach
 			@else
 				<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
@@ -53,7 +52,7 @@
                 <li><i class="fas fa-map-marked"></i>{{ $organization->address }}</li>
                 <li>
 					<div id="myMap" style="position:relative;width:100%;height:130px;"></div>
-				</li> 
+				</li>
             </ul>
             <!-- Subscribe button-->
             <div class="popup">
@@ -93,7 +92,7 @@
 			<div class="col-md-6 col-sm-12 col-xs-12">
 				<div class="h-section">
 					<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-					<h4 class="h-activity"><span>Снимки на {{ str_limit( $organization->name, 15) }}</span></h4>	
+					<h4 class="h-activity"><span>Снимки на {{ str_limit( $organization->name, 15) }}</span></h4>
 				</div>
 				@if(count($gallery) != 0)
 				<div class="gallery-container">
@@ -107,14 +106,14 @@
 									</a>
 								</div>
 							</div>
-							@endforeach						   
+							@endforeach
 						</div>
 					</div>
 				</div>
 			@else
 				<h5>Няма добавени снимки</h5>
 			@endif
-			</div> 
+			</div>
 			<!-- org activity -->
 			<div class="col-md-6 col-sm-12 col-xs-12">
 			@if(count($activities->all())!=0)
@@ -143,7 +142,7 @@
 									@isset($activity->category->description)
 										<img src="{{asset('img/portfolio/'.$activity->category->description)}}" alt="logo">
 									@endisset
-								</div> 
+								</div>
 								<!-- end item logo-->
 							</div>
 						</a>
@@ -163,30 +162,30 @@
     let imgSrc = $(this).find("img").attr("src");
      $(this).css('background-image', 'url(' + imgSrc + ')');
   })
-            
-  
+
+
   $(".img-c").click(function() {
     let w = $(this).outerWidth()
     let h = $(this).outerHeight()
     let x = $(this).offset().left
     let y = $(this).offset().top
-    
-    
+
+
     $(".active").not($(this)).remove()
     let copy = $(this).clone();
     copy.insertAfter($(this)).height(h).width(w).delay(500).addClass("active")
     $(".active").css('top', y - 8);
     $(".active").css('left', x - 8);
-    
+
       setTimeout(function() {
     copy.addClass("positioned")
   }, 0)
-    
-  }) 
-  
-  
 
-  
+  })
+
+
+
+
 })
 
 $(document).on("click", ".img-c.active", function() {

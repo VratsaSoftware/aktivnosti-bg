@@ -22,14 +22,12 @@ use Carbon\Carbon;
 class TestController extends Controller
 {
     public function index(){
-    	
 
-    	
-    	dd(Activity::firstOrfail()->city->name);
+        $activity = Activity::find(2);
+        foreach($activity->photos as $photo){
+            print($photo->purpose->description);
 
-    	
-
-
+        }
 
     }
 }

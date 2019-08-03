@@ -12,7 +12,7 @@
 */
 
 
-//authentication 
+//authentication
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 
@@ -22,37 +22,37 @@ Route::group(['middleware' => 'auth'], function () {
 
 		//users management, admin side
 		Route::resource('/citadel/users', 'UsersController');
-		
+
 		//organizations management
 		Route::resource('/citadel/organizations', 'OrganizationController')->except('destroy');
 		Route::get('citadel/organizations', 'OrganizationController@adminOrg')->name('organizations.adminOrg');
-		
+
 
 		//users management
 		Route::resource('/citadel/profile', 'ProfileController');
-		
-		//dispatch approve method in Users Controller 
+
+		//dispatch approve method in Users Controller
 		Route::get('citadel/users/approve/{id}', 'UsersController@approve')->name('users.approve');
 
-		//dispatch unApprove method in Users Controller 
+		//dispatch unApprove method in Users Controller
 		Route::get('citadel/users/unApprove/{id}', 'UsersController@unApprove')->name('users.unApprove');
 
-		//dispatch kickUserFromOrganization method in Users Controller 
+		//dispatch kickUserFromOrganization method in Users Controller
 		Route::get('citadel/users/kickUserFromOrganization/{id}/{organization_id}', 'UsersController@kickUserFromOrganization')->name('users.kickUserFromOrganization');
-		
+
 		//delete organizations
 		Route::delete('citadel/organizations/destroy/{id}', 'OrganizationController@destroy')->name('organizations.destroy');
 
-		//dispatch approve method in Organizations Controller 
+		//dispatch approve method in Organizations Controller
 		Route::get('citadel/organizations/approve/{id}', 'OrganizationController@approve')->name('organizations.approve');
 
-		//dispatch unApprove method in Organizations Controller 
+		//dispatch unApprove method in Organizations Controller
 		Route::get('citadel/organizations/unAapprove/{id}', 'OrganizationController@unApprove')->name('organizations.unApprove');
-		
+
 		//delete gallery photo
 		Route::delete('citadel/activities/destroyGallery/{id}', 'ActivityController@destroyGallery')->name('activities.destroyGallery');
 		Route::delete('citadel/organizations/destroyGallery/{id}', 'OrganizationController@destroyGallery')->name('organizations.destroyGallery');
-		
+
 		//activities management
 		Route::get   ('/citadel/activity','ActivityController@manage')->name('activities.manage');
 		Route::get   ('/citadel/activity/create','ActivityController@create')->name('activities.create');
@@ -83,14 +83,14 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/citadel/schedule/{groupId}/review','ScheduleController@review')->name('schedule.review');
 
 		//news management
-		Route::resource('/citadel/news', 'NewsController');	
+		Route::resource('/citadel/news', 'NewsController');
 		Route::get('citadel/news', 'NewsController@adminNews')->name('news.adminNews');
 		Route::get('/citadel/news/approve/{id}', 'NewsController@approve')->name('news.approve');
 		Route::get('/citadel/news/unAapprove/{id}', 'NewsController@unApprove')->name('news.unApprove');
 		Route::get('/get/news/{organziation}/{activity?}', 'NewsController@getActivities')->name('get.activities');
 
 		//subscriptions management
-		Route::resource('/citadel/subscription', 'SubscriptionController');	
+		Route::resource('/citadel/subscription', 'SubscriptionController');
 	});
 
 });
@@ -110,4 +110,4 @@ Route::get('/news', 'NewsController@index')->name('news.index');
 Route::get('/news/{id}', 'NewsController@show')->name('news.show');
 
 //for test purposes, will be deleted later
-//Route::get('/test','TestController@index')->name('test.index');
+// Route::get('/test','TestController@index')->name('test.index');

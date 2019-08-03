@@ -10,14 +10,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички Организации
-				
+
             </div>
         <div class="panel-body">
 	<div class="table-responsive">
 		@if(session()->has('message'))
     		<div class="alert alert-success">
        			 {{ session()->get('message') }}
-    		</div>   
+    		</div>
 		@endif
         <table class="table table-striped table-bordered table-hover" id="table_organizations_adminOrg">
             <thead>
@@ -39,17 +39,18 @@
 					<td>{{ $organization->address }}</td>
 					<td>{{ $organization->phone }}</td>
 					<td>
-					
-					@foreach($organization->photos as $photo)
-					
-						@if($photo->purpose->description == 'logo')	
+
+					@foreach($organization->photos->sortByDesc('updated_at') as $photo)
+
+						@if($photo->purpose->description == 'logo')
 						<img src="{{ asset('/user_files/images/organization/').'/'.$photo->image_path }}" alt="{{ $photo->purpose->description }}"
 						width="50" height="30">
+                            @break
 						@endif
 					@endforeach
 					</td>
 					<td>{{ (isset($organization->approved_at)) ? 'Одобрена': 'Неодобрена' }}</td>
-						
+
 					<td>
 						<a class="btn btn btn-info btn-sm btn-block" href="{{ route('organizations.show',$organization->organization_id)}}" target="_blank">Преглед</a>
 
