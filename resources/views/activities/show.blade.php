@@ -14,7 +14,7 @@
 			auth = '{{ env("MAP_KEY",'') }}',
 			activity_id = '{{  $activity->activity_id }}',
 			city = '{{ $activity->city->name }}',
-			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';		
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';
 	</script>
 	<script src="{{ asset('js/map.js') }}"></script>
 	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
@@ -27,7 +27,7 @@
 			@foreach ($logo as $photo)
 			<div class="act-img">
 				<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-			</div>	
+			</div>
 				@break
 			@endforeach
 			<div class="h-30"></div>
@@ -60,7 +60,7 @@
 				<li><i class="fas fa-map-marked"></i>{{$activity->address}}</li>
 				<li>
 					 <div id="myMap" style="position:relative;width:100%;height:130px;"></div>
-				</li> 
+				</li>
 			</ul>
 			<!-- Subscribe button-->
 			<div class="popup" >
@@ -101,12 +101,12 @@
 			<div class="event-info">
                 <p><i class="fas fa-info"></i>График на сформираните групи</p>
             </div>
-			
+
 			<div class="table-responsive">
 				@if(session()->has('message'))
 				<div class="alert alert-success">
 					 {{ session()->get('message') }}
-				</div>   
+				</div>
 				@endif
 				<table class="table table-striped table-bordered table-hover" id="table_users">
 					<thead>
@@ -120,12 +120,12 @@
 					</thead>
 					<tbody>
 						@foreach($activity->groups as $group)
-						<tr>	
+						<tr>
 							<td><p>{{ $group->name }}</p></td>
 							<td><p>{{ $group->description }}</p></td>
 							<td>@foreach($group->schedules as $schedule)<p>{{ $schedule->day }}</p>@endforeach</td>
 							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->start_time)->format('H:i')  }}</p>@endforeach</td>
-							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->end_time)->format('H:i')  }}</p>@endforeach</td>	
+							<td>@foreach($group->schedules as $schedule)<p>{{Carbon\Carbon::parse($schedule->end_time)->format('H:i')  }}</p>@endforeach</td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -139,31 +139,33 @@
 		<!--right side-->
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="col-md-6 col-sm-12">
-		
+
 		@if($gallery->isNotEmpty())
 			<div class="h-section">
 				<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
 				<h4 class="h-activity"><span>Снимки на {{ str_limit($activity->name, 20) }}</span></h4>
 			</div>
-			
+
 			<div class="gallery-container">
 				<div class="tz-gallery">
 					<div class="col-sm-12 tz">
 						@foreach($gallery as $photo)
-						<div class="col-xs-6 col-sm-6 col-md-4">
-							<div class="marg">
-								<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
-									<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
-								</a>
-							</div>
-						</div>
-						@endforeach						   
+							@if(file_exists('user_files/images/activity/gallery/' . $photo->image_path))
+								<div class="col-xs-6 col-sm-6 col-md-4">
+									<div class="marg">
+										<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
+										<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+										</a>
+									</div>
+								</div>
+							@endif
+						@endforeach
 					</div>
 				</div>
 			</div>
-			
+
 		@endif
-		</div>		
+		</div>
 		@if($gallery)
 		<div class="col-md-6 col-sm-12 col-xs-12">
 		@else
@@ -173,52 +175,15 @@
 		@php($activityActivityId = $activity->activity_id)
 		@php($subcat=$activities->where('subcategory_id',$activity->subcategory_id))
 		@php($activitySubcategory = $activity->subcategory_id)
-		
+
 		<img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
-		<!--
-		@if($activitySubcategory)
-			
 			<div class="h-section">
-				<h4 class="h-activity"><span>Подобни активности</span></h4>
-			</div>
-			
-			<div class="responsive">
-							
-											
-					@foreach($activities as $activ)
-						@if((isset($activitySubcategory) && $activ->subcategory_id == $activitySubcategory) && ($activ->activity_id != $activityActivityId) && (!empty($activ->approved_at)) && ($activ->available == 1))
-					<div>
-						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
-							@foreach ($activ->photos as $photo)
-								@if ($photo->purpose->description == 'mine')
-							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-								@endif
-							@endforeach
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span class="description">{{$activ->name}}</span>
-										@isset($activ->organization->name)
-										<em class="name">{{$activ->organization->name}}</em>
-										@endisset
-									</div>
-								</div>
-							</div>
-						</a>
-					</div>
-						@endif
-					@endforeach
-				
-			</div>
-		@endif
-		-->	
-			<div class="h-section">				
 				<h4 class="h-activity"><span>Предложения от категория {{$activity->category->name}}</span></h4>
 			</div>
 			<!-- slick-slider-->
 			<div class="responsive">
 					<!--single item-->
-					
+
 					@foreach($activities as $activ)
 						@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
 					<div>
@@ -243,10 +208,13 @@
 						@endif
 					@endforeach
 				<!--end single item-->
-			</div>	
+			</div>
 		</div>
 	</div>
-		<!--end right side-->		
+		<!--end right side-->
+	<div class="col-md-12 col-sm-12 text-center">
+        <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-backward"></i>&nbsp;Обратно</a>
+    </div>
 	</div>
 	<!-- end main-container -->
 

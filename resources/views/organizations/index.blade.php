@@ -6,6 +6,9 @@
 		<!-- main-container -->
 	<div class=" container main-container">
 			@foreach($organizations as $organization)
+				@php
+					$logo = 0
+				@endphp
 			<!-- single organization-->
 				<div class="col-md-3 col-sm-6 service-box">
 					<a href="{{ route('organizations.show',$organization->organization_id)}}">
@@ -13,16 +16,22 @@
 						<div class="org_image">
 
 						@foreach($organization->photos->sortByDesc('updated_at') as $photo)
-							@if($photo->purpose->description == 'logo' && $photo->purpose->description != 'gallery' && $photo->image_path!='logo.png')
+							@if($photo->purpose->description == 'logo' && $photo->purpose->description != 'gallery')
 							<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
-								@break
-							@else
-							<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
+								@php
+									$logo = 1
+								@endphp
 								@break
 							@endif
 						@endforeach
 
+						@if($logo == 0)
+							<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
+						@endif
+
 						</div>
+					</a>
+					<a href="{{ route('organizations.show',$organization->organization_id)}}">
 						<h4>{{$organization->name}}</h4>
 						<div class="h-10"></div>
 					</a>

@@ -153,6 +153,9 @@
 			@endif
 			</div>
 		</div>
+        <div class="col-md-12 col-sm-12 text-center">
+            <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-backward"></i>&nbsp;Обратно</a>
+        </div>
 		<!-- end org activity -->
     </div>
 	<script>

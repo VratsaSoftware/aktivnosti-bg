@@ -271,7 +271,7 @@ h5 {
 	padding: 20px;
 }
 .box-logo a:hover{
-	
+
 	text-decoration: none!important;
 }
 
@@ -290,13 +290,13 @@ h5 {
 	bottom: auto;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
-	
+
 }
 .box-menu-text {
 	color: #393939;
 	text-transform: uppercase;
 	font-weight: 700;
-	
+
 }
 
 .box-primary-nav-trigger .box-menu-icon {
@@ -932,21 +932,22 @@ b i:last-child {
 }
 .org-img img, .act-img img {
 	width: 100%;
+	height: 100%;
 	position:relative;
 	left:0;
 	bottom: 0%;
 	z-index:0;
 }
-.org-img,.act-img{
+.org-img, .act-img{
 	overflow: hidden;
-	
+
 }
 
 
 /* gallery */
 .org-img img{
 	margin: 0 6px!important;
-	
+
 }
 
 /* Override bootstrap column paddings */
@@ -1294,7 +1295,7 @@ b i:last-child {
 }
 
 @media only screen and (min-width: 800px) {
-	
+
 	.event-info {
 		margin-left: 110px;
 	}
@@ -1317,7 +1318,7 @@ b i:last-child {
 }
 
 @media only screen and (min-width: 800px) {
-	
+
 	.cd-schedule .timeline {
 		display: block;
 		position: absolute;
@@ -1449,9 +1450,9 @@ org_img img{
 	.h-activity span {
 		background-color: #fff;
 		padding: 0 15px;
-		
+
 	}
-	
+
 }
 
 @media only screen and (min-width: 800px) {
@@ -1533,7 +1534,7 @@ org_img img{
 }
 
 @media only screen and (min-width: 1000px) {
-	
+
 	.cd-schedule .events {
 		/* 60px is the .timeline element width */
 		width: calc(100% - 60px);
@@ -1629,7 +1630,7 @@ org_img img{
 	transition: transform .4s, visibility .4s, -webkit-transform .4s;
 	-webkit-transition-timing-function: cubic-bezier(0.5, 0, 0.1, 1);
 	transition-timing-function: cubic-bezier(0.5, 0, 0.1, 1);
-	
+
 }
 
 .cd-schedule .event-modal .header {
@@ -2107,7 +2108,7 @@ span.rangeslider__labels__label:first-child {
 	-webkit-transition-duration: .2s;
 	-o-transition-duration: .2s;
 }
-        
+
 .footer-section ul {
 	margin: 0;
 	padding: 0;
@@ -2826,50 +2827,51 @@ img {
 }
 .org_image img{
 		width: 100%;
-	}	
+		height: 100%;
+	}
 /* Responsive media queries ==================================================*/
 @media (min-width: 1200px) {
 	.org_image{
 		height: 270px;
-	}	
+	}
 }
 @media (max-width: 1200px) and (min-width: 998px) {
 	.org_image{
 		height: 220px;
-	}		
+	}
 }
 @media (min-width: 770px) and (max-width: 998px) {
 	.org_image{
-		
+
 		height: 360px;
-	}		
+	}
 }
 @media (max-width: 770px) and (min-width: 620px) {
 	.org_image{
 		width:295px;
 		height: 295px;
-	}		
+	}
 }
 @media (min-width: 550px) and (max-width: 620px) {
 	.org_image{
 		width:260px;
 		height: 260px;
-	}		
+	}
 }
 @media (min-width: 800px) {
 	.box-logo img{
 		width: 120px;
 	}
-	
-	
+
+
 }
 @media (min-width: 800px) {
 	.org-img img{
-		
-		
+
+
 	}
-	
-	
+
+
 }
 @media (max-width: 800px) and (min-width: 500px) {
 	.item-box{
@@ -2878,7 +2880,7 @@ img {
 	.portfolio_item{
 		padding:0!important;
 	}
-	
+
 }
 @media (max-width: 799px) {
 	.box-logo img{
@@ -2888,7 +2890,7 @@ img {
 		font-size: 12px;
 	}
 	.service-box:first-child{
-		
+
 	}
 	.service-box{
 		width: 50%;
@@ -2902,7 +2904,7 @@ img {
 @media (max-width: 450px) {
 	.service-box{
 		width: 100%;
-		
+
 	}
 }
 @media (max-width: 350px) {
@@ -2929,7 +2931,7 @@ img {
 		left: 0;
 		right: 0;
 		bottom: 0;
-		
+
 	}
 	.org-img {
 		height: 420px;
@@ -2951,7 +2953,7 @@ img {
 }
 @media (max-width: 991px){
 	.item_info{
-		
+
 	}
 	.portfolio .categories-grid span {
 		margin-bottom: 0;
@@ -2985,10 +2987,10 @@ img {
 		position: relative;
 		left: -100px;
 	}
-	
+
 }
 @media only screen and (max-width: 850px) {
-	
+
 	.rangeslider-wrap {
 		margin-bottom: 15%;
 	}
