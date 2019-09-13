@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationFormRequest;
+use App\Http\Requests\SubscribeFormRequest;
 use App\Models\Organization;
 use App\Models\Photo;
 use App\Models\User;
@@ -11,6 +12,7 @@ use App\Models\City;
 use App\Models\Purpose;
 use App\Models\Role;
 use App\Models\Activity;
+use App\Models\Subscription;
 use File;
 use Image;//crop image
 class OrganizationController extends Controller
@@ -23,7 +25,7 @@ class OrganizationController extends Controller
      */
     public function __construct(){
       //Middleware organizations
-        $this->middleware('protect.organization')->except(['index','adminOrg','show','create','store']);;
+        $this->middleware('protect.organization')->except(['index','adminOrg','show','create','store','subscribe']);;
     }
 
     public function index()
@@ -363,5 +365,20 @@ class OrganizationController extends Controller
         }
         $photoGallery->delete();
         return redirect()->back();
+    }
+	//subscribe
+	public function subscribe(SubscribeFormRequest $request)
+    {	
+		
+		$organization = Organization::find($request->get('organization_id'));
+        $subscribе = new Subscription;
+        $subscribе->email = $request->get('email');
+		$subscribе->unsubscribed_global = true;
+        $subscribе->save();
+		$organization->newsletters()->create([
+                    'unsubscribed' => true,
+                    'subscription_id' =>  $subscribе->subscription_id,
+                ]);	
+		return redirect()->back()->with('message', 'Създадохте абонамент');	
     }
 }

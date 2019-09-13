@@ -8,34 +8,21 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
+					<!--organization logo-->
+					@foreach($logo as $photo)	
+					<div class="row">
+					@if($logo)
+						
+						<div class="col-md-6 old-img">
+							<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
+						</div>
+					</div>
+					@endif
+					@endforeach
+					<!--end organization logo-->
                     <form id="register" method="POST" action="{{ route('organizations.update', $organization->organization_id) }}" enctype="multipart/form-data">
                         @csrf
 						@method('PUT')
-                        <div class="form-group row">
-                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Заглавна снимка (Лого)') }}</label>
-                            <div class="col-md-6 old-img">
-                            <!--organization logo-->
-                            @php
-                                $logo_exist = 0
-                            @endphp
-                            @foreach($logo->sortByDesc('updated_at') as $photo)
-                                @if($photo->purpose->description == 'logo')
-                                    <img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{$photo->description}}">
-                                    @php
-                                        $logo_exist = 1
-                                    @endphp
-                                    @break
-                                @endif
-                            @endforeach
-                            @if($logo_exist == 0)
-                                <img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Няма заглавна снимка! Зададена е по подразбиране!</strong>
-                                </span>
-                            @endif
-                            <!--end organization logo-->
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Име на организацията') }}</label>
 
@@ -49,7 +36,7 @@
                                 @endif
                             </div>
                         </div>
-
+	
                         <div class="form-group row">
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Описание') }}</label>
 
@@ -89,7 +76,7 @@
                                 @endif
                             </div>
                         </div>
-
+						
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Адрес') }}<span class="required-fields">&ast;</span></label>
 
@@ -138,7 +125,7 @@
                                 {!! Form::select('approved',$approvals,null,['class' => 'form-control']) !!}
                             </div>
                         </div>
-                        @endif
+                        @endif								
                         <!--crop image-->
                         <div class="form-group row">
 							<div class="image-editor">
@@ -147,7 +134,7 @@
 									<input type="file" id="photo" name="photo" class="cropit-image-input">
 									<div class="cropit-preview"></div>
 									<div class="image-size-label">
-										<input type="hidden" name="crop" class="crop" />
+										<input type="hidden" name="crop" class="crop" />	
 										<a class="btn btn-warning btn-sm back">назад</a>
 									</div>
 									<input type="range" class="cropit-image-zoom-input">
@@ -156,12 +143,12 @@
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('photo') }}</strong>
 									</span>
-									@endif
+									@endif  
 								</div>
 							</div>
 						</div>
 						<!--end crop image-->
-						<!--gallery form-group -->
+						<!--gallery form-group -->										
 						<div class="form-group row">
 							<label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Създай галерия от снимки') }}</label>
 							<div class="col-md-6">
@@ -170,7 +157,7 @@
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $errors->first('gallery.*') }}</strong>
 								</span>
-								@endif
+								@endif  
 							</div>
 						</div>
 						<!--end gallery form-group -->
@@ -181,13 +168,13 @@
                                 </button>
                             </div>
                         </div>
-
+							
                     </form>
 					 <div class="row">
-						@foreach($gallery as $photo)
-
-							<div class="col-md-3 old-img">
-
+						@foreach($gallery as $photo)	
+				
+							<div class="col-md-3 old-img">	
+						
 						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroyGallery',$photo->photo_id) }}" >
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
@@ -195,10 +182,10 @@
 						</form>
 								<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
 							</div>
-
+							
 						@endforeach
 					</div>
-
+					
                 </div>
             </div>
         </div>

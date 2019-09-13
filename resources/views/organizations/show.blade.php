@@ -24,7 +24,7 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
 
             <!--pictures from Adobe Stock-->
-            <div class="org-img">
+            <div class="act-img portfolio_item">
 
 			@if(count($logo)!=0)
 			@foreach($logo->sortByDesc('updated_at') as $photo)
@@ -51,7 +51,7 @@
                 <li><i class="fas fa-mobile-alt"></i>{{ $organization->phone }}</li>
                 <li><i class="fas fa-map-marked"></i>{{ $organization->address }}</li>
                 <li>
-					<div id="myMap" style="position:relative;width:100%;height:130px;"></div>
+					<div id="myMap" style="position:relative;width:100%;height:200px;"></div>
 				</li>
             </ul>
             <!-- Subscribe button-->
@@ -59,14 +59,16 @@
                 <div class="popuptext" id="myPopup">
                     <div class="well">
                         <h3>Абонирайте се за още новини от {{ $organization->name }}</h3>
-                        <form action="#">
+                        <form method="POST" action="{{ route('organizations.subscribe') }}" enctype="multipart/form-data">
+						@csrf
                             <div class="input-contact">
-                                <input type="email" name="email">
+                                <input type="email" name="email">									
                                 <span>Вашият имейл</span>
                             </div>
                             <div class="button-group">
                                 <button href="#" class="btn btn-box">Изпрати</button>
                             </div>
+							<input type="hidden" name="organization_id" value="{{$organization->organization_id}}">
                         </form>
                     </div>
                 </div>
@@ -153,9 +155,6 @@
 			@endif
 			</div>
 		</div>
-        <div class="col-md-12 col-sm-12 text-center">
-            <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-backward"></i>&nbsp;Обратно</a>
-        </div>
 		<!-- end org activity -->
     </div>
 	<script>

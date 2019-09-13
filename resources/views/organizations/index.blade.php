@@ -5,43 +5,33 @@
 @section('content')
 		<!-- main-container -->
 	<div class=" container main-container">
-			@foreach($organizations as $organization)
-				@php
-					$logo = 0
-				@endphp
-			<!-- single organization-->
-				<div class="col-md-3 col-sm-6 service-box">
-					<a href="{{ route('organizations.show',$organization->organization_id)}}">
-						<!-- service-box -->
-						<div class="org_image">
-
-						@foreach($organization->photos->sortByDesc('updated_at') as $photo)
-							@if($photo->purpose->description == 'logo' && $photo->purpose->description != 'gallery')
-							<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" alt="{{ $photo->description }}">
-								@php
-									$logo = 1
-								@endphp
-								@break
-							@endif
-						@endforeach
-
-						@if($logo == 0)
-							<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
-						@endif
-
-						</div>
-					</a>
-					<a href="{{ route('organizations.show',$organization->organization_id)}}">
-						<h4>{{$organization->name}}</h4>
-						<div class="h-10"></div>
-					</a>
-				</div>
-			<!-- end single organization-->
-			@endforeach
-			<div class="col-md-12 col-sm-6 service-box">
-				{{$organizations->links()}}
-			</div>
+			@foreach($organizations as $organization)		
+		<a href="#" class="gallery-box portfolio_item col-md-3 col-sm-6">
+			<span class="gallery-box__img-container">
+				@foreach($organization->photos->sortByDesc('updated_at') as $photo)
+					@if($photo->purpose->description == 'logo' && $photo->purpose->description != 'gallery' && $photo->image_path!='logo.png')
+				<img src="{{ asset('user_files/images/organization/'.$photo->image_path)}}" class="gallery-box__img" alt="{{ $photo->description }}">
+					@break
+				@else
+				<img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo" class="gallery-box__img">
+					@break
+				@endif
+				@endforeach
+			
+			</span>
+			<span class="gallery-box__text-wrapper">
+				<span class="gallery-box__text">
+					{{$organization->name}}
+				</span>
+			</span>
+		</a>
+		@endforeach
+		<div class="col-md-12 col-sm-6 service-box">
+			{{$organizations->links()}}
+		</div>
 	</div>
+
+  
 
 @endsection
 @section('og')
