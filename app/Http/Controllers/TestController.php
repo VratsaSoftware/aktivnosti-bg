@@ -23,17 +23,9 @@ class TestController extends Controller
 {
     public function index(){
 
-        $organization = Organization::find(2);
-        var_dump($organization->name);
-        foreach($organization->photos as $photo){
-            echo '<pre>';
-            var_dump($photo->photo_id);
-            var_dump($photo->image_path);
-            var_dump($photo->purpose->description);
-            echo '</br>';
-            echo '</pre>';
-
-            // print($photo->purpose->description);
+        $activity = Activity::find(2);
+        foreach($activity->photos as $photo){
+            print($photo->purpose->description);
 
         }
 

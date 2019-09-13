@@ -88,8 +88,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/citadel/news/approve/{id}', 'NewsController@approve')->name('news.approve');
 		Route::get('/citadel/news/unAapprove/{id}', 'NewsController@unApprove')->name('news.unApprove');
 		Route::get('/get/news/{organziation}/{activity?}', 'NewsController@getActivities')->name('get.activities');
-
-		//subscriptions management
 		Route::resource('/citadel/subscription', 'SubscriptionController');
 	});
 
@@ -98,16 +96,20 @@ Route::group(['middleware' => 'auth'], function () {
 Auth::routes();
 
 // Activities pages
-Route::get   ('/','ActivityController@index')->name('activities.index');
-Route::get   ('/activity/{id}', 'ActivityController@show')->name('activities.show');
+Route::get('/','ActivityController@index')->name('activities.index');
+Route::get('/activity/{id}', 'ActivityController@show')->name('activities.show');
+Route::post ('/activity/subscribe','ActivityController@subscribe')->name('activities.subscribe');
 
 //Organization page
 Route::get('/organizations', 'OrganizationController@index')->name('organizations.index');
 Route::get('/organizations/{id}', 'OrganizationController@show')->name('organizations.show');
+Route::post ('/organizations/subscribe','OrganizationController@subscribe')->name('organizations.subscribe');
 
 // Route::resource('news', 'NewsController');
 Route::get('/news', 'NewsController@index')->name('news.index');
 Route::get('/news/{id}', 'NewsController@show')->name('news.show');
 
 //for test purposes, will be deleted later
-Route::get('/test','TestController@index')->name('test.index');
+// Route::get('/test','TestController@index')->name('test.index');
+//subscribtions management
+Route::post  ('/activity/store', 'SubscriptionController@store')->name('subscription.store');

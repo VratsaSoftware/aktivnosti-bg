@@ -21,12 +21,12 @@ function nextMsg() {
                                 picture = messages.length + 1;
                             };
                             $(this).css({
-                                background: "-webkit-linear-gradient( rgba(255, 255, 255, .6), rgba(255, 255, 255, .6)), url(img/img_header" + (
+                                background: "-webkit-linear-gradient(top, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.6) 1%,rgba(255,255,255,0.88) 79%,rgba(255,255,255,1) 100%), url(img/img_header" + (
                                     picture
                                 ) + ".jpg)"
                             });
                             $(this).css({
-                                background: "linear-gradient( rgba(255, 255, 255, .6), rgba(255, 255, 255, .6)), url(img/img_header" + (picture) + ".jpg)"
+                                background: "linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.6) 1%,rgba(255,255,255,0.88) 79%,rgba(255,255,255,1) 100%), url(img/img_header" + (picture) + ".jpg)"
                             });
                         }).animate({
                             opacity: 1

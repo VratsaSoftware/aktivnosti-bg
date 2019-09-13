@@ -100,9 +100,9 @@
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('admin'))
-{{--                         <li>
+                        <li>
                             <a lass="{{ (str_contains(Route::currentRouteName(), 'subscription')) ? 'active-menu' : '' }}" href="{{ route('subscription.index')}}"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
-                        </li> --}}
+                        </li>
                         @endif
                     @endif
                 </ul>
@@ -278,6 +278,17 @@
             }],
             "language": {
                 "emptyTable": "Все още няма създаденo разписание"
+            },
+        });
+		$('#subscribe').dataTable( {
+            "columnDefs":
+            [{
+                "targets": [3],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "language": {
+                "emptyTable": "Все още няма създаденo абонаменти"
             },
         });
        

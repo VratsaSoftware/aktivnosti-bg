@@ -4,6 +4,8 @@
 
 @section('content')
 <div class="row">
+	@csrf
+
     <div class="col-md-12">
 	<p><a href="{{ route('organizations.create')}}" class=" btn btn-warning btn-md">Създай нова организация</a></p>
         <!-- Advanced Tables -->
@@ -33,9 +35,6 @@
             </thead>
 			<tbody>
 				@foreach($organizations as $organization)
-                    @php
-                        $logo = 0
-                    @endphp
 				<tr>
 					<td>{{ $organization->name }}</td>
 					<td>{{ $organization->email }}</td>
@@ -45,18 +44,12 @@
 
 					@foreach($organization->photos->sortByDesc('updated_at') as $photo)
 
-						@if($photo->purpose->description == 'logo' && $photo->purpose->description != 'gallery')
+						@if($photo->purpose->description == 'logo')
 						<img src="{{ asset('/user_files/images/organization/').'/'.$photo->image_path }}" alt="{{ $photo->purpose->description }}"
 						width="50" height="30">
-                            @php
-                                $logo = 1
-                            @endphp
                             @break
 						@endif
 					@endforeach
-                    @if($logo == 0)
-                        <img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
-                    @endif
 					</td>
 					<td>{{ (isset($organization->approved_at)) ? 'Одобрена': 'Неодобрена' }}</td>
 
