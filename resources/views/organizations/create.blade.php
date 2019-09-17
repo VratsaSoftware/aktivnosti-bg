@@ -36,7 +36,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
-                    <form id="register" method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
+                    <form  method="POST" action="{{ route('organizations.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -214,9 +214,5 @@
         </div>
     </div>
 </div>
-<script>
-	submitForms = function(){
-    document.getElementById("register").submit();
-}
-</script>
+
 @endsection
