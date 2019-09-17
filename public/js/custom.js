@@ -59,13 +59,22 @@ $(window).load(function () {
         }
     });
 });
+//click filter scroll
 $('.portfolio_filter li a').click(function () {
     // Handler for .ready() called.
     $('html, body').animate({
         scrollTop: $('.clearfix').offset().top
     }, 800);
 });
-
+//click pagination scroll
+$(document).ready(function () {
+		$(document).on('click', '.pagination a', function() {
+		// Handler for .ready() called.
+		$('html, body').animate({
+			scrollTop: $('.clearfix').offset().top
+		}, 300);
+	});
+});
 var theToggle = document.getElementById('toggle');
 
 // based on Todd Motto functions

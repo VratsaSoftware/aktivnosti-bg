@@ -17,8 +17,11 @@ window.onload = function () {
 			url: filename,
 			contentType: false,
 			success: function (data) {
-				$('#content').html(data);
 				$('#preloaderA').hide();
+				$('.portfolio').hide();
+				$('#content').html(data);
+				$('.portfolio').fadeIn(1500);
+				
 			},
 			error: function (xhr, status, error) {
 				alert(xhr.responseText);

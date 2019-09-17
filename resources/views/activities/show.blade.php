@@ -87,9 +87,7 @@
 			<h4 class="social-h4">Сподели</h4>
 			{!! Share::currentPage()
 				->facebook(['class' => 'my-class', 'id' => 'my-id'])
-				->twitter()
-				->googlePlus()
-				->linkedin(); !!}
+				->twitter(); !!}
 			<!--end social list-->
 
 		</div>

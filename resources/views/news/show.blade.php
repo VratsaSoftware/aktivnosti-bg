@@ -18,9 +18,7 @@
 			<!--social list-->
 			{!! Share::currentPage()
 				->facebook(['class' => 'my-class', 'id' => 'my-id'])
-				->twitter()
-				->googlePlus()
-				->linkedin(); !!}
+				->twitter(); !!}
 			<!--end social list-->
         </div>
 		<!-- end left side -->
