@@ -6,10 +6,8 @@
         <div class="portfolio-div">
             <div class="portfolio">
                 <!-- portfolio_filter -->
-				<a href="#menu" id="toggle"><span></span></a>
-
-				<div id="menu">
-                <div class="categories-grid wow fadeInLeft">			
+                <div class="categories-grid wow fadeInLeft">
+				
                     <nav class="categories text-center">
                         <ul class="portfolio_filter">
                             <li><a href="" onclick="javascript:ajaxLoad('{{url('/?cat=0')}}')" class="active" >Всички</a></li>
@@ -37,7 +35,6 @@
                         </div>
                     </nav>
                 </div>
-				</div>
                 <!-- portfolio_filter -->
 				
 				<div id="content">

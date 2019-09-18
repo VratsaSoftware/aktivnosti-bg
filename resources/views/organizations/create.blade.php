@@ -32,7 +32,6 @@
                 </div>
             </div>
         </div>
-        {{ var_dump($errors) }}
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">

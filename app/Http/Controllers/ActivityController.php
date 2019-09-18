@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ActivityFormRequest;
-use App\Http\Requests\SubscribeFormRequest;
 use App\Models\Activity;
 use App\Models\Organization;
 use App\Models\Category;
@@ -16,7 +15,6 @@ use App\Models\Group;
 use App\Models\Schedule;
 use App\Models\City;
 use App\Models\User;
-use App\Models\Subscription;
 use File;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,7 +26,7 @@ class ActivityController extends Controller
 {
     public function __construct(){
       //Middleware activities
-        $this->middleware('protect.activity')->except(['index','manage','getSucategories','show','create','store','subscribe']);
+        $this->middleware('protect.activity')->except(['index','manage','getSucategories','show','create','store']);
     }
 
     public function getSucategories($category, $subcategory = NULL)
@@ -69,9 +67,7 @@ class ActivityController extends Controller
 		$request->session()->put('free', $request->has('free') ? $request->get('free') : ($request->session()->has('free') ?$request->session()->get('free') : 0));
 		$request->session()->put('cat', $request->has('cat') ? $request->get('cat') : ($request->session()->has('cat') ? $request->session()->get('cat') : 0));
 		$request->session()->put('age', $request->has('age') ? $request->get('age') : ($request->session()->has('age') ?$request->session()->get('age') : 0));
-		
-		$continue = Activity::latest()->whereRaw('(start_date-1) >= curdate()')->pluck('activity_id')->toArray();
-		
+
 		if($request->session()->get('free') > 0 ){
             $priceCondition = "price is NULL";
         }
@@ -90,21 +86,22 @@ class ActivityController extends Controller
 
 		if ($request->session()->get('cat')>0){
 			$activities=$activities->where('category_id', $request->session()->get('cat'));
-			$activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+			$activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(42)->onEachSide(3);
 		}else{
-			$activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+			$activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(24)->onEachSide(3);
 		}
 
         if ($request->ajax()){
-            return view('activities.index', compact('activities', 'categories', 'continue'));
+            return view('activities.index', compact('activities', 'categories'));
 
-        }else{			
+        }else{
+
+			$request->session()->flush();
 			$activities = new Activity;
-			$activities=$activities->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+			$activities=$activities->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(24)->onEachSide(3);
 
-            return view('activities.ajax', compact('activities', 'categories', 'continue'));
+            return view('activities.ajax', compact('activities', 'categories'));
 		}
-		
 
 	}
     public function manage()
@@ -493,21 +490,5 @@ class ActivityController extends Controller
 		}
 		$photoGallery->delete();
         return redirect()->back();
-    }
-	//subscribe
-	public function subscribe(Request $request)
-    {
-		
-		$activity = Activity::find($request->get('activity_id'));
-        $subscribе = new Subscription;
-        $subscribе->email = $request->get('email');
-		$subscribе->unsubscribed_global = true;
-        $subscribе->save();
-		
-		$activity->newsletters()->create([
-                    'unsubscribed' => true,
-                    'subscription_id' =>  $subscribе->subscription_id,
-                ]);	
-		return redirect()->back()->with('message', 'Създадохте абонамент');	
     }
 }
