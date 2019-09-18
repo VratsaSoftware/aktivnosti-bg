@@ -34,7 +34,7 @@ class Organization extends Model
 
     public function newsletters()
     {
-        return $this->morphMany('App\Models\Newsletter', 'desired');
+        return $this->morphMany('App\Models\Newsletters', 'desired');
     }
 
     public function city()
