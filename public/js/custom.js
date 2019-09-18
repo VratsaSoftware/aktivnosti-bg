@@ -68,12 +68,12 @@ $('.portfolio_filter li a').click(function () {
 });
 //click pagination scroll
 $(document).ready(function () {
-		$(document).on('click', '.pagination a', function() {
-		// Handler for .ready() called.
-		$('html, body').animate({
-			scrollTop: $('.clearfix').offset().top
-		}, 300);
-	});
+        $(document).on('click', '.pagination a', function() {
+        // Handler for .ready() called.
+        $('html, body').animate({
+            scrollTop: $('.clearfix').offset().top
+        }, 300);
+    });
 });
 var theToggle = document.getElementById('toggle');
 
@@ -82,18 +82,18 @@ var theToggle = document.getElementById('toggle');
 
 // hasClass
 function hasClass(elem, className) {
-	return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+    return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
 }
 // addClass
 function addClass(elem, className) {
     if (!hasClass(elem, className)) {
-    	elem.className += ' ' + className;
+        elem.className += ' ' + className;
     }
 }
 // removeClass
 function removeClass(elem, className) {
-	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
-	if (hasClass(elem, className)) {
+    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
+    if (hasClass(elem, className)) {
         while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
             newClass = newClass.replace(' ' + className + ' ', ' ');
         }
@@ -102,7 +102,7 @@ function removeClass(elem, className) {
 }
 // toggleClass
 function toggleClass(elem, className) {
-	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
+    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
     if (hasClass(elem, className)) {
         while (newClass.indexOf(" " + className + " ") >= 0 ) {
             newClass = newClass.replace( " " + className + " " , " " );
