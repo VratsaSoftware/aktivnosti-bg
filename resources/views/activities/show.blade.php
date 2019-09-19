@@ -14,7 +14,7 @@
 			auth = '{{ env("MAP_KEY",'') }}',
 			activity_id = '{{  $activity->activity_id }}',
 			city = '{{ $activity->city->name }}',
-			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@'),'',$activity->address) }}';
 	</script>
 	<script src="{{ asset('js/map.js') }}"></script>
 	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>

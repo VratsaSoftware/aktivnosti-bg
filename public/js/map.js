@@ -1,6 +1,5 @@
-    var map, 
+    var map,
         searchManager;
-
     function GetMap() {
         var zoom=17;
         var hasCoordinates = false;
@@ -49,10 +48,10 @@
         }
     }
 
-   
 
 
 
-    
-        
+
+
+
 
