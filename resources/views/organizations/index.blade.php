@@ -35,6 +35,9 @@
 			<div class="col-md-12 col-sm-6 service-box">
 				{{$organizations->links()}}
 			</div>
+			<div class="col-md-12 col-sm-12 text-center">
+        		<a href="{{ URL::to('/') }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Начало</a>
+   			 </div>
 	</div>
 @endsection
 @section('og')

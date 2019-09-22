@@ -27,18 +27,18 @@ class ActivityFormRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-		if($request->isMethod('put')) 
+		if($request->isMethod('put'))
 		{
 			// Update rules here - Don't require image here
 			return [
-				'name' => 'required|min:3|max:150', 
+				'name' => 'required|min:3|max:150',
 				'category_id' => 'gt:0',
 				'description' => 'required|min:15|max:2000',
 				'address' => 'required|string|max:255',
 				'photo'=> 'sometimes|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
 				'gallery.*'=> 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
-				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,999.99',
 				'min_age' => 'nullable|integer|between:1,100',
 				'max_age' => ['nullable','integer','between:1,100',
 					function($attribute, $value, $fail) {
@@ -51,21 +51,21 @@ class ActivityFormRequest extends FormRequest
 				'start_date' => 'required|date',
 				'end_date' => 'nullable|date|after:start_date',
 				'requirements' => 'nullable|string|max:255',
-				'organization_id' => 'required',			
+				'organization_id' => 'required',
 				'available' => 'required',
 			];
-			
+
 		}else{
 			// Store rules
 			return [
-				'name' => 'required|min:3|max:150', 
+				'name' => 'required|min:3|max:150',
 				'category_id' => 'gt:0',
 				'description' => 'required|min:15|max:2000',
 				'address' => 'required|string|max:255',
 				'photo'=> 'required|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
 				'gallery.*'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
-				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,999.99',
 				'min_age' => 'nullable|integer|between:1,100',
 				'max_age' => ['nullable','integer','between:1,100',
 				function($attribute, $value, $fail) {
@@ -78,7 +78,7 @@ class ActivityFormRequest extends FormRequest
 				'start_date' => 'required|date',
 				'end_date' => 'nullable|date|after:start_date',
 				'requirements' => 'nullable|string|max:255',
-				'organization_id' => 'required',			
+				'organization_id' => 'required',
 				'available' => 'required',
 			];
 		}
@@ -102,6 +102,7 @@ class ActivityFormRequest extends FormRequest
 			'category_id.gt' =>'Моля изберете категория',
             'available.required' => 'Моля направете избор за наличност',
             'price.regex' => 'Въведете положително число, което не е нула',
+            'price.between' => 'Максималната ценa е 999.99лв. Ако вашата активност е с по-висока цена, моля свържете се с нас на contacts@aktivnosti.bg!',
             'min_age.required' => 'Въведете минимална възраст на участниците',
             'min_age.integer' => 'Въведете цяло положително число, което не е нула',
             'min_age.between' => 'Числото трябва да е от 1 до 100',
