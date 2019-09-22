@@ -150,13 +150,15 @@
 				<div class="tz-gallery">
 					<div class="col-sm-12 tz">
 						@foreach($gallery as $photo)
-						<div class="col-xs-6 col-sm-6 col-md-4">
-							<div class="marg">
-								<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
-									<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
-								</a>
-							</div>
-						</div>
+							@if(file_exists('user_files/images/activity/gallery/' . $photo->image_path))
+								<div class="col-xs-6 col-sm-6 col-md-4">
+									<div class="marg">
+										<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
+										<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+										</a>
+									</div>
+								</div>
+							@endif
 						@endforeach
 					</div>
 				</div>
