@@ -12,7 +12,7 @@
             longitude,
             auth = '{{ env("MAP_KEY",'') }}',
             city = '{{ $organization->city->name }}',
-            address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$organization->address) }}';
+            address = '{{ str_replace(str_split('\\/:*?"<>|$!@'),'',$organization->address) }}';
     </script>
     <script src="{{ asset('js/map.js') }}"></script>
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>

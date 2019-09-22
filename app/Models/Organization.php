@@ -34,14 +34,14 @@ class Organization extends Model
 
     public function newsletters()
     {
-        return $this->morphMany('App\Models\Newsletters', 'desired');
+        return $this->morphMany('App\Models\Newsletter', 'desired');
     }
 
     public function city()
     {
         return $this->belongsTo('App\Models\City', 'city_id');
     }
-	
+
 	public function isApproved()
     {
         return null !== $this->approved_at;

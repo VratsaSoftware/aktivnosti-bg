@@ -53,7 +53,7 @@ class SubscriptionController extends Controller
 
             $category = Category::find($category_id);
             $category->newsletters()->create([
-                        'unsubscribed' => true,
+                        'unsubscribed' => false,
                         'subscription_id' =>  $subscribе->subscription_id,
                     ]);
 

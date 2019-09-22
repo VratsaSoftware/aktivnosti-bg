@@ -41,7 +41,7 @@ class Activity extends Model
 
     public function newsletters()
     {
-        return $this->morphMany('App\Models\Newsletter');
+        return $this->morphMany('App\Models\Newsletter', 'desired');
     }
 
     public function city()
@@ -52,7 +52,7 @@ class Activity extends Model
     public static function boot() {
         parent::boot();
 
-        static::deleting(function($activity) { 
+        static::deleting(function($activity) {
              // $activity->groups()->shedules()->delete();
             foreach ($activity->groups as $group) {
                 $group->delete(); }
@@ -63,5 +63,5 @@ class Activity extends Model
     {
         return null !== $this->approved_at;
     }
-    
+
 }

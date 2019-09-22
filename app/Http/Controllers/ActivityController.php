@@ -405,7 +405,6 @@ class ActivityController extends Controller
         $subscribе->email = $request->get('email');
         $subscribе->unsubscribed_global = true;
         $subscribе->save();
-
         $activity->newsletters()->create([
                     'unsubscribed' => true,
                     'subscription_id' =>  $subscribе->subscription_id,

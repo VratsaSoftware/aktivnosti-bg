@@ -69,12 +69,16 @@
 						<div class="widget newsletter-widget">
 							<h5 class="widget-title">Newsletter</h5>
 							<div class="footer-newsletter">
-									<p>Абонирайте се за нашите новини</p>
-									<form class="news-letter-form">
-										<input type="email" name="news-email" id="news-email" placeholder="Вашият имейл">
-										<input type="submit" value="Изпрати">
-									</form>
-							</div>
+								<p>Абонирайте се за нашите новини</p>
+								<form class="news-letter-form" method="POST" action="{{ route('subscription.store') }}" enctype="multipart/form-data">
+								@csrf
+									<input type="email" name="email" id="news-email" placeholder="Вашият имейл">
+									@foreach(App\Models\Category::all() as $category)
+                                        <input name="category_id[]" type="hidden" value="{{$category->category_id}}">
+                                    @endforeach
+									<input type="submit" value="Изпрати">
+								</form>
+						</div>
 						</div>
 					</div><!-- widget end -->
 				</div>
