@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ActivityFormRequest;
@@ -20,6 +22,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Schema;
 use Image;//crop image
+
 class ActivityController extends Controller
 {
     public function __construct(){

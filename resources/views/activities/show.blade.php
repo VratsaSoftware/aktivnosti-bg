@@ -14,7 +14,7 @@
 			auth = '{{ env("MAP_KEY",'') }}',
 			activity_id = '{{  $activity->activity_id }}',
 			city = '{{ $activity->city->name }}',
-			address = '{{ str_replace(str_split('\\/:*?"<>|$!@'),'',$activity->address) }}';
+			address = '{{ str_replace(str_split('\\/:*?"<>|$!@№'),'',$activity->address) }}';
 	</script>
 	<script src="{{ asset('js/map.js') }}"></script>
 	<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
@@ -25,7 +25,7 @@
 		<div class="col-md-6 col-sm-6 col-xs-12">
 		   <!--pictures from Adobe Stock-->
 			@foreach ($logo as $photo)
-			<div class="act-img">
+			<div class="act-img portfolio_item">
 				<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 			</div>
 				@break
@@ -59,7 +59,7 @@
 				@endisset
 				<li><i class="fas fa-map-marked"></i>{{$activity->address}}</li>
 				<li>
-					 <div id="myMap" style="position:relative;width:100%;height:130px;"></div>
+					 <div id="myMap" style="position:relative;width:100%;height:200px;"></div>
 				</li>
 			</ul>
 			<!-- Subscribe button-->
@@ -67,7 +67,8 @@
 				<div class="popuptext" id="myPopup">
 					<div class="well">
 						<h3>Абонирайте се за още новини от {{$activity->name}}</h3>
-						<form action="#">
+						<form method="POST" action="{{ route('activities.subscribe') }}" enctype="multipart/form-data">
+						@csrf
 							<div class="input-contact">
 								<input type="email" name="email">
 								<span>Вашият имейл</span>
@@ -75,6 +76,7 @@
 							<div class="button-group">
 								<button class="btn btn-box">Изпрати</button>
 							</div>
+							<input type="hidden" name="activity_id" value="{{$activity->activity_id}}">
 						</form>
 					</div>
 				</div>
@@ -148,15 +150,13 @@
 				<div class="tz-gallery">
 					<div class="col-sm-12 tz">
 						@foreach($gallery as $photo)
-							@if(file_exists('user_files/images/activity/gallery/' . $photo->image_path))
-								<div class="col-xs-6 col-sm-6 col-md-4">
-									<div class="marg">
-										<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
-										<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
-										</a>
-									</div>
-								</div>
-							@endif
+						<div class="col-xs-6 col-sm-6 col-md-4">
+							<div class="marg">
+								<a class="lightbox" href="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}">
+									<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+								</a>
+							</div>
+						</div>
 						@endforeach
 					</div>
 				</div>

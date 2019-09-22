@@ -16,7 +16,7 @@ class SubscribeFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Моля въведете E-mail адрес', 
+            'email.required' => 'Моля въведете E-mail адрес',
             'email.email' => 'Моля въведете валиден E-mail адрес',
         ];
     }

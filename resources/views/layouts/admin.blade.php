@@ -11,7 +11,7 @@
 			}
 		gtag('js', new Date());
 		gtag('config', 'UA-51734359-9');
-	</script>	
+	</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name', 'Aktivnosti-bg') }}</title>
@@ -39,7 +39,7 @@
             </div>
             <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
                 @guest
-                    <a href="{{ route('login') }}" class="btn btn-warning square-btn-adjust">{{ __('Вход') }}</a>   
+                    <a href="{{ route('login') }}" class="btn btn-warning square-btn-adjust">{{ __('Вход') }}</a>
                     @if (Route::has('register'))
                         <a style="color: #ffbf00;" href="{{ route('register') }}">{{ __('Регистрация') }} </a>
                     @endif
@@ -48,7 +48,7 @@
                         Здравей {{ Auth::user()->name }}! &nbsp;
                     @endisset
                     <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">{{ __('Изход') }}</a> 
+                        document.getElementById('logout-form').submit();">{{ __('Изход') }}</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
@@ -72,7 +72,7 @@
                     </li>
 
                     @if ((Auth::user()->hasAnyRole(['admin','moderator','organization_manager','organization_member']) && Auth::user()->isApproved()) ||
-                    Auth::user()->hasRole('organization_manager')) 
+                    Auth::user()->hasRole('organization_manager'))
                         <li>
                             <a class="{{ (Route::currentRouteName() == 'citadel.index') ? 'active-menu' : '' }}" href="{{ route('citadel.index')}}"><i class="fa fa-compass fa-3x"></i> Начало</a>
                         </li>
@@ -82,11 +82,11 @@
                                 <a class="{{ (str_contains(Route::currentRouteName(), 'user')) ? 'active-menu' : '' }}" href="{{ route('users.index')}}"><i class="fa fa-users fa-3x"></i> Потребители</a>
                             </li>
                         @endif
-                    
+
                         <li>
                             <a class="{{ (str_contains(Route::currentRouteName(), 'organization')) ? 'active-menu' : '' }}" href="{{ route('organizations.adminOrg')}}"><i class="fa fa-building-o fa-3x"></i> Организации</a>
                         </li>
-            
+
                         <li>
                             <a class="{{ (str_contains(Route::currentRouteName(), 'activity')) ? 'active-menu' : '' }}" href="{{ route('activities.manage')}}"><i class="fa fa-dribbble fa-3x"></i> Активности</a>
                         </li>
@@ -100,9 +100,9 @@
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('admin'))
-{{--                         <li>
+                        <li>
                             <a lass="{{ (str_contains(Route::currentRouteName(), 'subscription')) ? 'active-menu' : '' }}" href="{{ route('subscription.index')}}"><i class="fa fa-bar-chart-o fa-3x"></i> Абонаменти</a>
-                        </li> --}}
+                        </li>
                         @endif
                     @endif
                 </ul>
@@ -133,14 +133,14 @@
     <script src="{{ asset('admin/js/bootstrap.min.js') }}"></script>
     <!-- METISMENU SCRIPTS -->
     <script src="{{ asset('admin/js/jquery.metisMenu.js') }}"></script>
-    
-    <!-- Datatable Loader -->    
+
+    <!-- Datatable Loader -->
     <script src="{{ asset('admin/js/dataTables/jquery.dataTables.js') }}"></script>
 
     <script src="{{ asset('admin/js/dataTables/dataTables.bootstrap.js') }}"></script>
 
     <script src="{{ asset('admin/js/sub-categories-ajax.js') }}"></script>
-	
+
 	<script src="{{ asset('admin/js/news-ajax.js') }}"></script>
 
     <!-- Data tables settings-->
@@ -190,7 +190,7 @@
             "language": {
                 "emptyTable": "Няма потребители"
             },
-        });        
+        });
         $('#table_organizations').dataTable( {
             "columnDefs":
             [{
@@ -280,7 +280,7 @@
                 "emptyTable": "Все още няма създаденo разписание"
             },
         });
-       
+
     });
     </script>
 
@@ -292,7 +292,7 @@
         if(selectedRole === 'moderator'){
             $('#moderator_categories').show();
         }
-       $( "#role" ).change(function () { 
+       $( "#role" ).change(function () {
             selectedRole = ($( '#role option:selected').text());
              if(selectedRole === 'moderator'){
                  $('#moderator_categories').show();
@@ -300,7 +300,7 @@
             else{
                 $('#moderator_categories').hide();
             }
-        });     
+        });
     });
     </script>
 
@@ -311,20 +311,20 @@
     <script src="{{ asset('admin/js/activnosti.js') }}"></script>
 	<script>
 		$( window ).load(function() {
-			
+
 			if($('.is-invalid').length == 0){
-				
+
 				if($( '#select option' ).data('amount')){
 					 var sampleAmount = $('#select option:selected').data('amount');
 				}else{
-					 var sampleAmount = $('#hidden').data('amount');	
+					 var sampleAmount = $('#hidden').data('amount');
 				}
 				$('.address').val(sampleAmount);
-			}			
+			}
 		});
 		$( '#select' ).change(function() {
 			 var sampleAmount = $('#select option:selected').data('amount');
-			 $('.address').val(sampleAmount);	
+			 $('.address').val(sampleAmount);
 		});
 	</script>
 </body>

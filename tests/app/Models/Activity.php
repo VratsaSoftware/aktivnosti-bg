@@ -51,7 +51,7 @@ class Activity extends Model
     public static function boot() {
         parent::boot();
 
-        static::deleting(function($activity) { 
+        static::deleting(function($activity) {
              // $activity->groups()->shedules()->delete();
             foreach ($activity->groups as $group) {
                 $group->delete(); }
