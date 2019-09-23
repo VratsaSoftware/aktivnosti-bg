@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -22,7 +23,7 @@ class ScheduleController extends Controller
 
         return view ('schedules.create', compact('group'));
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +41,7 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -62,7 +63,7 @@ class ScheduleController extends Controller
         //validate schedule requests
 
         $groupId = $request->group_id;
-       
+
         return redirect('/citadel/schedule/'.$groupId.'/review')->with('message', 'Създадено е ново разписание');
     }
 
@@ -76,7 +77,7 @@ class ScheduleController extends Controller
     {
         $group = Group::findOrFail($id);
         $schedules = Schedule::all();
-    
+
         return view ('schedules.show', compact('schedules', 'group'));
     }
 
@@ -108,12 +109,13 @@ class ScheduleController extends Controller
             'day' => $request->day,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time ,
+            'updated_by' => Auth::user()->email
         ]);
 
         //validate schedule requests
 
         $groupId = $request->group_id;
-       
+
         return redirect('/citadel/schedule/'.$groupId.'/review')->with('message', 'Разписанието е редактирано');
     }
 
@@ -126,10 +128,12 @@ class ScheduleController extends Controller
     public function destroy($id)
     {
         $schedule = Schedule::find($id);
+        $schedule->deleted_by = Auth::user()->email;
+        $schedule->save();
         $schedule->delete();
 
         $groupId = $schedule->group_id;
-        
+
         return redirect('/citadel/schedule/'.$groupId.'/review')->with('message', 'Разписанието '.$schedule->name.' е изтрито!');
     }
 }

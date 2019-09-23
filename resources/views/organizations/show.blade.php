@@ -94,25 +94,30 @@
                     <img src="{{asset('img/portfolio/fav.png')}}" alt="logo" class="logo-section">
                     <h4 class="h-activity"><span>Снимки на {{ str_limit( $organization->name, 15) }}</span></h4>
                 </div>
+                @php $countExistingPics = 0; @endphp
                 @if(count($gallery) != 0)
                 <div class="gallery-container">
                     <div class="tz-gallery">
                         <div class="tz">
                             @foreach($gallery as $photo)
-                            <div class="col-xs-6 col-sm-6 col-md-4">
-                                <div class="marg">
-                                    <a class="lightbox" href="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}">
-                                        <img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
-                                    </a>
-                                </div>
-                            </div>
+                                @if(file_exists('user_files/images/organization/gallery/' . $photo->image_path))
+                                    <div class="col-xs-6 col-sm-6 col-md-4">
+                                        <div class="marg">
+                                            <a class="lightbox" href="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}">
+                                                <img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @php $countExistingPics += 1; @endphp
+                                @endif
                             @endforeach
                         </div>
                     </div>
                 </div>
-            @else
-                <h5>Няма добавени снимки</h5>
-            @endif
+                @endif
+                @if( $countExistingPics == 0)
+                    <h5>Няма добавени снимки</h5>
+                @endif
             </div>
             <!-- org activity -->
             <div class="col-md-6 col-sm-12 col-xs-12">

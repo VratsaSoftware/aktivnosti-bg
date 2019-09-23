@@ -16,13 +16,14 @@
 					@if(session()->has('message'))
 			    		<div class="alert alert-success">
 			       			 {{ session()->get('message') }}
-			    		</div>   
+			    		</div>
 					@endif
 			        <table class="table table-striped table-bordered table-hover" id="table_groups">
 			            <thead>
 			                <tr>
 			            		<th>Група</th>
 								<th>Описание</th>
+                                <th>Дневник</th>
 								<th>Разписания</th>
 								<th>Редактирай</th>
 								<th>Изтрии</th>
@@ -34,6 +35,13 @@
 							<tr>
 								<td>{{ $group->name }}</td>
 								<td>{{ $group->description }}</td>
+                                <td>
+                                    {!! (isset($group->created_at)) ?'<b>Създадена на:</b><br>'.$group->created_at.'</b><br>' : '' !!}
+                                    @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                    {!! (isset($group->updated_by)) ?'<b>Променена от:</b><br>'.$group->updated_by.'<br>' : ''  !!}
+                                    @endif
+                                    {!! !empty($group->updated_at) ? '<b>Променена на:</b><br>'.$group->updated_at.'<br>' : '' !!}
+                                </td>
 								<td><a class="btn btn-warning btn-sm" href="{{ route('schedule.review',$group->group_id)}}">Разписания</a></td>
 								<td>
 									<a class="btn btn-success btn-sm" href="{{ route('group.edit',$group->group_id)}}">Редактирай</a>

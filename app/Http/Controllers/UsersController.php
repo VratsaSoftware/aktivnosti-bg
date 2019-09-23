@@ -21,11 +21,11 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
     public function __construct(){
       //Middleware users
         $this->middleware('protect.users')->except(['index']);;
-    } 
+    }
 
     public function index()
     {
@@ -42,7 +42,7 @@ class UsersController extends Controller
         else
         {
             return view('citadel.home')->with('message', 'Нямате достъп до тази страница!');
-        }     
+        }
         return view('users.index',compact('users'));
     }
 
@@ -94,7 +94,7 @@ class UsersController extends Controller
         $userRole = $user->role_id;
 
         //prepare roles
-        $rolesPluck= (['0' => 'Няма']+Role::pluck('role','role_id')->toArray()); 
+        $rolesPluck= (['0' => 'Няма']+Role::pluck('role','role_id')->toArray());
         $roles = (isset($userRole) ?  [$userRole => $rolesPluck[$userRole]] + $rolesPluck : $rolesPluck);
 
         //remove admin option for non-admin users
@@ -126,7 +126,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UserFormRequest $request, $id)
-    {   
+    {
 
         $user = User::find($id);
         $categories = $request->get('categories');
@@ -145,7 +145,10 @@ class UsersController extends Controller
         }
 
         $user->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
-        
+
+        if($request->get('approved')==1){
+            $user->approved_by = Auth::user()->email;
+        }
         $request->get('role') == 0 ? $user->role_id = NULL : $user->role_id = $request->get('role');
 
         if(isset($request['organization']))
@@ -159,13 +162,13 @@ class UsersController extends Controller
             $user->organizations()->sync([$request->get('organization')]);
             }
         }
-        
+
         if(!$user->hasRole('moderator')){
             $categories=[];
         }
         $user->updated_by = Auth::user()->email;
         $user->categories()->sync($categories);
-        
+
         $user->save();
 
         return redirect('citadel/users')->with('message', 'Промените са запазени успешно!');
@@ -208,7 +211,7 @@ class UsersController extends Controller
     }
 
     public function kickUserFromOrganization($id,$organization_id){
-        $user = User::find($id);  
+        $user = User::find($id);
         if($user->hasRole('organization_member')){
             $user->organizations()->detach($organization_id);
             $user->updated_by = Auth::user()->email;

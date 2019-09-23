@@ -114,7 +114,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Допълнителна информация

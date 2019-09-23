@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Photo;
 use App\Models\Purpose;
 use App\Http\Requests\ProfileFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -17,7 +18,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function __construct(){
       //Middleware profile
         $this->middleware('protect.profile')->except(['index']);;
@@ -88,24 +89,25 @@ class ProfileController extends Controller
     public function update(ProfileFormRequest $request, $id)
     {
         $user = User::find($id);
-        
+
         $user->name = $request->get('name');
         $user->family = $request->get('family');
         $user->email = $request->get('email');
         $user->address = $request->get('address');
         $user->phone = $request->get('phone');
+        $user->updated_by = Auth::user()->email;
 
         if(isset($request['description']))
         {
             $user->description = $request->get('description');
         }
-                
+
         $user->save();
 
         isset($user->photo->image_path) ? $photo = $user->photo->image_path : '';
 
         if(isset($request['photo'])){
-            
+
             $file_name = (time().'p'.mt_rand(1,99));
             $store_file=$request['photo']->move('user_files/images/profile', $file_name);
 
@@ -128,9 +130,7 @@ class ProfileController extends Controller
             {
                 $user->photo->image_path = $file_name;
                 $user->photo->update();
-                
             }
-            
         }//end of photo update
 
         return redirect('citadel/profile')->with('message', 'Успешно редактиране!');

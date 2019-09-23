@@ -165,6 +165,7 @@ class ActivityController extends Controller
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;
+        $activity->updated_by = Auth::user()->email;
         $activity->save();
         // mine picture
         if(isset($request['photo'])){
@@ -351,6 +352,7 @@ class ActivityController extends Controller
         // if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
         //     $activity->approved_at = NULL;
         // }
+        $activity->updated_by = Auth::user()->email;
         $activity->save();
         return redirect('/citadel/activity')->with('message', 'Активност '.$activity->activity_name.' е редактирана');
     }
@@ -367,6 +369,8 @@ class ActivityController extends Controller
         foreach($activity ->news as $news){
             $news->delete();
         }
+        $activity->deleted_by = Auth::user()->email;
+        $activity->save();
         $activity->delete();
         return redirect()->back()->with('message', 'Активността '.$activity->name.' е изтрита!');
     }
@@ -374,6 +378,7 @@ class ActivityController extends Controller
     {
         $activity = Activity::find($id);
         $activity->approved_at = (date('Y-m-d H:i:s'));
+        $activity->approved_by = Auth::user()->email;
         $activity->save();
         return redirect()->back()->with('message', 'Активността '.$activity->name.' е одобрена!');
     }

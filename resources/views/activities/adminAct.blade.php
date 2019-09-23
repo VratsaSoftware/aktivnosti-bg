@@ -10,14 +10,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички активности
-				
+
             </div>
 	        <div class="panel-body">
 				<div class="table-responsive">
 					@if(session()->has('message'))
 			    		<div class="alert alert-success">
 			       			 {{ session()->get('message') }}
-			    		</div>   
+			    		</div>
 					@endif
 			        <table class="table table-striped table-bordered table-hover" id="table_activities">
 			            <thead>
@@ -30,6 +30,7 @@
 								<th>Създадена на</th>
 								<th>Снимка</th>
 								<th>Статус</th>
+								<th>Дневник</th>
 								<th>Управление</th>
 							</tr>
 			            </thead>
@@ -44,16 +45,16 @@
 									@endisset
 								</td>
 								@if(isset($activity->category->name))
-								<td>{{ $activity->category->name }}</td> 
+								<td>{{ $activity->category->name }}</td>
 								@else
 								<td>Няма</td>
 								@endif
 								@if(isset($activity->subcategory->name))
-								<td>{{ $activity->subcategory->name }}</td> 
+								<td>{{ $activity->subcategory->name }}</td>
 								@else
 								<td>Няма</td>
 								@endif
-								<td>{{Carbon\Carbon::parse( $activity->created_at)->format('d m Y H:i') }}</td> 
+								<td>{{Carbon\Carbon::parse( $activity->created_at)->format('d m Y H:i') }}</td>
 								<td>
 									@foreach ($activity->photos as $photo)
 										@if ($photo->purpose->description == 'mine')
@@ -64,6 +65,17 @@
 								<td>
 									{{ (isset($activity->approved_at)) ? 'Одобрена': 'Неодобрена' }}
 								</td>
+								<td>
+			                        {!! (isset($activity->created_at)) ? '<b>Създадена на:</b><br>'.$activity->created_at.'<br>' : ''  !!}
+			                        @if(Auth::user()->hasAnyRole(['admin','moderator']))
+			                        {!! (isset($activity->approved_by)) &&  !empty($activity->approved_at) ? '<b>Oдобрена от:</b><br>'.$activity->approved_by.'<br>' : ''  !!}
+			                        @endif
+			                        {!! !empty($activity->approved_at) ? '<b>Oдобрена на:</b><br>'.$activity->approved_at.'<br>' : '' !!}
+			                        @if(Auth::user()->hasAnyRole(['admin','moderator']))
+			                        {!! (isset($activity->updated_by)) ?'<b>Променена от:</b><br>'.$activity->updated_by.'<br>' : ''  !!}
+			                        @endif
+			                        {!! !empty($activity->updated_at) ? '<b>Променена на:</b><br>'.$activity->updated_at.'<br>' : '' !!}
+                     			</td>
 								<td>
 									<a class="btn btn-primary btn-sm btn-block" href="{{ route('group.review', $activity->activity_id)}}">Групи</a>
 									<a class="btn btn btn-info btn-sm btn-block" href="{{ route('activities.show',$activity->activity_id)}}" target="_blank">Преглед</a>

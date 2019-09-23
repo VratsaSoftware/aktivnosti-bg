@@ -15,7 +15,7 @@
 		@if(session()->has('message'))
     		<div class="alert alert-success">
        			 {{ session()->get('message') }}
-    		</div>   
+    		</div>
 		@endif
         <table class="table table-striped table-bordered table-hover" id="table_users">
             <thead>
@@ -27,6 +27,7 @@
 					<th>Организация</th>
 					<th>Статус</th>
 					<th>Роля</th>
+                    <th>Дневник<i class="fas fa-user-secret"></i></th>
 					<th>Управление</th>
 				</tr>
             </thead>
@@ -47,12 +48,23 @@
 					</td>
 					<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 					<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+                    <td>
+                        {!! (isset($user->created_at)) ?'<b>Регистриран на:</b><br>'.$user->created_at.'</b><br>' : ''  !!}
+                        @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                        {!! (isset($user->approved_by)) &&  !empty($user->approved_at) ? '<b>Oдобрен от:</b><br>'.$user->approved_by.'<br>' : ''  !!}
+                        @endif
+                        {!! !empty($user->approved_at) ? '<b>Oдобрен на:</b><br>'.$user->approved_at.'<br>' : '' !!}
+                        @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                        {!! (isset($user->updated_by)) ?'<b>Променен от:</b><br>'.$user->updated_by.'<br>' : ''  !!}
+                        @endif
+                        {!! !empty($user->updated_at) ? '<b>Променен на:</b><br>'.$user->updated_at.'<br>' : '' !!}
+                    </td>
 					<td>
 						<a class="btn btn-success btn-sm btn-block" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
 							@if(!$user->approved_at)
 								<a class="btn btn-warning btn-sm btn-block" href="{{ route('users.approve',$user->user_id)}}">Одобри</a>
 							@else
-								<a class="btn btn-info btn-sm btn-block" href="{{ route('users.unApprove',$user->user_id)}}">Неодобрявам</a>	
+								<a class="btn btn-info btn-sm btn-block" href="{{ route('users.unApprove',$user->user_id)}}">Неодобрявам</a>
 							@endif
 						<form method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
 							{{ csrf_field() }}

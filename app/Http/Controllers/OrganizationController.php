@@ -231,8 +231,11 @@ class OrganizationController extends Controller
         if(Auth::user()->hasAnyRole(['admin','moderator'])){
 
             $organization->approved_at = ($request->get('approved')==1) ? (date('Y-m-d H:i:s')): NULL;
+            if($request->get('approved')==1){
+                $organization->approved_by = Auth::user()->email;
+            }
         }
-
+        $organization->updated_by = Auth::user()->email;
         $organization->save();
         $purpose_logo = Purpose::select('purpose_id')->where('description','logo')->first();
         $logo =  $organization->photos->where('purpose_id', $purpose_logo->purpose_id);
@@ -318,6 +321,8 @@ class OrganizationController extends Controller
         foreach($organization->news as $news){
             $news->delete();
         }
+        $organization->deleted_by = Auth::user()->email;
+        $organization->save();
         $organization->delete();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е изтрита!');
     }
@@ -331,6 +336,7 @@ class OrganizationController extends Controller
     {
         $organization = Organization::find($id);
         $organization->approved_at = (date('Y-m-d H:i:s'));
+        $organization->approved_by = Auth::user()->email;
         $organization->save();
         return redirect()->back()->with('message', 'Организацията '.$organization->name.' е одобрена!');
     }

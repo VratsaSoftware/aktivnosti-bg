@@ -69,7 +69,7 @@
                                     Адрес
                                 </th>
                                 <th>
-                                    Статус
+                                    Статус  {{ (isset($user->approved_at)) ? ' - Одобрен': '' }}
                                 </th>
                             </tr>
                         </thead>
@@ -78,9 +78,61 @@
                                 <td class="col-md-3">
                                     {{ $user->address }}
                                 </td>
+                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
                                 <td class="col-md-3">
-                                    {{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}
+                                    @isset($user->approved_at)
+                                    <table class="table table-striped table-bordered table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Одобрен от
+                                                </th>
+                                                <th>
+                                                    Одобрен на
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-md-3">
+                                                    {{ (isset($user->approved_by)) ? $user->approved_by : '-'  }}
+                                                </td>
+                                                <td class="col-md-3">
+                                                    {{ !empty($user->approved_at) ? $user->approved_at : '-' }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    @endisset
+                                    @empty($user->approved_at)
+                                        Неодобрен
+                                    @endempty
+                                    @isset($user->updated_at)
+                                    <table class="table table-striped table-bordered table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Последно променен от
+                                                </th>
+                                                <th>
+                                                    Променен на
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-md-3">
+                                                    {{ (isset($user->updated_by)) ? $user->updated_by : '-'  }}
+                                                </td>
+                                                <td class="col-md-3">
+                                                    {{ !empty($user->updated_at) ? $user->updated_at : '-' }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    @endisset
                                 </td>
+                                @endif
                             </tr>
                         </tbody>
                     </table>
@@ -114,16 +166,16 @@
                         <div class="panel-body">
                             {{ $user->description }}
                         </div>
-                    </div>        
+                    </div>
                 </div>
             </div>
-            <div class="col-md-12">            
+            <div class="col-md-12">
                 <form style="display: inline-block" method="POST" action="{{ route('users.destroy',$user->user_id) }}" onsubmit="return ConfirmDelete('{{ 'потребител '.$user->name.' '.$user->family.' '.$user->email }}')">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
                     <input class="btn btn-danger" type="submit" name="submit" value="Изтрий потребител">
                 </form>
-            </div> 
+            </div>
             <div class="col-md-10">
     			{!! Form::model($user, ['enctype' => 'multipart/form-data', 'method' => 'PATCH','files' => true, 'action' => ['UsersController@update',$user->user_id]]) !!}
         		@include('users.form', ['submitButtonText' => 'Запази промените'])

@@ -83,6 +83,34 @@
                             </tr>
                         </tbody>
                     </table>
+                    @isset($user->updated_at)
+                    <table class="table table-striped table-bordered table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                <th>
+                                    Последно променен от
+                                </th>
+                                @endif
+                                <th>
+                                    Променен на
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                <td class="col-md-3">
+                                    {{ (isset($user->updated_by)) ? $user->updated_by : '-'  }}
+                                </td>
+                                @endif
+                                <td class="col-md-3">
+                                    {{ !empty($user->updated_at) ? $user->updated_at : '-' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @endisset
                     <table class="table table-striped table-bordered table-hover table-responsive-sm">
                         <thead>
                             <tr>
@@ -106,7 +134,34 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    @isset($user->approved_by)
+                    <table class="table table-striped table-bordered table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                <th>
+                                    Одобрен от
+                                </th>
+                                @endif
+                                <th>
+                                    Одобрен на
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                <td class="col-md-3">
+                                    {{ (isset($user->approved_by)) ? $user->approved_by : '-'  }}
+                                </td>
+                                @endif
+                                <td class="col-md-3">
+                                    {{ !empty($user->approved_at) ? $user->approved_at : '-' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @endisset
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             За мен
@@ -120,7 +175,7 @@
                             Обратно
                         </a>
                         <a class="btn btn-danger btn-sm" href="{{ route('profile.edit',Auth::user()->user_id)}}">
-                            <i class="fa fa-edit "></i> 
+                            <i class="fa fa-edit "></i>
                             Редактирай
                         </a>
                     </div>

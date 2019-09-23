@@ -10,8 +10,8 @@
             <div class="panel-heading">
             	<span>Активност: {{$group->activity->name}}   </span>
             	<span>   Група: {{$group->name}}</span>
-                
-                
+
+
 				<a href="{{ route('schedulegroup.create', $group->group_id)}}">Създай ново разписание</a>
             </div>
         	<div class="panel-body">
@@ -19,7 +19,7 @@
 					@if(session()->has('message'))
 			    		<div class="alert alert-success">
 			       			 {{ session()->get('message') }}
-			    		</div>   
+			    		</div>
 					@endif
 			        <table class="table table-striped table-bordered table-hover" id="table_schedules">
 			            <thead>
@@ -27,6 +27,7 @@
 			            		<th>Ден</th>
 								<th>Начален час</th>
 								<th>Краен час</th>
+                                <th>Дневник</th>
 								<th>Редактирай</th>
 								<th>Изтрии</th>
 							</tr>
@@ -38,6 +39,13 @@
 								<td>{{ $schedule->day }}</td>
 								<td>{{ $schedule->start_time }}</td>
 								<td>{{ $schedule->end_time }}</td>
+                                <td>
+                                    {!! (isset($schedule->created_at)) ?'<b>Създадена на:</b><br>'.$schedule->created_at.'</b><br>' : '' !!}
+                                    @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                    {!! (isset($schedule->updated_by)) ?'<b>Променена от:</b><br>'.$schedule->updated_by.'<br>' : ''  !!}
+                                    @endif
+                                    {!! !empty($schedule->updated_at) ? '<b>Променена на:</b><br>'.$schedule->updated_at.'<br>' : '' !!}
+                                </td>
 								<td>
 									<a class="btn btn-success btn-sm" href="{{ route('schedule.edit',$schedule->schedule_id)}}">Редактирай</a>
 								</td>
@@ -46,14 +54,14 @@
 										{{ csrf_field() }}
 										{{ method_field('DELETE') }}
 										<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
-									</form>	
+									</form>
 								</td>
 							</tr>
 							@endforeach
 							@endisset
 						</tbody>
 			        </table>
-			       
+
 			        <a class="btn btn-success btn-sm" href="{{ route('group.show', $group->activity->activity_id)}}">Преглед</a>
 			        <a class="btn btn-primary btn-sm" href="{{ route('group.review', $group->activity->activity_id)}}">Групи</a>
 			    </div>

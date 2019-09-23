@@ -9,13 +9,13 @@
        	@if(session()->has('message'))
     		<div class="alert alert-success">
        			{{ session()->get('message') }}
-    		</div>   
+    		</div>
 		@endif
       	@if(Auth::user()->hasAnyRole(['admin','moderator','organization_manager']))
         	<div class="panel panel-default">
             	<div class="panel-heading">
                 	Нови потребители чакащи одобрение
-                	@if(Auth::user()->hasRole('organization_manager'))и заявили принадлежност към вашите организации 
+                	@if(Auth::user()->hasRole('organization_manager'))и заявили принадлежност към вашите организации
             		@endif
             	</div>
         		<div class="panel-body">
@@ -30,6 +30,7 @@
 									<th>Организация</th>
 									<th>Статус</th>
 									<th>Роля</th>
+                                    <th>Дневник</th>
 									<th>Управление</th>
 								</tr>
             				</thead>
@@ -63,6 +64,16 @@
 											<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
 											<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 											<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+                                            <td>
+                                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                                {!! (isset($user->approved_by)) &&  !empty($user->approved_at) ? 'Oдобрен от:<br>'.$user->approved_by.'<br>' : ''  !!}
+                                                @endif
+                                                {!! !empty($user->approved_at) ? 'Oдобрен на:<br>'.$user->approved_at.'<br>' : '' !!}
+                                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                                {!! (isset($user->updated_by)) ?'Променен от:<br>'.$user->updated_by.'<br>' : ''  !!}
+                                                @endif
+                                                {!! !empty($user->updated_at) ? 'Променен на:<br>'.$user->updated_at.'<br>' : '' !!}
+                                             </td>
 											<td>
 												@if(!Auth::user()->hasRole('organization_manager'))
 												<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
@@ -80,7 +91,7 @@
 								@endisset
 							</tbody>
         				</table>
-        			</div>	
+        			</div>
         		</div>
         	</div>
         	<div class="panel panel-default">
@@ -99,6 +110,7 @@
 									<th>Организация</th>
 									<th>Статус</th>
 									<th>Роля</th>
+                                    <th>Дневник</th>
 									<th>Управление</th>
 								</tr>
             				</thead>
@@ -132,6 +144,16 @@
 											<td>{{ !empty($user->organizations()->first()) ? $user->organizations()->first()->name : 'Няма' }}</td>
 											<td>{{ (isset($user->approved_at)) ? 'Одобрен': 'Неодобрен' }}</td>
 											<td>{{ (isset($user->role->role)) ? $user->role->role : 'Няма'  }}</td>
+                                            <td>
+                                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                                {!! (isset($user->approved_by)) &&  !empty($user->approved_at) ? 'Oдобрен от:<br>'.$user->approved_by.'<br>' : ''  !!}
+                                                @endif
+                                                {!! !empty($user->approved_at) ? 'Oдобрен на:<br>'.$user->approved_at.'<br>' : '' !!}
+                                                @if(Auth::user()->hasAnyRole(['admin','moderator']))
+                                                {!! (isset($user->updated_by)) ?'Променен от:<br>'.$user->updated_by.'<br>' : ''  !!}
+                                                @endif
+                                                {!! !empty($user->updated_at) ? 'Променен на:<br>'.$user->updated_at.'<br>' : '' !!}
+                                            </td>
 											<td>
 												@if(!Auth::user()->hasRole('organization_manager'))
 												<a class="btn btn-success btn-sm" href="{{ route('users.edit',$user->user_id)}}">Редактирай</a>
@@ -149,8 +171,8 @@
 								@endisset
 							</tbody>
         				</table>
-        			</div>	
-        		</div>     	     	  	
+        			</div>
+        		</div>
         	</div>
         	@if(Auth::user()->hasRole('organization_manager'))
         	<div class="panel panel-default">
@@ -220,8 +242,8 @@
 								@endisset
 							</tbody>
         				</table>
-        			</div>	
-        		</div>     	     	  	
+        			</div>
+        		</div>
         	</div>
         	@endif
         @endif
@@ -255,9 +277,10 @@
 							<td>{{ $organization->address }}</td>
 							<td>{{ $organization->phone }}</td>
 							<td>
+                                {{ $organization->id }}
 								@isset($purposeLogo)
-									@if(isset($organization->photos->where('purpose_id',$purposeLogo)->first()->image_path))
-										<img class='table-image' src='{{ asset('/user_files/images/organization/').'/'.$organization	->photos->where('purpose_id',$purposeLogo)->first()->image_path }}'>
+									@if(isset($organization->photos->where('purpose_id',$purposeLogo)->sortByDesc('updated_at')->first()->image_path))
+										<img class='table-image' src='{{ asset('/user_files/images/organization/').'/'.$organization->photos->where('purpose_id',$purposeLogo)->sortByDesc('updated_at')->first()->image_path }}'>
 									@else
 										<span>Няма снимка</span>
 									@endif

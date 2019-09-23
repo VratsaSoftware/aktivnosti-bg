@@ -150,7 +150,7 @@
             "columnDefs":
             [{
 
-                "targets": [7],
+                "targets": [3,7,8],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -165,7 +165,7 @@
             "columnDefs":
             [{
 
-                "targets": [7],
+                "targets": [3,7,8],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -209,7 +209,7 @@
         $('#table_organizations_adminOrg').dataTable( {
             "columnDefs":
             [{
-                "targets": [6],
+                "targets": [4,6,7],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -224,7 +224,7 @@
         $('#table_activities').dataTable( {
             "columnDefs":
             [{
-                "targets": [8],
+                "targets": [6,8,9],
                 "searchable": false,
                 "orderable": false,
             }],
@@ -261,7 +261,7 @@
         $('#table_groups').dataTable( {
             "columnDefs":
             [{
-                "targets": [3,4],
+                "targets": [2,3,4,5],
                 "searchable": false,
                 "orderable": false,
             }],

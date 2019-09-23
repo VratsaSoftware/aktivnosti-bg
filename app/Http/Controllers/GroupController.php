@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Models\Group;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
-    
+
     public function addGroupActivity($groupId)
     {
         $activity = Activity::findOrFail($groupId);
-        
+
         return view ('groups.create', compact('activity'));
     }
     public function review ($activityId)
@@ -39,7 +40,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -65,14 +66,14 @@ class GroupController extends Controller
         //validate group requests
 
         $this->validate($request, [
-            'name' => 'required|min:3', 
+            'name' => 'required|min:3',
             'description' => 'required|max:500'
         ], [
             'name.min' => 'Името на групата трябва да съдържа минимум три знака'
         ]);
 
         $activityId = $request->activity_id;
-       
+
         return redirect('/citadel/group/'.$activityId.'/review')->with('message', 'Създадена е нова група');
     }
 
@@ -119,17 +120,18 @@ class GroupController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'activity_id' => $request->activity_id,
+            'updated_by' =>  Auth::user()->email
         ]);
 
         $this->validate($request, [
-            'name' => 'required|min:3', 
+            'name' => 'required|min:3',
             'description' => 'required|max:500'
         ], [
             'name.min' => 'Името на групата трябва да съдържа минимум три знака'
         ]);
-        
+
         $activityId = $request->activity_id;
-       
+
         return redirect('/citadel/group/'.$activityId.'/review')->with('message', 'Групата е редактирана');
         // return redirect('citadel/group/'.($id))->with('message', 'Групата е редактирана');
     }
@@ -143,6 +145,8 @@ class GroupController extends Controller
     public function destroy($id)
     {
         $group = Group::find($id);
+        $group->deleted_by = Auth::user()->email;
+        $group->save();
         $group->delete();
 
         $activityId = $group->activity_id;
