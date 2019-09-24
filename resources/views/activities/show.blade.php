@@ -184,40 +184,39 @@
 			<div class="responsive">
 					<!--single item-->
 
-					@foreach($activities as $activ)
-						@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
-					<div>
-						<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
-							@foreach ($activ->photos as $photo)
-								@if ($photo->purpose->description == 'mine')
-								<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-								@endif
-							@endforeach
-							<div class="portfolio_item_hover">
-								<div class="portfolio-border clearfix">
-									<div class="item_info">
-										<span class="description">{{$activ->name}}</span>
-										@isset($activ->organization->name)
-										<em class="name">{{$activ->organization->name}}</em>
-										@endisset
-									</div>
+				@foreach($activities as $activ)
+					@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
+				<div>
+					<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
+						@foreach ($activ->photos as $photo)
+							@if ($photo->purpose->description == 'mine')
+							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+							@endif
+						@endforeach
+						<div class="portfolio_item_hover">
+							<div class="portfolio-border clearfix">
+								<div class="item_info">
+									<span class="description">{{$activ->name}}</span>
+									@isset($activ->organization->name)
+									<em class="name">{{$activ->organization->name}}</em>
+									@endisset
 								</div>
 							</div>
-						</a>
-					</div>
-						@endif
-					@endforeach
+						</div>
+					</a>
+				</div>
+					@endif
+				@endforeach
 				<!--end single item-->
 			</div>
 		</div>
-	</div>
 		<!--end right side-->
-	<div class="col-md-12 col-sm-12 text-center">
-        <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
-    </div>
+	</div>
 	</div>
 	<!-- end main-container -->
-
+	<div class="text-center">
+        <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
+    </div>
 @endsection
 @section('og')
 <meta property="og:title" content="{{ $activity->name }}" />

@@ -280,6 +280,21 @@
                 "emptyTable": "Все още няма създаденo разписание"
             },
         });
+		 $('#table_news_adminOrg').dataTable( {
+            "columnDefs":
+            [{
+
+                "targets": [2,4],
+                "searchable": false,
+                "orderable": false,
+            }],
+            "sPaginationType" : "full_numbers",
+            "autoWidth": true,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Няма потребители с премахнато одобрение"
+            },
+        });
 
     });
     </script>

@@ -15,6 +15,7 @@
             address = '{{ str_replace(str_split('\\/:*?"<>|$!@'),'',$organization->address) }}';
     </script>
     <script src="{{ asset('js/map.js') }}"></script>
+	
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 @endpush
 
@@ -84,9 +85,7 @@
         </div>
         <!-- end right side -->
         <div class="col-md-12 col-sm-12">
-            <div class="col-md-12 col-sm-12">
             <p class="description-text"><span>За организацията:</span> {{ $organization->description }}</p>
-            </div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="col-md-6 col-sm-12 col-xs-12">
@@ -102,7 +101,7 @@
                             @foreach($gallery as $photo)
                                 @if(file_exists('user_files/images/organization/gallery/' . $photo->image_path))
                                     <div class="col-xs-6 col-sm-6 col-md-4">
-                                        <div class="marg">
+                                        <div class="marg gallery">
                                             <a class="lightbox" href="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}">
                                                 <img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="image" class="img-responsive" />
                                             </a>
@@ -157,19 +156,20 @@
                 </div>
             @endif
             </div>
-        </div>
-        <div class="col-md-12 col-sm-12 text-center">
-            <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
-        </div>
+        </div>       
         <!-- end org activity -->
     </div>
+	<div class="text-center">
+          <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
+    </div>
     <script>
-    $(function() {
-  $(".img-w").each(function() {
-    $(this).wrap("<div class='img-c'></div>")
-    let imgSrc = $(this).find("img").attr("src");
-     $(this).css('background-image', 'url(' + imgSrc + ')');
-  })
+
+	$(function() {
+		$(".img-w").each(function() {
+		$(this).wrap("<div class='img-c'></div>")
+		let imgSrc = $(this).find("img").attr("src");
+		$(this).css('background-image', 'url(' + imgSrc + ')');
+	})
 
 
   $(".img-c").click(function() {

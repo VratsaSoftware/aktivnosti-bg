@@ -15,7 +15,7 @@
 						{{ session()->get('message') }}
 					</div>   
 					@endif
-                    <form id="register" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
                         @csrf
 						@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator'))
 						{{-- category --}}
@@ -154,9 +154,5 @@
         </div>
     </div>
 </div>
-<script>
-	submitForms = function(){
-    document.getElementById("register").submit();
-}
-</script>
+
 @endsection

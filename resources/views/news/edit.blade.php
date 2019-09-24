@@ -18,7 +18,7 @@
 					</div>
 					@endforeach
 					<!--end organization logo-->
-                    <form id="register" method="POST" action="{{ route('news.update', $news->news_id) }}" enctype="multipart/form-data">
+                    <form  method="POST" action="{{ route('news.update', $news->news_id) }}" enctype="multipart/form-data">
 					@method('PUT')
                     @csrf
 						{{-- category --}}
@@ -160,9 +160,5 @@
         </div>
     </div>
 </div>
-<script>
-	submitForms = function(){
-    document.getElementById("register").submit();
-}
-</script>
+
 @endsection

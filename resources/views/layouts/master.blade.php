@@ -35,6 +35,7 @@
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -78,7 +79,7 @@
     <!-- end back to top -->
 	
     <!-- jQuery -->
-
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
     <script src="{{asset('js/jquery-2.1.1.js')}}"></script>
     <!-- <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/jquery-migrate-3.0.0.min.js"></script> -->
@@ -122,14 +123,25 @@
 	<script src="{{asset('js/modernizr.js')}}"></script>
     <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
-	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="{{asset('js/limititems.js')}}"></script>
 	<script src="{{ asset('js/share.js') }}"></script>
 	<script src="{{ asset('js/slick.js') }}"></script>
 	<script src="{{ asset('js/map.js') }}"></script>
-    <!-- Free/Paid check box and age slider management-->
-     
-	
+    <!-- lightBox start-->
+	<script>
+		baguetteBox.run('.tz-gallery', {
+		  captions: true, // display image captions.
+		  buttons: 'auto', // arrows navigation
+		  fullScreen: false,
+		  noScrollbars: true,
+		  bodyClass: 'baguetteBox-open',
+		  titleTag: false,
+		  async: false,
+		  preload: 2,
+		  animation: 'slideIn', // fadeIn or slideIn
+		  verlayBackgroundColor: 'rgba(0,0,0,.8)'
+		});
+	</script>
 	<script src="{{asset('/js/filterAjax.js')}}"></script>
     <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
 
