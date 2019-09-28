@@ -21,8 +21,13 @@ use Image;//crop image
 
 class NewsController extends Controller
 {
+    public function __construct(){
+        //MW
+        $this->middleware('protect.news')->except(['index','show','getActivities']);
+    }
+
     // temp function
-    
+
     public function adminNews()
     {
         $news = News::all();
@@ -54,22 +59,22 @@ class NewsController extends Controller
 		$categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
-            
+
             $organizations = [ 0 => 'Изберете Организация'] + (Organization::select('organization_id','name')->whereNotNull('approved_at')->pluck('name','organization_id')->toArray());
-			
-        
+
+
             return view('news.create', compact('categories', 'subcategories', 'organizations'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
-        
+
             $organizations=Auth::user()->organizations()->get();
-            
+
             if($organizations){
-                
+
                 return view('news.create', compact('categories', 'subcategories', 'organizations'));
             }
-        } 
+        }
     }
 
     /**
@@ -80,30 +85,30 @@ class NewsController extends Controller
      */
     public function store(NewsFormRequest $request)
     {
-		
+
 		if($request['category']&&($request['organization_id'] == 0)){
-			
+
 			$news_type = Category::find($request['category']);
-			
+
 		}elseif($request['organization_id']&&($request['activity'] == null)){
-			
+
 			$news_type = Organization::find($request['organization_id']);
-			
+
 		}elseif($request['activity']){
-			
+
 			$news_type = Activity::find($request['activity']);
-			
+
 		}else{
-			
+
 			$news_type = Organization::where('name', 'Aktivnosti.bg')->whereNotNull('approved_at')->first();
 			//if no organization Ativnosti.bg
 			if($news_type==null){
-				
+
 				$validator = Validator::make($request->all(), [
 					'organization_id' => 'required',
-					
+
 				]);
-				
+
 				return redirect()->back()->withInput()->with('message', 'Моля изберете категория, организация или активност');
 			}
 		}
@@ -141,7 +146,7 @@ class NewsController extends Controller
                 'purpose_id' => $photo_purpose->purpose_id,
             ]);
         }
-				
+
         return redirect('citadel/news')->with('message', 'Създадена е Новина');
     }//end of create
 
@@ -156,7 +161,7 @@ class NewsController extends Controller
         $news = News::findOrFail($id);
 		$purpose = Purpose::select('purpose_id')->where('description','front')->first();
 		$news_photo =  $news->photos->where('purpose_id', $purpose->purpose_id);
-		
+
 		return view('news.show')->with(compact(['news','news_photo']));
     }
 
@@ -171,30 +176,30 @@ class NewsController extends Controller
         $news = News::findOrFail($id);
 		$purpose = Purpose::select('purpose_id')->where('description','front')->first();
 		$news_photo =  $news->photos->where('purpose_id', $purpose->purpose_id);
-		
+
 		//prepare approved options
 		$approvals = ($news->isApproved()) ? $approvals=['1'=> 'Одобрена']+['0' => 'Неодобрена'] : $approvals=['0' => 'Неодобрена']+ ['1'=> 'Одобрена'];
-		
+
 		$categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
 
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
-            
+
             $organizations = [ 0 => 'Изберете Организация'] + (Organization::select('organization_id','name')->whereNotNull('approved_at')->pluck('name','organization_id')->toArray());
-			
-        
+
+
             return view('news.edit', compact('news', 'categories', 'subcategories', 'organizations', 'approvals'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
-        
+
             $organizations=Auth::user()->organizations()->get();
-            
+
             if($organizations){
-                
+
                 return view('news.edit', compact('news', 'categories', 'subcategories', 'organizations', 'approvals'));
             }
-        } 
-		
+        }
+
     }
 
     /**
@@ -206,29 +211,29 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
+
 		$news = News::findOrFail($id) ;
 		$article_type = $news->article_type;
 		$article_id = $news->article_id;
 		if($request['category']&&($request['organization_id'] == 0)){
-			
+
 			$news_type = Category::find($request['category']);
 			$article_type = 'App\Models\Category';
 			$article_id = $news_type->category_id;
-			
+
 		}elseif($request['organization_id']&&($request['activity'] == null)){
-			
+
 			$news_type = Organization::find($request['organization_id']);
 			$article_type = 'App\Models\Organization';
 			$article_id = $news_type->organization_id;
-			
+
 		}elseif($request['activity']){
-			
+
 			$news_type = Activity::find($request['activity']);
 			$article_type = 'App\Models\Activity';
 			$article_id = $news_type->activity_id;
 		}
-				
+
 		$news->update([
 			'heading' => $request->get('name'),
 			'description' => $request->get('description'),
@@ -236,7 +241,7 @@ class NewsController extends Controller
 			'article_id' => $article_id,
 			'article_type' => $article_type,
         ]);
-		
+
 		 //store news image in public\user_files\images\news
         if(isset($request['photo'])){
             $original_name = $request['photo']->getClientOriginalName();
@@ -255,7 +260,7 @@ class NewsController extends Controller
             if(!$photo_purpose){
                 $photo_purpose=Purpose::firstOrCreate(['description' => 'front']);
             }
-			
+
 			$purpose = Purpose::select('purpose_id')->where('description','front')->first();
 			$news_photo =  $news->photos->where('purpose_id', $purpose->purpose_id);
 			if(count($news_photo)<1){
@@ -271,22 +276,22 @@ class NewsController extends Controller
                 $news->photos()->update([
 				'image_path' => $file_name
 				]);
-				
+
 				//delete old photo
 				foreach($news->photos as $photo){
 					$old_photo = $photo->image_path;
 					File::delete('user_files/images/news/'.$old_photo);
-				}	  
+				}
             }
             //store image in photos table
 		}
 		if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
-           
+
 			$news->approved_at = NULL;
 			$news->save();
         }
 
-        
+
 		return redirect()->route('news.adminNews')->with('message', 'Новината '.$news->heading.' е редактирана!');
     }
 	/**
@@ -330,8 +335,8 @@ class NewsController extends Controller
         return redirect()->back()->with('message', 'Новината '.$news->name.' е изтрита!');
     }
 	/**
-     * get activities 
-     * 
+     * get activities
+     *
      * Ajax
      * dropdown
      */
@@ -343,16 +348,16 @@ class NewsController extends Controller
 
         if(isset($activity)){
             $orderByCondition = $activity;
-        } 
+        }
         else{
             $orderByCondition = "NULL";
             $blankActArr = array('activity_id' => '0', 'name' => 'Моля изберете активност');
         }
-        
+
         $activities = Activity::select('activity_id','name')->where('organization_id', $organization)->orderByRaw("activity_id = ".$orderByCondition." desc, activity_id asc")->get()->toArray();
 
         isset($blankActArr) ? $activities = Arr::prepend($activities,$blankActArr) : false;
-    
+
         return response()->json($activities);
     }
 }

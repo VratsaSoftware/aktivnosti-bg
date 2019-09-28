@@ -11,12 +11,19 @@ use Illuminate\Support\Facades\Auth;
 class GroupController extends Controller
 {
 
+    public function __construct(){
+      //Middleware groups
+        $this->middleware('protect.group')->except(['index','create','store']);
+    }
+
+
     public function addGroupActivity($groupId)
     {
         $activity = Activity::findOrFail($groupId);
 
         return view ('groups.create', compact('activity'));
     }
+
     public function review ($activityId)
     {
         $activity = Activity::findOrFail($activityId);

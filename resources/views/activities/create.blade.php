@@ -17,15 +17,23 @@
                     <div class="card">
                         <div class="alert alert-success">
                             Организацията е създадена успешно! Моля продължете с последната стъпка - създаване на нова активност.
-                        </div>  
+                        </div>
                         <div class="card-body">
                             <img src="{{ asset('/admin/img').'/registration_roadmap_act.png' }}" class="roadmap-image">
-                         </div> 
+                         </div>
                     </div>
-                </div>  
+                </div>
+            @else
+                <div class="col-md-11">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{{ asset('/admin/img').'/activity_roadmap.png' }}" class="roadmap-image">
+                         </div>
+                    </div>
+                </div>
             @endif
         <div class="col-md-8 col-md-offset-2">
-            <div class="card"> 						
+            <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('activities.store') }}" enctype="multipart/form-data">
                         @csrf
@@ -58,7 +66,7 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('organization') }}</strong>
                                     </span>
-                                    @endif 
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -69,13 +77,13 @@
                         <div class="form-group row">
                             <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
-							
+
                                 <select class="form-control" type="text" data-error="Subject is required." name="category_id" id="category_select">
-									
+
                                    @foreach($categories as $category_id => $name)
-									
+
                                        <option value="{{$category_id}}" data-url="{{route('get.subcategories',$category_id)}}" @if($category_id==old('category_id')) selected @endif >{{$name}}</option>
-									   
+
                                    @endforeach
                                </select>
 							    @if ($errors->has('category_id'))
@@ -85,14 +93,14 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         {{-- subcategory --}}
                         <div class="form-group row">
                             <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}<span class="recommended-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text"  name="subcategory_id" id="subcategory_id">
                                    <option disabled="disabled" selected>
-                                       Първо изберете категория 
+                                       Първо изберете категория
                                    </option>
                                </select>
                             </div>
@@ -127,7 +135,7 @@
 
                             </div>
                         </div>
-                        
+
                         {{-- city --}}
                         <div class="form-group row">
                             <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Град') }}</label>
@@ -187,7 +195,7 @@
                             <label for="max_age" class="col-md-4 col-form-label text-md-right">{{ __('Максимална възраст на участниците') }}<span class="recommended-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 {!! Form::number('max_age', null, ['class'=>'form-control']) !!}
-                                
+
                                 @if ($errors->has('max_age'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('max_age') }}</strong>
@@ -228,9 +236,9 @@
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('gallery.*') }}</strong>
                                 </span>
-                                @endif  
+                                @endif
                             </div>
-                        </div>    
+                        </div>
 
                         {{-- start date --}}
                         <div class="form-group row">
@@ -286,7 +294,7 @@
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Моля отбележете "Да" ако вашата активност е с фиксирано начало, след посочената в по-горе начална дата. Пример - обучение, летен лагер.
-                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.  
+                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.
                             </div>
                         </div>
 
@@ -304,7 +312,7 @@
                                     <p><strong>{{ $errors->first('available') }}</strong></p>
                                 </span>
                             @endif
-                            </div> 
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
@@ -315,14 +323,14 @@
                         @else
                             <input name="available" type="hidden" value="1">
                         @endif
-                        
-                        
+
+
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Полетата означени с <span class="required-fields">&ast;</span> са задължителни, а полетата означени с  <span class="recommended-fields">&ast;</span> - препоръчителни!
                             </div>
                         </div>
-    
+
                         <div class="form-group row mb-0">
                             <div class="col-md-8 col-md-offset-2 text-center">
                             @if($newActivityFlag === 1)
@@ -331,7 +339,7 @@
                                     &nbsp;
                                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </button>
-                            @else   
+                            @else
                                 <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
                                     {{ __('Регистрирай') }}
                                 </button>
@@ -339,7 +347,7 @@
                             </div>
                         </div>
                     </form>
-                
+
                 </div>
             </div>
         </div>

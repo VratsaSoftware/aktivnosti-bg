@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 class ScheduleController extends Controller
 {
 
+    public function __construct(){
+
+        $this->middleware('protect.schedule')->except(['addScheduleGroup','index','show']);
+
+    }
+
     public function review ($groupId)
     {
         $group = Group::findOrFail($groupId);

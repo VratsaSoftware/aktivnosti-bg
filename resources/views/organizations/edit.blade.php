@@ -185,20 +185,18 @@
                     </form>
 					 <div class="row">
 						@foreach($gallery as $photo)
-
-							<div class="col-md-3 old-img">
-
-						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroyGallery',$photo->photo_id) }}" >
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
-							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
-						</form>
+                            @if(file_exists('user_files/images/organization/gallery/' . $photo->image_path))
+							 <div class="col-md-3 old-img">
+        						<form style="display: inline-block" method="POST" action="{{ 	route('organizations.destroyGallery',$photo->photo_id) }}" >
+        							{{ csrf_field() }}
+        							{{ method_field('DELETE') }}
+        							<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+        						</form>
 								<img src="{{ asset('user_files/images/organization/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
-							</div>
-
+							 </div>
+                            @endif
 						@endforeach
 					</div>
-
                 </div>
             </div>
         </div>

@@ -6,19 +6,19 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">      
+            <div class="card">
                 <div class="card-body">
 				@foreach ($activity->photos as $photo)
 					<div class="row">
-					
+
 						<div class="col-md-6 old-img">
-							
+
 							@if ($photo->purpose->description == 'mine')
 							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
 							@endif
-										   
+
 						</div>
-					
+
 					</div>
 					@endforeach
                     <form id="register" method="POST" action="{{ route('activities.update', $activity->activity_id) }}" enctype="multipart/form-data">
@@ -55,14 +55,14 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         {{-- subcategory --}}
                         <div class="form-group row">
                             <label for="subcategory" class="col-md-4 col-form-label text-md-right">{{ __('Подкатегория') }}<span class="recommended-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" data-error="Subject is required." name="subcategory_id" id="subcategory_id">
                                         <option disabled="disabled">
-                                            Първо изберете категория 
+                                            Първо изберете категория
                                         </option>
                                 </select>
                             </div>
@@ -159,7 +159,7 @@
 
                             <div class="col-md-6">
                                 {!! Form::number('max_age', $activity->max_age, ['class'=>'form-control']) !!}
-        
+
                                 @if ($errors->has('max_age'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('max_age') }}</strong>
@@ -186,8 +186,8 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
-                                @endif 
-                                </div> 
+                                @endif
+                                </div>
                             </div>
                         </div>
 
@@ -201,37 +201,37 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('gallery.*') }}</strong>
                                     </span>
-                                @endif 
+                                @endif
 
                             </div>
                         </div>
 
                         {{-- organization --}}
-                        
+
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}<span class="required-fields">&ast;</span></label>
                             <div class="col-md-6">
                                 <select class="form-control" type="text" required="required" data-error="Subject is required." name="organization_id">
 									if(@isset($activity->organization->name))
                                     @php($organization_name = $activity->organization->name)
-									
+
 										@foreach($organizations as $organization)
-											
-												
+
+
 													@if($organization->name === $organization_name)
-					
+
 										<option value="{{$organization->organization_id}}" selected>{{$organization->name}}</option>
 													@else
 										<option value="{{$organization->organization_id}}">{{$organization->name}}</option>
 													@endif
-												
-											
+
+
 										@endforeach
-									@else										
+									@else
 										@foreach($organizations as $organization)
-											@if(isset($organization->approved_at))						
+											@if(isset($organization->approved_at))
 										<option value="{{$organization->organization_id}}">{{$organization->name}}</option>
-																						
+
 											@endif
 										@endforeach
 									@endif
@@ -239,7 +239,7 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('organization') }}</strong>
                                     </span>
-                                    @endif 
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Моля отбележете "Да" ако вашата активност е с фиксирано начало, след посочената в по-горе начална дата. Пример - обучение, летен лагер.
-                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.  
+                                Моля отбележете "Не" ако вашата активност вече е налична в момента на регистрацията или продължава целогодишно. Пример - тренировки.
                             </div>
                         </div>
 
@@ -316,7 +316,7 @@
                                 @else
                                 <input type="radio" name="available" value=1>да<br>
                                 <input type="radio" name="available" value=0 checked>не
-                                @endif 
+                                @endif
                             </div>
                         </div>
                         <div class="form-group row">
@@ -326,7 +326,7 @@
                         </div>
 
                         <hr>
-                        
+
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Полетата означени с <span class="required-fields">&ast;</span> са задължителни, а полетата означени с  <span class="recommended-fields">&ast;</span> - препоръчителни!
@@ -340,7 +340,7 @@
                                 </button>
                             </div>
                         </div>
-					
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-warning" href="{{ url()->previous() }}">
@@ -350,15 +350,17 @@
                         </div>
                     </form>
 					<div class="row">
-						@foreach($gallery as $photo)					
-						<div class="col-md-3 old-img">							
-							<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroyGallery',$photo->photo_id) }}" >
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
-								<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
-							</form>
-							<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
-						</div>							
+						@foreach($gallery as $photo)
+                            @if(file_exists('user_files/images/activity/gallery/' . $photo->image_path))
+        						<div class="col-md-3 old-img">
+        							<form style="display: inline-block" method="POST" action="{{ 	route('activities.destroyGallery',$photo->photo_id) }}" >
+        								{{ csrf_field() }}
+        								{{ method_field('DELETE') }}
+        								<input class="btn btn-danger btn-sm" type="submit" name="submit" value="Изтрий">
+        							</form>
+        							<img src="{{ asset('user_files/images/activity/gallery/'.$photo->image_path)}}" alt="{{$photo->description}}">
+        						</div>
+                            @endif
 						@endforeach
 					</div>
                 </div>
