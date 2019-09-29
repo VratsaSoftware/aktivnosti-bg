@@ -32,6 +32,20 @@
                     </div>
                 </div>
             @endif
+        <div class="col-md-11">
+            <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        Следните полета не са попълнени коректно, моля въведете валидни данни:
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                     </ul>
+                    </div>
+                @endif
+            </div>
+        </div>
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
@@ -117,7 +131,6 @@
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -160,11 +173,12 @@
                         </div>
 
                         {{-- activity price --}}
+                        <hr>
                         <div class="form-group row">
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Цена') }}<span class="required-fields">&ast; посочете цена, ако активността не е безплатна</span></label>
 
                             <div class="col-md-6">
-                                {!! Form::number('price',null,['class' => 'form-control','step'=>'0.01']) !!}
+                                {!! Form::number('price',null,['class' => 'form-control', 'id' =>'price_status','step'=>'0.01']) !!}
 
                                 @if ($errors->has('price'))
                                     <span class="invalid-feedback" role="alert">
@@ -174,6 +188,22 @@
 
                             </div>
                         </div>
+
+                        <div class="form-group row" id="price_visible">
+                            <label for="price_visible" class="col-md-4 col-form-label text-md-right">{{ __('Да бъде ли видима цената за посетителите?') }}<span class="required-fields">&ast;</span></label>
+                            <div class="col-md-6">
+                                <input type="radio" name="price_visible" value=1 @if(old('price_visible') == 1) checked @endif>Да<br>
+                                <input type="radio" name="price_visible" value=0 @if(old('price_visible') == 0 || !old('price_visible')) checked @endif>Не<br>
+
+                                @if ($errors->has('price_visible'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('price_visible') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
+                        </div>
+                        <hr>
 
                         {{-- min age --}}
 						<div class="form-group row">
@@ -279,8 +309,8 @@
                             <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('Фиксиран старт') }}<span class="required-fields">&ast;</span></label>
 
                             <div class="col-md-6">
-                                <input type="radio" name="fixed_start" value=1 checked>Да<br>
-                                <input type="radio" name="fixed_start" value=0>Не
+                                <input type="radio" name="fixed_start" value=1 @if(old('fixed_start') == 1) checked @endif>Да<br>
+                                <input type="radio" name="fixed_start" value=0 @if(old('fixed_start') != 1 || !old('fixed_start')) checked @endif>Не
 
                                 @if ($errors->has('fixed_start'))
                                     <span class="invalid-feedback" role="alert">

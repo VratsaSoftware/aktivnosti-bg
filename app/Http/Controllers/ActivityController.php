@@ -162,6 +162,12 @@ class ActivityController extends Controller
         if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
             $activity->subcategory_id = $request->get('subcategory_id');
         }
+        if( null != $request->get('price_visible') && $request->get('price_visible') == 1){
+            $activity->price_visible = 1;
+
+        } elseif(null != $request->get('price_visible') && $request->get('price_visible') == 0){
+            $activity->price_visible = NULL;
+        }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;
@@ -289,6 +295,12 @@ class ActivityController extends Controller
         if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
             $activity->subcategory_id = $request->get('subcategory_id');
         }
+        if( null != $request->get('price_visible') && $request->get('price_visible') == 1){
+            $activity->price_visible = 1;
+
+        } elseif(null != $request->get('price_visible') && $request->get('price_visible') == 0){
+            $activity->price_visible = NULL;
+        }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $default_city->city_id;
@@ -348,10 +360,7 @@ class ActivityController extends Controller
                 ]);
             }
         }
-        //disabled unapproved on edit. will be used later
-        // if(!Auth::user()->hasRole('admin') || !Auth::user()->hasRole('moderator')){
-        //     $activity->approved_at = NULL;
-        // }
+
         $activity->updated_by = Auth::user()->email;
         $activity->save();
         return redirect('/citadel/activity')->with('message', 'Активност '.$activity->activity_name.' е редактирана');

@@ -38,7 +38,7 @@ class ActivityFormRequest extends FormRequest
 				'photo'=> 'sometimes|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
 				'gallery.*'=> 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
-				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,999.99',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,9999.99',
 				'min_age' => 'nullable|integer|between:1,100',
 				'max_age' => ['nullable','integer','between:1,100',
 					function($attribute, $value, $fail) {
@@ -53,6 +53,7 @@ class ActivityFormRequest extends FormRequest
 				'requirements' => 'nullable|string|max:255',
 				'organization_id' => 'required',
 				'available' => 'required',
+                'price_visible' => 'nullable|between:0,1',
 			];
 
 		}else{
@@ -65,7 +66,7 @@ class ActivityFormRequest extends FormRequest
 				'photo'=> 'required|image|nullable|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=400,min_height=400',
 				'gallery.*'=> 'nullable|mimes:jpg,png,jpeg,gif,svg|max:2048',
 				'gallery'=> 'array|between:1,5',
-				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,999.99',
+				'price' => 'nullable|regex:/^\d+(,\d{1,2})?/|numeric|between:0,9999.99',
 				'min_age' => 'nullable|integer|between:1,100',
 				'max_age' => ['nullable','integer','between:1,100',
 				function($attribute, $value, $fail) {
@@ -80,6 +81,7 @@ class ActivityFormRequest extends FormRequest
 				'requirements' => 'nullable|string|max:255',
 				'organization_id' => 'required',
 				'available' => 'required',
+                'price_visible' => 'nullable|between:0,1',
 			];
 		}
     }
@@ -101,8 +103,8 @@ class ActivityFormRequest extends FormRequest
             'organization_id.required' => 'Моля изберете организация',
 			'category_id.gt' =>'Моля изберете категория',
             'available.required' => 'Моля направете избор за наличност',
-            'price.regex' => 'Въведете положително число, което не е нула',
-            'price.between' => 'Максималната ценa е 999.99лв. Ако вашата активност е с по-висока цена, моля свържете се с нас на contacts@aktivnosti.bg!',
+            'price.regex' => 'Въведете положително число, нула или оставете полето празно ако активността е безплатна',
+            'price.between' => 'Цената може да бъде между 0(безплатна) и 9999.99лв. Ако вашата активност е с по-висока цена, моля свържете се с нас на contacts@aktivnosti.bg! Оставете полето празно, ако активността е безплатна.',
             'min_age.required' => 'Въведете минимална възраст на участниците',
             'min_age.integer' => 'Въведете цяло положително число, което не е нула',
             'min_age.between' => 'Числото трябва да е от 1 до 100',

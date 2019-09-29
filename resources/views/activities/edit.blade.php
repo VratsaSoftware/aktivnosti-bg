@@ -122,11 +122,12 @@
                         </div>
 
                         {{-- activity price --}}
+                        <hr>
                         <div class="form-group row">
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Цена') }}</label>
 
                             <div class="col-md-6">
-                                {!! Form::number('price', $activity->price, ['class' => 'form-control','step'=>'0.01']) !!}
+                                {!! Form::number('price', $activity->price, ['class' => 'form-control','id' =>'price_status', 'step'=>'0.01']) !!}
 
                                 @if ($errors->has('price'))
                                     <span class="invalid-feedback" role="alert">
@@ -135,7 +136,29 @@
                                 @endif
 
                             </div>
+
                         </div>
+
+                        <div class="form-group row" id="price_visible">
+                            <label for="price_visible" class="col-md-4 col-form-label text-md-right">{{ __('Да бъде ли видима цената за посетителите?') }}<span class="required-fields">&ast;</span></label>
+
+                            <div class="col-md-6">
+                                @if($activity->price_visible == 1)
+                                    <input type="radio" name="price_visible" value=1 checked>Да<br>
+                                    <input type="radio" name="price_visible" value=0>Не<br>
+                                @else
+                                    <input type="radio" name="price_visible" value=1>Да<br>
+                                    <input type="radio" name="price_visible" value=0 checked>Не<br>
+                                @endif
+                                @if ($errors->has('price_visible'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('price_visible') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
+                        </div>
+                        <hr>
 
                         {{-- min age --}}
                         <div class="form-group row">

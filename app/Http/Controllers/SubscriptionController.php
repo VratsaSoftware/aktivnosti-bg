@@ -104,6 +104,8 @@ class SubscriptionController extends Controller
      public function destroy($id)
     {
         $newsletter = Newsletter::find($id);
+        $newsletter->deleted_by = Auth::user()->email;
+        $newsletter->save();
         $newsletter->delete();
 
         return redirect()->back()->with('message', 'Абонамента на '.$newsletter->subscription->email.' е изтрит!');

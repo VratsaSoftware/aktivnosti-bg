@@ -299,8 +299,9 @@
     });
     </script>
 
-   <!-- Show / Hide roles check-box-->
+   <!-- Show / Hide roles check-box, Show / Hide price visible  -->
     <script>
+    //show/hide price_visible in activity view
     $(function() {
         $('#moderator_categories').hide();
         var selectedRole = ($( '#role option:selected').text());
@@ -314,6 +315,24 @@
             }
             else{
                 $('#moderator_categories').hide();
+            }
+        });
+    });
+    //show/hide price_visible in activity view
+    $(function() {
+        $('#price_visible').hide();
+        var priceStatus = ($('#price_status').val());
+        if(priceStatus > 0){
+            $('#price_visible').show(); ///
+        }
+       $( "#price_status" ).keyup(function () {
+            priceStatus = ($( '#price_status').val());
+            console.log(priceStatus);
+             if(priceStatus > 0){
+                 $('#price_visible').show();
+            }
+            else{
+                $('#price_visible').hide();
             }
         });
     });

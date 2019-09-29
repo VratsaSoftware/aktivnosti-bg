@@ -19,7 +19,7 @@ class CreateActivitiesTable extends Migration
             $table->text('description');
             $table->tinyInteger('min_age')->nullable();
             $table->tinyInteger('max_age')->nullable();
-            $table->float('price', 5, 2)->nullable();
+            $table->float('price', 6, 2)->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('duration')->nullable();

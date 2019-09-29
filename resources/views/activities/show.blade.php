@@ -53,6 +53,9 @@
 				@if(isset($activity->requirements))
 				<li><i class="fas fa-tasks"></i>Носете си: <span class="task">{{$activity->requirements}}</span></li>
 				@endif
+				@if((isset($activity->price) && $activity->price > 0) && (isset($activity->price_visible) && $activity->price_visible == 1))
+				<li><i class="fas fa-coins"></i>Цена: <span class="task">{{$activity->price.' лв.'}}</span></li>
+				@endif
 				@isset($activity->organization->name)
 				<li><i class="fas fa-envelope"></i>{{$activity->organization->email}}</li>
 				<li><i class="fas fa-mobile-alt"></i>{{$activity->organization->phone}}</li>
