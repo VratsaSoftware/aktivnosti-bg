@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\User;
+use App\Models\Activity;
 use Illuminate\Support\Facades\Route;
 use App\Models\Purpose;
 use Illuminate\Http\Request;
@@ -14,22 +15,23 @@ class CitadelController extends Controller
     public function index(Request $request)
     {
         $purposeLogo = Purpose::select('purpose_id')->where('description','logo')->first()->purpose_id;
-    
+
         if (!$request->user()->isApproved()) {
             //send not approved users to home
-            return view('citadel.home'); 
+            return view('citadel.home');
         }
 
         if ($request->user()->hasRole('admin')) {
             //redirect admin to administrator view
             $users         = User::all()->where('deleted_at', null)->where('approved_at', null);
             $organizations = Organization::all()->where('deleted_at', null)->where('approved_at', null);
-            return view('citadel.index', compact('users', 'organizations','purposeLogo'));
+            $activities = Activity::all()->where('deleted_at', null)->where('approved_at', null);
+            return view('citadel.index', compact('users', 'organizations','purposeLogo','activities'));
         }
 
         if($request->user()->hasRole('moderator'))
         {
-  
+
             $userCategories = Auth::user()->categories->pluck('category_id')->toArray();
 
             $users = User::all()->where('deleted_at', null)->where('approved_at', null);
@@ -41,21 +43,23 @@ class CitadelController extends Controller
                             return true;
                     }
                 }
-                return false;       
+                return false;
             });
 
-            return view('citadel.index', compact('organizations','users','purposeLogo'));
+            $activities = Activity::all()->where('deleted_at', null)->where('approved_at', null)->whereIn('category_id',$userCategories);
+
+            return view('citadel.index', compact('organizations','users','purposeLogo','activities'));
         }
 
         if($request->user()->hasRole('organization_manager') || $request->user()->hasRole('organization_memeber')) {
 
             $organizations=Auth::user()->organizations()->orderBy('name')->get();
 
-            //prepare data for organization_manager index page 
+            //prepare data for organization_manager index page
             if($request->user()->hasRole('organization_manager')){
                 $users = collect([]);
                 $allUsers = collect([]);
-                foreach($organizations as $organization){ 
+                foreach($organizations as $organization){
                     foreach ( $organization->users as $user) {
                         if($user->deleted_at == null && $user->approved_at == null){
                         $users->push($user);
@@ -67,7 +71,7 @@ class CitadelController extends Controller
 
             return view('citadel.index', compact('organizations','users','purposeLogo','allUsers'));
         }
-            
+
         return view('citadel.home');
     }
 }

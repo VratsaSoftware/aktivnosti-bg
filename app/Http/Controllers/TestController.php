@@ -35,8 +35,8 @@ class TestController extends Controller
 
             // print($photo->purpose->description);
         //}
-        var_dump(Auth::user()->email);
-
+        $activity = Activity::find(50);
+        dd($activity->group());
 
 
     }

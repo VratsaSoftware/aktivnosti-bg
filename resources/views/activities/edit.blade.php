@@ -8,23 +8,47 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-				@foreach ($activity->photos as $photo)
-					<div class="row">
-
-						<div class="col-md-6 old-img">
-
-							@if ($photo->purpose->description == 'mine')
-							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
-							@endif
-
-						</div>
-
-					</div>
-					@endforeach
                     <form id="register" method="POST" action="{{ route('activities.update', $activity->activity_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-
+                        <div class="form-group row">
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Заглавна снимка (Лого)') }}</label>
+                            <div class="col-md-6 old-img">
+                            <!--organization logo-->
+                            @php
+                                $logo_exist = 0
+                            @endphp
+                            @foreach($activity->photos->sortByDesc('updated_at') as $photo)
+                                @if($photo->purpose->description == 'mine')
+                                    <img src="{{ asset('user_files/images/activity/'.$photo->image_path)}}" alt="{{$photo->description}}">
+                                    @php
+                                        $logo_exist = 1
+                                    @endphp
+                                    @break
+                                @endif
+                            @endforeach
+                            @if($logo_exist == 0)
+                                <img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Няма заглавна снимка! Зададена е по подразбиране!</strong>
+                                </span>
+                            @endif
+                            </div>
+                        </div>
+                         {{-- activity order --}}
+                        @if(Auth::user()->hasRole('admin'))
+                        <div class="form-group row">
+                            <label for="order" class="col-md-4 col-form-label text-md-right">{{ __('Приоритет при подреждане') }}<span class="required-fields">&ast;</span></label>
+                            <div class="col-md-6">
+                                <input id="order" type="number" step="00.1" class="form-control{{ $errors->has('order') ? ' is-invalid' : '' }}" name="order" value="{{ $activity->order }}" autofocus>
+                                @if ($errors->has('order'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('order') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
                         {{-- activity name --}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Име на активност') }}<span class="required-fields">&ast;</span></label>

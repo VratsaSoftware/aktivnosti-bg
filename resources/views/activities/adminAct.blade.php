@@ -10,7 +10,6 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Всички активности
-
             </div>
 	        <div class="panel-body">
 				<div class="table-responsive">
@@ -36,6 +35,9 @@
 			            </thead>
 						<tbody>
 							@foreach($activities as $activity)
+							@php
+                                $logo = 0
+                            @endphp
 							<tr>
 								<td>{{ str_limit($activity->name, 40) }}</td>
 								<td>{{ $activity->available }}</td>
@@ -56,11 +58,18 @@
 								@endif
 								<td>{{Carbon\Carbon::parse( $activity->created_at)->format('d m Y H:i') }}</td>
 								<td>
-									@foreach ($activity->photos as $photo)
-										@if ($photo->purpose->description == 'mine')
-											<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" width="50" height="30" />
-										@endif
-									@endforeach
+                                    @foreach ($activity->photos->sortByDesc('updated_at') as $photo)
+                                        @if ($photo->purpose->description == 'mine')
+                                            <img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" width="50" height="30" />
+                                            @php
+                                                $logo = 1
+                                            @endphp
+                                            @break
+                                        @endif
+                                    @endforeach
+                                    @if($logo == 0)
+                                        <img src="{{ asset('/img/portfolio/logo2.jpg')}}" alt="logo" class="gallery-box__img">
+                                    @endif
 								</td>
 								<td>
 									{{ (isset($activity->approved_at)) ? 'Одобрена': 'Неодобрена' }}
@@ -92,6 +101,20 @@
 										{{ method_field('DELETE') }}
 										<input class="btn btn-danger btn-sm btn-block" type="submit" name="submit" value="Изтрий">
 									</form>
+                                    @if(Auth::user()->hasRole(['admin']))
+                                    <form method="POST" action="{{  route('activities.saveOrder', $activity->activity_id) }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                        <label for="order">Ред на показване:</label>
+                                        <input id="order" type="number" step="00.1"  name="order" value="{{ $activity->order }}">
+                                        @if($errors->has('order'))
+                                            <span class="invalid-feedback" >
+                                                {{ $errors->first('order') }}
+                                            </span>
+                                        @endif
+                                        <input class="btn btn-default btn-sm btn-block" type="submit" name="submit" value="Промени ред">
+                                    </form>
+                                    @endif
 								</td>
 							</tr>
 							@endforeach

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ActivityFormRequest;
 use App\Http\Requests\SubscribeFormRequest;
+use App\Http\Requests\OrderMethodRequest;
 use App\Models\Activity;
 use App\Models\Organization;
 use App\Models\Category;
@@ -75,15 +76,15 @@ class ActivityController extends Controller
         }
         if ($request->session()->get('cat')>0){
             $activities=$activities->where('category_id', $request->session()->get('cat'));
-            $activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
         }else{
-            $activities=$activities->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
         }
         if ($request->ajax()){
             return view('activities.index', compact('activities', 'categories', 'continue'));
         }else{
             $activities = new Activity;
-            $activities=$activities->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
             return view('activities.ajax', compact('activities', 'categories', 'continue'));
         }
 
@@ -167,6 +168,11 @@ class ActivityController extends Controller
 
         } elseif(null != $request->get('price_visible') && $request->get('price_visible') == 0){
             $activity->price_visible = NULL;
+        }
+        if(!empty($request->get('order'))){
+            $activity->order = $request->get('order');
+        } else{
+            $activity->order = 0;
         }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
@@ -361,6 +367,9 @@ class ActivityController extends Controller
             }
         }
 
+        if(!empty($request->get('order')) && Auth::user()->hasRole('admin')){
+            $activity->order = $request->get('order');
+        }
         $activity->updated_by = Auth::user()->email;
         $activity->save();
         return redirect('/citadel/activity')->with('message', 'Активност '.$activity->activity_name.' е редактирана');
@@ -424,5 +433,16 @@ class ActivityController extends Controller
                     'subscription_id' =>  $subscribе->subscription_id,
                 ]);
         return redirect()->back()->with('message', 'Създадохте абонамент');
+    }
+
+    public function saveOrder(OrderMethodRequest $request, $id)
+    {
+
+        $activity = Activity::find($id);
+        $activity->order = $request->get('order');
+        $activity->save();
+
+
+        return redirect()->back()->with('message', 'Реда на показване на активността е променен успешно!');
     }
 }

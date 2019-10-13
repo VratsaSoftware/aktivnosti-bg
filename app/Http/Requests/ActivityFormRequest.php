@@ -54,6 +54,7 @@ class ActivityFormRequest extends FormRequest
 				'organization_id' => 'required',
 				'available' => 'required',
                 'price_visible' => 'nullable|between:0,1',
+                'order' => 'numeric|between:-99.9,99.9'
 			];
 
 		}else{
@@ -82,6 +83,7 @@ class ActivityFormRequest extends FormRequest
 				'organization_id' => 'required',
 				'available' => 'required',
                 'price_visible' => 'nullable|between:0,1',
+                'numeric|between:-99.9,99.9'
 			];
 		}
     }
@@ -117,6 +119,7 @@ class ActivityFormRequest extends FormRequest
             'gallery.between' => 'Броя на снимките е надвишен',
             'gallery.*.max' => 'Размерът на файла трябва да бъде по-малък от 2MB',
             'gallery.*.mimes' => 'Формата на изображението не се поддържа',
+            'order.*.between' => 'Въведете стойност между -99.9 и 99.9',
         ];
     }
 }

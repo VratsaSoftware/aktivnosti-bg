@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/citadel/activity/approve/{id}', 'ActivityController@approve')->name('activities.approve');
 		Route::get('/citadel/activity/unAapprove/{id}', 'ActivityController@unApprove')->name('activities.unApprove');
 		Route::get('/get/subcategories/{category}/{subcategory?}', 'ActivityController@getSucategories')->name('get.subcategories');
+		Route::put   ('/citadel/activity/{id}/saveOrder', 'ActivityController@saveOrder')->name('activities.saveOrder');
 
 		// category management
 		Route::resource('/citadel/category', 'CategoryController');

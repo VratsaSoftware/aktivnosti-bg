@@ -16,7 +16,7 @@
 					@if(session()->has('message'))
     				<div class="alert alert-success">
        			 		{{ session()->get('message') }}
-    				</div>   
+    				</div>
 					@endif
         			<table class="table table-striped table-bordered table-hover" id="table_users">
             		<thead>
@@ -66,7 +66,7 @@
         		</div>
     		</div>
     		@endif
-    		 <div class="panel-heading">
+    		<div class="panel-heading">
     		 	@if(Auth::user()->hasAnyRole(['admin','moderator']))
                 	Организации чакащи одобрение
                 @else
@@ -78,7 +78,7 @@
 					@if(session()->has('message'))
     				<div class="alert alert-success">
        			 		{{ session()->get('message') }}
-    				</div>   
+    				</div>
 					@endif
         			<table class="table table-striped table-bordered table-hover" id="table_organizations">
             		<thead>
