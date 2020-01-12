@@ -115,3 +115,6 @@ Route::get('/test','TestController@index')->name('test.index');
 
 //subscribtions management
 Route::post  ('/activity/store', 'SubscriptionController@store')->name('subscription.store');
+
+//Team pages
+Route::get('/team','TeamController@index')->name('team.index');

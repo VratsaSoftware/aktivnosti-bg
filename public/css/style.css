@@ -2386,6 +2386,25 @@ span.rangeslider__labels__label:first-child {
 
 /* About page ==================================================*/
 
+.social-link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    border-radius: 50%;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.social-link:hover, .social-link:focus {
+    background: #ddd;
+    text-decoration: none;
+    color: #555;
+}
+
 .top-bar {
 	color: #333;
 	padding: 150px 0 150px;
