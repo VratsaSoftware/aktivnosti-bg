@@ -84,7 +84,10 @@ class ActivityController extends Controller
             return view('activities.index', compact('activities', 'categories', 'continue'));
         }else{
             $activities = new Activity;
-            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+            // dd($activities=$activities->OrderBy('created_at', 'DESC')->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->toSql());
+
+            $activities=$activities->OrderBy('order', 'DESC')->OrderBy('created_at','DESC')->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()) >= curdate()')->paginate(20)->onEachSide(3);
+
             return view('activities.ajax', compact('activities', 'categories', 'continue'));
         }
 
