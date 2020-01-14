@@ -34,6 +34,9 @@
 	@yield('css')
     <!-- modernizr -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
+    <!--Terms banner-->
+    <link rel="stylesheet" type="text/css" href="//wpcc.io/lib/1.0.2/cookieconsent.min.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
@@ -142,27 +145,12 @@
 		  verlayBackgroundColor: 'rgba(0,0,0,.8)'
 		});
 	</script>
-	<script>
-		window.addEventListener("load", function(){
-		window.cookieconsent.initialise({
-		"palette": {
-			"popup": {
-			"background": "#0a81be"
-			},
-			"button": {
-			"background": "#fff600",
-			"text": "#000000"
-			}
-		},
-		"theme": "classic",
-		"content": {
-			"message": "Активности използва бисквитки и подобни технологии. Научете повече в нашата ",
-			"dismiss": "Съгласен",
-			"link": "Политика относно бисквитките.",
-			"href": "Политика относно бисквитки"
-		}
-		})});
-	</script>
+
+    <script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script>
+    <script>window.addEventListener("load", function(){window.wpcc.init({"corners":"normal","colors":{"popup":{"background":"#ffbf00","text":"#494949","border":"#fde296"},"button":{"background":"#ffffff","text":"#000000"}},"position":"bottom","border":"thin","fontsize":"large","content":{"href":"{{route('static.terms')}}","message":"Aktivnosti.bg използва бисквитки. Научете повече в нашата Политика относно бисквитките.","link":"Моля прочетете нашите \"Условия за ползване\".","button":"Съгласен съм!"}})});
+    </script>
+
+
 	<script src="{{asset('/js/filterAjax.js')}}"></script>
     <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
 

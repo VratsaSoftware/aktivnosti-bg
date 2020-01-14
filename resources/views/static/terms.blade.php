@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Общи условия')
+@section('title', 'Условия за ползване')
 @section('content')
 <div class="container py-5">
     <div class="row text-center text-white">
