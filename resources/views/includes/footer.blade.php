@@ -59,7 +59,7 @@
 								</li><!-- small-post-item end -->
 								<li>
 									<div class="small-post-item">
-										<a href="#" class="post-date">Екип</a>
+										<a href="{{route('team.index')}}" class="post-date">Екип</a>
 									</div>
 								</li><!-- small-post-item end -->
 							</ul>

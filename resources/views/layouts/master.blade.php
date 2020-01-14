@@ -142,6 +142,27 @@
 		  verlayBackgroundColor: 'rgba(0,0,0,.8)'
 		});
 	</script>
+	<script>
+		window.addEventListener("load", function(){
+		window.cookieconsent.initialise({
+		"palette": {
+			"popup": {
+			"background": "#0a81be"
+			},
+			"button": {
+			"background": "#fff600",
+			"text": "#000000"
+			}
+		},
+		"theme": "classic",
+		"content": {
+			"message": "Нолина ЕООД използва бисквитки и подобни технологии. Научете повече в нашата ",
+			"dismiss": "Съгласен",
+			"link": "Политика относно бисквитките.",
+			"href": "Политика относно бисквитки"
+		}
+		})});
+	</script>
 	<script src="{{asset('/js/filterAjax.js')}}"></script>
     <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
 
