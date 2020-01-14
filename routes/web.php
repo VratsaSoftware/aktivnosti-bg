@@ -111,10 +111,15 @@ Route::get('/news', 'NewsController@index')->name('news.index');
 Route::get('/news/{id}', 'NewsController@show')->name('news.show');
 
 //for test purposes, will be deleted later
-Route::get('/test','TestController@index')->name('test.index');
+// Route::get('/test','TestController@index')->name('test.index');
 
 //subscribtions management
 Route::post  ('/activity/store', 'SubscriptionController@store')->name('subscription.store');
 
 //Team pages
 Route::get('/team','TeamController@index')->name('team.index');
+
+//Terms and conditions
+Route::get('terms',function(){
+	return view('static.terms');
+})->name('static.terms');

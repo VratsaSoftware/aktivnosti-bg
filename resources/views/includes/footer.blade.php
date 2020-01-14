@@ -54,7 +54,7 @@
 								</li><!-- small-post-item end -->
 								<li>
 									<div class="small-post-item">
-										<a href="#" class="post-date">Условия за ползване</a>
+										<a href="{{ route('static.terms') }}" class="post-date">Условия за ползване</a>
 									</div>
 								</li><!-- small-post-item end -->
 								<li>

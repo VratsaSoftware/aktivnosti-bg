@@ -77,7 +77,7 @@
     <!-- back to top -->
     <a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
     <!-- end back to top -->
-	
+
     <!-- jQuery -->
 	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
     <script src="{{asset('js/jquery-2.1.1.js')}}"></script>
@@ -93,8 +93,8 @@
     <!-- Change top-bar h1 and background script!!!  -->
     <script src="{{asset('js/intro.js')}}"></script>
     <!-- Load Range Slider script -->
-    <script> 
-        //Prepare variables to grant access from scripts below 
+    <script>
+        //Prepare variables to grant access from scripts below
         var basePath = '<?php echo $basePath ?>',
             free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
             age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
@@ -111,8 +111,8 @@
 	<script src="{{ asset('js/share.js') }}"></script>
 	<script src="{{ asset('js/map.js') }}"></script>
     <!-- Free/Paid check box and age slider management-->
-     <script> 
-        //Prepare variables to grant access from scripts below 
+     <script>
+        //Prepare variables to grant access from scripts below
         var basePath = '<?php echo $basePath ?>',
             free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
             age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
@@ -156,7 +156,7 @@
 		},
 		"theme": "classic",
 		"content": {
-			"message": "Нолина ЕООД използва бисквитки и подобни технологии. Научете повече в нашата ",
+			"message": "Активности използва бисквитки и подобни технологии. Научете повече в нашата ",
 			"dismiss": "Съгласен",
 			"link": "Политика относно бисквитките.",
 			"href": "Политика относно бисквитки"
