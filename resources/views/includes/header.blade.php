@@ -26,7 +26,7 @@
         </a>
         @endif
         <a class="box-primary-nav-trigger" href="#0">
-            <span class="box-menu-text">Абонирай се</span><span class="box-menu-icon"></span>
+            <span class="box-menu-text">Абонирай се <i class="fas fa-newspaper subscribe"></i></span><span class="box-menu-icon"></span>
         </a>
     </header>
     @csrf

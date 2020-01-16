@@ -306,9 +306,16 @@ h5 {
 	font-weight: 700;
 
 }
+.subscribe{
+	font-size: 24px;
+	position: absolute;
+	right: 5px;
+	top: 10%;
+	opacity: .8;
 
+}
 .box-primary-nav-trigger .box-menu-icon {
-	display: inline-block;
+	display: none;
 	position: absolute;
 	left: 0%;
 	top: 50%;

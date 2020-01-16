@@ -31,6 +31,8 @@ jQuery(document).ready(function($){
 	//open/close primary navigation
 	$('.box-primary-nav-trigger').on('click', function(){
 		$('.box-menu-icon').toggleClass('is-clicked'); 
+		$('.box-menu-icon').css('display','inline-block');
+		$('.subscribe').css('display','none');
 		$('.box-header').toggleClass('menu-is-open');
 		
 		//in firefox transitions break when parent overflow is changed, so we need to wait for the end of the trasition to give the body an overflow hidden
@@ -38,6 +40,8 @@ jQuery(document).ready(function($){
 			$('.box-primary-nav').removeClass('is-visible').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',function(){
 				$('body').removeClass('overflow-hidden');
 			});
+			$('.box-menu-icon').css('display','none');
+			$('.subscribe').css('display','inline');;
 		} else {
 			$('.box-primary-nav').addClass('is-visible').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',function(){
 				$('body').addClass('overflow-hidden');
