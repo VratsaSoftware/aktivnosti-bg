@@ -29,7 +29,7 @@
             <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{{asset('img/team/default.webp')}}" alt="" width="250" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
                 <h5 class="mb-0">Светослав Василев</h5><span class="small text-uppercase text-muted">Mentor</span>
                 <ul class="social mb-0 list-inline mt-3">
-                    <li class="list-inline-item"><a href="https://www.facebook.com/svetoslav.vasilev.16" target="_blank" class="social-link"><i class="fa fa-facebook-f"></i></a></li>          
+                    <li class="list-inline-item"><a href="https://www.facebook.com/svetoslav.vasilev.16" target="_blank" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
                     <li class="list-inline-item"><a href="http://www.linkedin.com/in/svetoslav-vasilev-cvexa" target="_blank" class="social-link"><i class="fa fa-linkedin"></i></a></li>
                 </ul>
             </div>
@@ -41,7 +41,7 @@
                 <h5 class="mb-0">Борислав Кръстев</h5><span class="small text-uppercase text-muted">Developer</span>
                 <ul class="social mb-0 list-inline mt-3">
                     <li class="list-inline-item"><a href="https://www.facebook.com/borislav.krastev.3150" target="_blank" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/borislav-krastev-681b4319b/" target="_blank" class="social-link"><i class="fa fa-linkedin"></i></a></li>
+                    {{--<li class="list-inline-item"><a href="" target="_blank" class="social-link"><i class="fa fa-linkedin"></i></a></li> --}}
                 </ul>
             </div>
         </div><!-- End -->
@@ -56,7 +56,7 @@
                 </ul>
             </div>
         </div><!-- End -->
-		
+
 		 <!-- Team item -->
         <div class="col-xl-3 col-sm-6 mb-5">
             <div class="bg-white rounded shadow-sm py-5 px-4"><img src="{{asset('img/team/default.webp')}}" alt="" width="250" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">

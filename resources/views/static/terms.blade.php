@@ -202,3 +202,14 @@
 </div>
 
 @endsection
+
+@section('pagescript')
+    <!-- Terms and conditions, open general conditions-->
+    <script>
+        window.onload=function(){
+            if(document.getElementById("gentTerms")){
+                document.getElementById("gentTerms").click();
+            }
+        };
+    </script>
+@endsection
