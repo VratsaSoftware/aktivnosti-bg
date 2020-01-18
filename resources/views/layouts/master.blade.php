@@ -154,6 +154,15 @@
 	<script src="{{asset('/js/filterAjax.js')}}"></script>
     <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
 
+    <!-- Terms and conditions, open general conditions-->
+    <script>
+        window.onload=function(){
+            if(document.getElementById("gentTerms")){
+                document.getElementById("gentTerms").click();
+            }
+        };
+    </script>
+
 </body>
 
 </html>
