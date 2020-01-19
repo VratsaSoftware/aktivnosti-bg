@@ -173,8 +173,12 @@
         </div>
         <!-- end org activity -->
     </div>
-	<div class="text-center">
-          <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
+    <div class="text-center">
+        <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
+
+        @if(url()->previous() !== url('/')."/")
+            <a href="{{ url('/')}}" class="btn btn-box"><i class="fas fa-home"></i>&nbsp;Начална</a>
+        @endif
     </div>
     <script>
 
