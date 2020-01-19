@@ -1,4 +1,11 @@
 @extends('layouts.master')
+
+@section('pagelinks')
+    <!-- range slider -->
+    <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
+
+@endsection
+
 @section('content')
     <!-- main container -->
     <div class="main-container portfolio-inner clearfix">
@@ -57,4 +64,25 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('pagescript')
+    <!-- Change top-bar h1 and background script!!!  -->
+    <script src="{{asset('js/intro.js')}}"></script>
+
+    <!-- Free/Paid check box and age slider management-->
+    <!-- Basepath needed for age slider-->
+    @php
+        $basePath = $app['url']->to('/');
+    @endphp
+     <script>
+        //Prepare variables to grant access from scripts below
+        var basePath = '<?php echo $basePath ?>',
+            free = <?php echo (isset($_GET['free'])) ? $_GET['free'] : 'null' ?>,
+            age = <?php echo (isset($_GET['age'])) ? $_GET['age'] : 'null' ?>;
+    </script>
+
+    <!-- Load Range Slider script -->
+    <script src="{{asset('js/rangeslider.min.js')}}"></script>
+    <script src="{{asset('js/rangeslider.js')}}"></script>
 @endsection

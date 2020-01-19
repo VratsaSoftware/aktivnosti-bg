@@ -1,6 +1,19 @@
 
 @extends('layouts.master')
 
+@section('pagelinks')
+	<!-- baguetteBox gallery -->
+	<link rel="stylesheet" href="{{asset('css/baguetteBox.min.css')}}">
+    <!-- slick slider -->
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
+
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+
+@endsection
+
 @section('title', $activity->name)
 
 @section('content')
@@ -221,8 +234,36 @@
         <a href="{{ url()->previous() }}" class="btn btn-box"><i class="fas fa-chevron-left"></i>&nbsp;Обратно</a>
     </div>
 @endsection
+
 @section('og')
 <meta property="og:title" content="{{ $activity->name }}" />
 <meta property="og:image" content="@foreach($logo as $photo) @if($photo->image_path!='logo.png'){{ asset('user_files/images/activity/'.$photo->image_path)}} @endif @endforeach"/>
 <meta property="og:type" content="{{$activity->description}}" />
+@endsection
+
+@section('pagescript')
+    <!-- single page script-->
+	<script src="{{asset('js/modernizr.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
+	<script src="{{asset('js/schedule.js')}}"></script>
+	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
+	<script src="{{asset('js/limititems.js')}}"></script>
+	<script src="{{ asset('js/share.js') }}"></script>
+	<script src="{{ asset('js/slick.js') }}"></script>
+    <!-- lightBox start-->
+	<script>
+		baguetteBox.run('.tz-gallery', {
+		  captions: true, // display image captions.
+		  buttons: 'auto', // arrows navigation
+		  fullScreen: false,
+		  noScrollbars: true,
+		  bodyClass: 'baguetteBox-open',
+		  titleTag: false,
+		  async: false,
+		  preload: 2,
+		  animation: 'slideIn', // fadeIn or slideIn
+		  verlayBackgroundColor: 'rgba(0,0,0,.8)'
+		});
+	</script>
 @endsection

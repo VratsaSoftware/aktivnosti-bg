@@ -1,5 +1,18 @@
 @extends('layouts.master')
 
+@section('pagelinks')
+    <!-- baguetteBox gallery -->
+    <link rel="stylesheet" href="{{asset('css/baguetteBox.min.css')}}">
+    <!-- slick slider -->
+    <link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
+
+    <script src="{{asset('js/baguetteBox.min.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+
+@endsection
+
 @section('title', $organization->name)
 
 @section('content')
@@ -15,7 +28,7 @@
             address = '{{ str_replace(str_split('\\/:*?"<>|$!@'),'',$organization->address) }}';
     </script>
     <script src="{{ asset('js/map.js') }}"></script>
-	
+
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 @endpush
 
@@ -130,9 +143,10 @@
                     @foreach($activities as $activity)
                     <div>
                         <a href="{{route('activities.show', $activity->activity_id)}}" class="portfolio_item">
-                            @foreach ($activity->photos as $photo)
+                            @foreach ($activity->photos->sortByDesc('updated_at') as $photo)
                                 @if ($photo->purpose->description == 'mine')
-                            <img class="activity-img" src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+                                    <img class="activity-img" src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive">
+                                    @break
                                 @endif
                             @endforeach
                             <div class="portfolio_item_hover">
@@ -156,7 +170,7 @@
                 </div>
             @endif
             </div>
-        </div>       
+        </div>
         <!-- end org activity -->
     </div>
 	<div class="text-center">
@@ -206,4 +220,31 @@ $(document).on("click", ".img-c.active", function() {
 <meta property="og:title" content="{{ $organization->name }}" />
 <meta property="og:image" content="@if(count($logo)!=0) @foreach($logo as $photo) @if($photo->image_path!='logo.png'){{ asset('user_files/images/organization/'.$photo->image_path)}} @endif @endforeach @else {{ asset('/img/portfolio/logo2.jpg')}} @endif"/>
 <meta property="og:type" content="{{$organization->description}}" />
+@endsection
+
+@section('pagescript')
+    <!-- single page script-->
+    <script src="{{asset('js/modernizr.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('slick/slick-starter.js')}}"></script>
+    <script src="{{asset('js/schedule.js')}}"></script>
+    <script src="{{asset('js/baguetteBox.min.js') }}"></script>
+    <script src="{{asset('js/limititems.js')}}"></script>
+    <script src="{{ asset('js/share.js') }}"></script>
+    <script src="{{ asset('js/slick.js') }}"></script>
+    <!-- lightBox start-->
+    <script>
+        baguetteBox.run('.tz-gallery', {
+          captions: true, // display image captions.
+          buttons: 'auto', // arrows navigation
+          fullScreen: false,
+          noScrollbars: true,
+          bodyClass: 'baguetteBox-open',
+          titleTag: false,
+          async: false,
+          preload: 2,
+          animation: 'slideIn', // fadeIn or slideIn
+          verlayBackgroundColor: 'rgba(0,0,0,.8)'
+        });
+    </script>
 @endsection
