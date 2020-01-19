@@ -204,9 +204,10 @@
 					@if(($activ->category_id == $category) && ($activ->activity_id != $activityActivityId) &&($activ->approved_at!=null) && ($activ->available == 1))
 				<div>
 					<a href="{{ route('activities.show', $activ->activity_id)}}" class="portfolio_item">
-						@foreach ($activ->photos as $photo)
+						@foreach ($activ->photos->sortByDesc('updated_at') as $photo)
 							@if ($photo->purpose->description == 'mine')
-							<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+								<img src="{{ asset('user_files/images/activity/' . $photo->image_path) }}" alt="{{$photo->alt}}" class="img-responsive" />
+								@break
 							@endif
 						@endforeach
 						<div class="portfolio_item_hover">
