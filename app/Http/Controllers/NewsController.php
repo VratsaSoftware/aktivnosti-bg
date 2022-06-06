@@ -63,7 +63,7 @@ class NewsController extends Controller
             $organizations = [ 0 => 'Изберете Организация'] + (Organization::select('organization_id','name')->whereNotNull('approved_at')->pluck('name','organization_id')->toArray());
 
 
-            return view('news.create', compact('categories', 'subcategories', 'organizations'));
+            return view('news.create', compact('categories', 'organizations'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
@@ -72,7 +72,7 @@ class NewsController extends Controller
 
             if($organizations){
 
-                return view('news.create', compact('categories', 'subcategories', 'organizations'));
+                return view('news.create', compact('categories', 'organizations'));
             }
         }
     }
@@ -187,7 +187,7 @@ class NewsController extends Controller
             $organizations = [ 0 => 'Изберете Организация'] + (Organization::select('organization_id','name')->whereNotNull('approved_at')->pluck('name','organization_id')->toArray());
 
 
-            return view('news.edit', compact('news', 'categories', 'subcategories', 'organizations', 'approvals'));
+            return view('news.edit', compact('news', 'categories', 'organizations', 'approvals'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
@@ -196,7 +196,7 @@ class NewsController extends Controller
 
             if($organizations){
 
-                return view('news.edit', compact('news', 'categories', 'subcategories', 'organizations', 'approvals'));
+                return view('news.edit', compact('news', 'categories', 'organizations', 'approvals'));
             }
         }
 

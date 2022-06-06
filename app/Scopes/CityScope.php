@@ -2,10 +2,10 @@
 
 namespace App\Scopes;
 
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 class CityScope implements Scope
 {
@@ -18,8 +18,10 @@ class CityScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        if (Auth::check() && Auth::user()->city_id) {
-            $builder->where('city_id', Auth::user()->city_id);
+        $city = BaseService::findCityBySubdomain();
+
+        if ($city) {
+            $builder->where('city_id', $city->city_id);
         }
     }
 }

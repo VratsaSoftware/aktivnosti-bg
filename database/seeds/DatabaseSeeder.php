@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
     {
 
         //Main seeders
-        
+
         $country = App\Models\Country::firstOrCreate(['name' => 'България']);
-        $city = App\Models\City::firstOrCreate(['name' => 'Враца','country_id' => '1']);
+        $city = App\Models\City::firstOrCreate(['name' => 'Враца','country_id' => '1', 'subdomain' => 'vratsa']);
 
         App\Models\Purpose::insert([
        		[
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
     		       		[
         	'description'=>'gallery',
     		],
-        ]);   
+        ]);
 
         App\Models\Category::insert([
        		[
@@ -62,10 +62,10 @@ class DatabaseSeeder extends Seeder
         	'name'=>'art',
         	'description' => 'Lorem Ipsum',
     		],
-        ]); 
+        ]);
 
         App\Models\Role::insert([
-            
+
        		[
         	'role'=>'admin',
     		],
@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
     		[
         	'role'=>'organization_member',
     		],
-        ]);     
+        ]);
 
         $this->call([
         	OrganizationsTableSeeder::class,

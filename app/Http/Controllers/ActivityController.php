@@ -22,70 +22,74 @@ use File;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Schema;
-use Image;//crop image
+use Image;
+
+//crop image
 
 class ActivityController extends Controller
 {
-    public function __construct(){
-      //Middleware activities
-        $this->middleware('protect.activity')->except(['index','manage','getSucategories','show','create','store','subscribe']);
+    public function __construct()
+    {
+        //Middleware activities
+        $this->middleware('protect.activity')->except(['index', 'manage', 'getSucategories', 'show', 'create', 'store', 'subscribe']);
     }
+
     public function getSucategories($category, $subcategory = NULL)
     {
-        if($category == 0){
+        if ($category == 0) {
             return response()->json(array(['subcategory_id' => '0', 'name' => 'Първо изберете категория']));
         }
-        if(isset($subcategory)){
+        if (isset($subcategory)) {
             $orderByCondition = $subcategory;
-        }
-        else{
+        } else {
             $orderByCondition = "NULL";
             $blankSubCatArr = array('subcategory_id' => '0', 'name' => 'Моля изберете подкатегория');
         }
-        $subCategories = Subcategory::select('subcategory_id','name')->where('category_id', $category)->orderByRaw("subcategory_id = ".$orderByCondition." desc, subcategory_id asc")->get()->toArray();
-        isset($blankSubCatArr) ? $subCategories = Arr::prepend($subCategories,$blankSubCatArr) : false;
+        $subCategories = Subcategory::select('subcategory_id', 'name')->where('category_id', $category)->orderByRaw("subcategory_id = " . $orderByCondition . " desc, subcategory_id asc")->get()->toArray();
+        isset($blankSubCatArr) ? $subCategories = Arr::prepend($subCategories, $blankSubCatArr) : false;
         return response()->json($subCategories);
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $subdomain = null)
+    public function index(Request $request)
     {
         //Be careful here :)
         //Changes affects front page
-        $categories=Category::all();
+        $categories = Category::all();
         $activities = new Activity;
-        $request->session()->put('free', $request->has('free') ? $request->get('free') : ($request->session()->has('free') ?$request->session()->get('free') : 0));
+        $request->session()->put('free', $request->has('free') ? $request->get('free') : ($request->session()->has('free') ? $request->session()->get('free') : 0));
         $request->session()->put('cat', $request->has('cat') ? $request->get('cat') : ($request->session()->has('cat') ? $request->session()->get('cat') : 0));
-        $request->session()->put('age', $request->has('age') ? $request->get('age') : ($request->session()->has('age') ?$request->session()->get('age') : 0));
+        $request->session()->put('age', $request->has('age') ? $request->get('age') : ($request->session()->has('age') ? $request->session()->get('age') : 0));
 
         $continue = Activity::latest()->whereRaw('(start_date-1) >= curdate()')->pluck('activity_id')->toArray();
 
-        if($request->session()->get('free') > 0 ){
+        if ($request->session()->get('free') > 0) {
             $priceCondition = "price is NULL";
         } else {
             $priceCondition = true;
         }
-        if($request->session()->get('age') > 0 ){
+        if ($request->session()->get('age') > 0) {
             $age = $request->session()->get('age');
-            $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
+            $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),' . $age . ')-LEAST(IFNULL(max_age,110),' . $age . '),0)=0';
         } else {
             $ageCondition = true;
         }
-        if ($request->session()->get('cat')>0){
-            $activities=$activities->where('category_id', $request->session()->get('cat'));
-            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+        if ($request->session()->get('cat') > 0) {
+            $activities = $activities->where('category_id', $request->session()->get('cat'));
+            $activities = $activities->OrderBy('order', 'DESC')->latest()->where('available', 1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
         } else {
-            $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
+            $activities = $activities->OrderBy('order', 'DESC')->latest()->where('available', 1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
         }
-        if ($request->ajax()){
+        if ($request->ajax()) {
             return view('activities.index', compact('activities', 'categories', 'continue'));
         } else {
             $activities = new Activity;
 
-            $activities=$activities->OrderBy('order', 'DESC')->OrderBy('created_at','DESC')->where('available',1)
+            $activities = $activities->OrderBy('order', 'DESC')->OrderBy('created_at', 'DESC')->where('available', 1)
                 ->where('city_id', 1)
                 ->whereNotNull('approved_at')
                 ->whereNotNull('category_id')
@@ -95,31 +99,33 @@ class ActivityController extends Controller
 
             return view('activities.ajax', compact('activities', 'categories', 'continue'));
         }
-
     }
+
     public function manage()
     {
-        if(Auth::user()->hasRole('admin')){
-            $activities=Activity::all();
+        if (Auth::user()->hasRole('admin')) {
+            $activities = Activity::all();
+
             return view('activities.adminAct', compact('activities'));
-        }
-        elseif(Auth::user()->hasRole('moderator')){
+        } elseif (Auth::user()->hasRole('moderator')) {
             $userCategories = Auth::user()->categories->pluck('category_id')->toArray();
-            $activities=Activity::whereIn('category_id',$userCategories)->get();
+            $activities = Activity::whereIn('category_id', $userCategories)->get();
+
             return view('activities.adminAct', compact('activities'));
-        }
-        elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
-        {
-            $organizations=Auth::user()->organizations()->get();
+        } elseif (Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager')) {
+            $organizations = Auth::user()->organizations()->get();
+
             foreach ($organizations as $organization) {
-                $organization_id=$organization->organization_id;
+                $organization_id = $organization->organization_id;
             }
-            if($organizations){
-                $activities=Activity::where('organization_id', $organization_id)->get();
+            if ($organizations) {
+                $activities = Activity::where('organization_id', $organization_id)->get();
+
                 return view('activities.adminAct', compact('activities'));
             }
         }
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -127,29 +133,28 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        $categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+        $categories = [0 => 'Изберете Категория'] + (Category::select('category_id', 'name')->pluck('name', 'category_id')->toArray());
 
         $cities = City::all();
 
         //in case of new user->organization->activity registration
         $newActivityFlag = 0;
         (session('newActivityFlag')) ? $newActivityFlag = session('newActivityFlag') : '';
-        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')) {
             $organizations = Organization::all();
-            return view('activities.create', compact('categories', 'cities', 'organizations','newActivityFlag'));
-        }
-        elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
-        {
-            $organizations=Auth::user()->organizations()->get();
-            if($organizations){
-                return view('activities.create', compact('categories', 'cities', 'organizations','newActivityFlag'));
+            return view('activities.create', compact('categories', 'cities', 'organizations', 'newActivityFlag'));
+        } elseif (Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager')) {
+            $organizations = Auth::user()->organizations()->get();
+            if ($organizations) {
+                return view('activities.create', compact('categories', 'cities', 'organizations', 'newActivityFlag'));
             }
         }
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ActivityFormRequest $request)
@@ -167,21 +172,21 @@ class ActivityController extends Controller
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
 
-        if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
+        if (!empty($request->get('category_id')) && $request->get('category_id') != 0) {
             $activity->category_id = $request->get('category_id');
         }
-        if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
+        if (!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0) {
             $activity->subcategory_id = $request->get('subcategory_id');
         }
-        if( null != $request->get('price_visible') && $request->get('price_visible') == 1){
+        if (null != $request->get('price_visible') && $request->get('price_visible') == 1) {
             $activity->price_visible = 1;
 
-        } elseif(null != $request->get('price_visible') && $request->get('price_visible') == 0){
+        } elseif (null != $request->get('price_visible') && $request->get('price_visible') == 0) {
             $activity->price_visible = NULL;
         }
-        if(!empty($request->get('order'))){
+        if (!empty($request->get('order'))) {
             $activity->order = $request->get('order');
-        } else{
+        } else {
             $activity->order = 0;
         }
         $activity->available = $request->get('available');
@@ -190,106 +195,109 @@ class ActivityController extends Controller
         $activity->updated_by = Auth::user()->email;
         $activity->save();
         // mine picture
-        if(isset($request['photo'])){
+        if (isset($request['photo'])) {
             $photo = $request->file('photo');
             $original_name = $request['photo']->getClientOriginalName();
-            $file_name = uniqid().$original_name;
+            $file_name = uniqid() . $original_name;
             //crop image
             $crop = $request->get('crop');
-            if($crop){
+            if ($crop) {
                 $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $crop));
                 $img = Image::make($info);
-                $img->save(public_path('user_files/images/activity/'.$file_name));
+                $img->save(public_path('user_files/images/activity/' . $file_name));
+            } else {
+                $store_file = $request['photo']->move('user_files/images/activity/', $file_name);
             }
-            else {
-            $store_file = $request['photo']->move('user_files/images/activity/', $file_name);
+            $photo_purpose = Purpose::where('description', 'mine')->first();
+            if (!$photo_purpose) {
+                $photo_purpose = Purpose::firstOrCreate(['description' => 'mine']);
             }
-            $photo_purpose = Purpose::where('description','mine')->first();
-            if(!$photo_purpose){
-                $photo_purpose=Purpose::firstOrCreate(['description' => 'mine']);
-            }
-             //store image in photos table
+            //store image in photos table
             $activity->photos()->create([
-                    'image_path' => $file_name,
-                    'alt' => 'activity photo',
-                    'description' => 'activity photo' ,
-                    'purpose_id' => $photo_purpose->purpose_id,
+                'image_path' => $file_name,
+                'alt' => 'activity photo',
+                'description' => 'activity photo',
+                'purpose_id' => $photo_purpose->purpose_id,
             ]);
         }
+
         //store activity image in public\user_files\images\activity
-        if(isset($request['gallery'])){
-            foreach($request['gallery'] as $gallery){
+        if (isset($request['gallery'])) {
+            foreach ($request['gallery'] as $gallery) {
                 $gallery_name = $gallery->getClientOriginalName();
-                $file_galery = uniqid().$gallery_name;
+                $file_galery = uniqid() . $gallery_name;
                 $store_file = $gallery->move('user_files/images/activity/gallery', $gallery_name);
-                $gallery_purpose = Purpose::where('description','gallery')->first();
-                if(!$gallery_purpose){
-                    $gallery_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+                $gallery_purpose = Purpose::where('description', 'gallery')->first();
+                if (!$gallery_purpose) {
+                    $gallery_purpose = Purpose::firstOrCreate(['description' => 'gallery']);
                 }
                 //store image in photos table
                 $activity->photos()->create([
                     'image_path' => $gallery_name,
                     'alt' => 'activity photo',
-                    'description' => 'gallery' ,
+                    'description' => 'gallery',
                     'purpose_id' => $gallery_purpose->purpose_id,
                 ]);
             }
         }
         //when method is called during the registration process
         $newActivityFlag = $request->session()->pull('newActivityFlag', 'default');
-        if($newActivityFlag == 1){
-            return view('citadel.home')->with('message','Регистрирахте профил,организация и активност успешно!');
+        if ($newActivityFlag == 1) {
+            return view('citadel.home')->with('message', 'Регистрирахте профил,организация и активност успешно!');
         }
+
         return redirect('/citadel/activity')->with('message', 'Създадена е нова активност');
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $activities=Activity::where('available',1)->where('approved_at','!=', null)->where('category_id','!=',null)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->get();
+        $activities = Activity::where('available', 1)->where('approved_at', '!=', null)->where('category_id', '!=', null)->whereRaw('start_date  <= curdate() and IFNULL(end_date,curdate()+1) >= curdate()')->get();
         $activity = Activity::findOrFail($id);
-        $purpose_gallery = Purpose::select('purpose_id')->where('description','gallery')->first();
-        $purpose_logo = Purpose::select('purpose_id')->where('description','mine')->first();
-        $gallery =  $activity->photos->where('purpose_id', $purpose_gallery->purpose_id);
-        $logo =  $activity->photos->where('purpose_id', $purpose_logo->purpose_id);
-        return view('activities.show', compact(['activity', 'activities', 'gallery', 'logo' ]));
+        $purpose_gallery = Purpose::select('purpose_id')->where('description', 'gallery')->first();
+        $purpose_logo = Purpose::select('purpose_id')->where('description', 'mine')->first();
+        $gallery = $activity->photos->where('purpose_id', $purpose_gallery->purpose_id);
+        $logo = $activity->photos->where('purpose_id', $purpose_logo->purpose_id);
+
+        return view('activities.show', compact(['activity', 'activities', 'gallery', 'logo']));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $activity = Activity::findOrFail($id);
-        $purpose = Purpose::select('purpose_id')->where('description','gallery')->first();
-        $gallery =  $activity->photos->where('purpose_id', $purpose->purpose_id);
-        $haveCategory = (isset($activity->category->category_id) ? [$activity->category->category_id => $activity->category->name ] : [ 0 => 'Изберете Категория'] );
-        $categories = $haveCategory + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+        $purpose = Purpose::select('purpose_id')->where('description', 'gallery')->first();
+        $gallery = $activity->photos->where('purpose_id', $purpose->purpose_id);
+        $haveCategory = (isset($activity->category->category_id) ? [$activity->category->category_id => $activity->category->name] : [0 => 'Изберете Категория']);
+        $categories = $haveCategory + (Category::select('category_id', 'name')->pluck('name', 'category_id')->toArray());
         $cities = City::all();
 
-        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')) {
             $organizations = Organization::all();
             return view('activities.edit', compact('activity', 'cities', 'categories', 'organizations', 'gallery'));
-        }
-        elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
-        {
-            $organizations=Auth::user()->organizations()->get();
-            if($organizations){
-                return view('activities.edit', compact('activity', 'cities', 'categories', 'organizations','gallery'));
+        } elseif (Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager')) {
+            $organizations = Auth::user()->organizations()->get();
+            if ($organizations) {
+                return view('activities.edit', compact('activity', 'cities', 'categories', 'organizations', 'gallery'));
             }
         }
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ActivityFormRequest $request, $id)
@@ -307,24 +315,24 @@ class ActivityController extends Controller
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
 
-        if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
+        if (!empty($request->get('category_id')) && $request->get('category_id') != 0) {
             $activity->category_id = $request->get('category_id');
         }
-        if(!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0){
+        if (!empty($request->get('subcategory_id')) && $request->get('subcategory_id') != 0) {
             $activity->subcategory_id = $request->get('subcategory_id');
         }
-        if( null != $request->get('price_visible') && $request->get('price_visible') == 1){
+        if (null != $request->get('price_visible') && $request->get('price_visible') == 1) {
             $activity->price_visible = 1;
 
-        } elseif(null != $request->get('price_visible') && $request->get('price_visible') == 0){
+        } elseif (null != $request->get('price_visible') && $request->get('price_visible') == 0) {
             $activity->price_visible = NULL;
         }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
         $activity->city_id = $request->get('city_id');
-        $purpose_mine = Purpose::select('purpose_id')->where('description','mine')->first();
-        $mine =  $activity->photos->where('purpose_id', $purpose_mine->purpose_id);
-        if(isset($request['photo'])) {
+        $purpose_mine = Purpose::select('purpose_id')->where('description', 'mine')->first();
+        $mine = $activity->photos->where('purpose_id', $purpose_mine->purpose_id);
+        if (isset($request['photo'])) {
             $photo = $request->file('photo');
             $original_name = $request['photo']->getClientOriginalName();
             $file_name = uniqid() . $original_name;
@@ -341,96 +349,100 @@ class ActivityController extends Controller
             if (!$photo_purpose) {
                 $photo_purpose = Purpose::firstOrCreate(['description' => 'mine']);
             }
-            if(count($mine)<1){
+            if (count($mine) < 1) {
                 $activity->photos()->update([
-                'image_path' => $file_name,
-                'alt' => 'activity mine photo',
-                'description' => 'mine',
-                'purpose_id' => $photo_purpose->purpose_id,
+                    'image_path' => $file_name,
+                    'alt' => 'activity mine photo',
+                    'description' => 'mine',
+                    'purpose_id' => $photo_purpose->purpose_id,
                 ]);
-            }
-            else
-            {
+            } else {
                 $activity->photos()->update([
-                'image_path' => $file_name
+                    'image_path' => $file_name
                 ]);
                 //delete old photo
-                foreach($activity->photos as $photo){
+                foreach ($activity->photos as $photo) {
                     $old_photo = $photo->image_path;
-                    File::delete('user_files/images/activity/'.$old_photo);
+                    File::delete('user_files/images/activity/' . $old_photo);
                 }
             }
         }
-        if(isset($request['gallery'])){
-            foreach($request['gallery'] as $gallery){
+        if (isset($request['gallery'])) {
+            foreach ($request['gallery'] as $gallery) {
                 $gallery_name = $gallery->getClientOriginalName();
-                $file_gallery = uniqid().$gallery_name;
+                $file_gallery = uniqid() . $gallery_name;
                 $store_file = $gallery->move('user_files/images/activity/gallery', $file_gallery);
-                $gallery_purpose = Purpose::where('description','gallery')->first();
-                if(!$gallery_purpose){
-                    $gallery_purpose=Purpose::firstOrCreate(['description' => 'gallery']);
+                $gallery_purpose = Purpose::where('description', 'gallery')->first();
+                if (!$gallery_purpose) {
+                    $gallery_purpose = Purpose::firstOrCreate(['description' => 'gallery']);
                 }
                 $activity->photos()->create([
-                    'image_path' => $file_gallery ,
+                    'image_path' => $file_gallery,
                     'alt' => 'activity photo',
-                    'description' => 'gallery' ,
+                    'description' => 'gallery',
                     'purpose_id' => $gallery_purpose->purpose_id,
                 ]);
             }
         }
 
-        if(!empty($request->get('order')) && Auth::user()->hasRole('admin')){
+        if (!empty($request->get('order')) && Auth::user()->hasRole('admin')) {
             $activity->order = $request->get('order');
         }
         $activity->updated_by = Auth::user()->email;
         $activity->save();
-        return redirect('/citadel/activity')->with('message', 'Активност '.$activity->activity_name.' е редактирана');
+
+        return redirect('/citadel/activity')->with('message', 'Активност ' . $activity->activity_name . ' е редактирана');
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $activity = Activity::find($id);
         //delete news
-        foreach($activity ->news as $news){
+        foreach ($activity->news as $news) {
             $news->delete();
         }
         $activity->deleted_by = Auth::user()->email;
         $activity->save();
         $activity->delete();
-        return redirect()->back()->with('message', 'Активността '.$activity->name.' е изтрита!');
+        return redirect()->back()->with('message', 'Активността ' . $activity->name . ' е изтрита!');
     }
+
     public function approve($id)
     {
         $activity = Activity::find($id);
         $activity->approved_at = (date('Y-m-d H:i:s'));
         $activity->approved_by = Auth::user()->email;
         $activity->save();
-        return redirect()->back()->with('message', 'Активността '.$activity->name.' е одобрена!');
+        return redirect()->back()->with('message', 'Активността ' . $activity->name . ' е одобрена!');
     }
+
     public function unApprove($id)
     {
         $activity = Activity::find($id);
         $activity->approved_at = NULL;
         $activity->updated_by = Auth::user()->email;
         $activity->save();
-        return redirect()->back()->with('message', 'Одобрението на активността '.$activity->name.' е отменено!');
+        return redirect()->back()->with('message', 'Одобрението на активността ' . $activity->name . ' е отменено!');
     }
+
     public function destroyGallery($id)
     {
         $photoGallery = Photo::find($id);
         //delete old photo
-        foreach($photoGallery as $photo){
+        foreach ($photoGallery as $photo) {
             $old_photo = $photoGallery->image_path;
-            File::delete('user_files/images/activity/gallery/'.$old_photo);
+            File::delete('user_files/images/activity/gallery/' . $old_photo);
         }
         $photoGallery->delete();
         return redirect()->back();
     }
+
     //subscribe
     public function subscribe(Request $request)
     {
@@ -441,9 +453,9 @@ class ActivityController extends Controller
         $subscribе->unsubscribed_global = true;
         $subscribе->save();
         $activity->newsletters()->create([
-                    'unsubscribed' => true,
-                    'subscription_id' =>  $subscribе->subscription_id,
-                ]);
+            'unsubscribed' => true,
+            'subscription_id' => $subscribе->subscription_id,
+        ]);
         return redirect()->back()->with('message', 'Създадохте абонамент');
     }
 

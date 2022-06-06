@@ -101,13 +101,8 @@ Route::group(['middleware' => 'auth'], function () {
 Auth::routes();
 
 // Activities pages
-//Route::group(['domain' => '{subdomain}.' . config('app.domain')], function() {
-    Route::get('/', 'ActivityController@index')
-        ->name('activities.index');
-//});
+Route::get('/', 'ActivityController@index')->name('activities.index');
 Route::get('/activity/{id}', 'ActivityController@show')->name('activities.show');
-
-
 Route::post('/activity/subscribe', 'ActivityController@subscribe')->name('activities.subscribe');
 
 

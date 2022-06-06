@@ -15,8 +15,6 @@ return [
 
     'name' => env('APP_NAME', 'Aktivnosti.bg'),
 
-    'domain' => env('APP_DOMAIN', 'aktivnosti.bg'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
