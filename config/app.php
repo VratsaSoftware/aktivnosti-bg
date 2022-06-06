@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Aktivnosti.bg'),
 
+    'domain' => env('APP_DOMAIN', 'aktivnosti.bg'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -161,7 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-		
+
 
         /*
          * Package Service Providers...

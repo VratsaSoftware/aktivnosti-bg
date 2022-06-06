@@ -59,46 +59,47 @@
     <!-- end Preloader -->
 @include('includes.header')
 
-    @if(Request::is('/'))
-        @include('includes.topbar')
-    @else
-        @include('includes.singletopbar')
-    @endif
+@if(Request::is('/'))
+    @include('includes.topbar')
+@else
+    @include('includes.singletopbar')
+@endif
 
 @yield('content')
 
 
 @include('includes.footer')
-    <!-- back to top -->
-    <a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
-    <!-- end back to top -->
 
-    <!-- jQuery -->
-	<script src="{{asset('js/baguetteBox.min.js') }}"></script>
-    <script src="{{asset('js/jquery-2.1.1.js')}}"></script>
-    <!-- <script src="js/jquery-3.3.1.min.js"></script>
-            <script src="js/jquery-migrate-3.0.0.min.js"></script> -->
+<!-- back to top -->
+<a href="#0" class="cd-top"><i class="ion-android-arrow-up"></i></a>
+<!-- end back to top -->
 
-    <!--  plugins -->
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/menu.js')}}"></script>
-    <script src="{{asset('js/animated-headline.js')}}"></script>
-    <script src="{{asset('js/isotope.pkgd.min.js')}}"></script>
+<!-- jQuery -->
+<script src="{{asset('js/baguetteBox.min.js') }}"></script>
+<script src="{{asset('js/jquery-2.1.1.js')}}"></script>
+<!-- <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-migrate-3.0.0.min.js"></script> -->
 
-    <!--  custom script -->
-    <script src="{{asset('js/custom.js')}}"></script>
+<!--  plugins -->
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/menu.js')}}"></script>
+<script src="{{asset('js/animated-headline.js')}}"></script>
+<script src="{{asset('js/isotope.pkgd.min.js')}}"></script>
 
-
-    <!-- Cookie Banner -->
-    <script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script>
-    <script>window.addEventListener("load", function(){window.wpcc.init({"corners":"normal","colors":{"popup":{"background":"#ffbf00","text":"#494949","border":"#fde296"},"button":{"background":"#ffffff","text":"#000000"}},"position":"bottom","border":"thin","fontsize":"large","content":{"href":"{{route('static.terms')}}","message":"Aktivnosti.bg използва бисквитки. Научете повече в нашата Политика относно бисквитките.","link":"Моля прочетете нашите \"Условия за ползване\".","button":"Съгласен съм!"}})});
-    </script>
+<!--  custom script -->
+<script src="{{asset('js/custom.js')}}"></script>
 
 
-	<script src="{{asset('/js/filterAjax.js')}}"></script>
-    <script src="https://use.fontawesome.com/2c7a93b259.js"></script>
+<!-- Cookie Banner -->
+<script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script>
+<script>window.addEventListener("load", function(){window.wpcc.init({"corners":"normal","colors":{"popup":{"background":"#ffbf00","text":"#494949","border":"#fde296"},"button":{"background":"#ffffff","text":"#000000"}},"position":"bottom","border":"thin","fontsize":"large","content":{"href":"{{route('static.terms')}}","message":"Aktivnosti.bg използва бисквитки. Научете повече в нашата Политика относно бисквитките.","link":"Моля прочетете нашите \"Условия за ползване\".","button":"Съгласен съм!"}})});
+</script>
 
-    @yield('pagescript')
+
+<script src="{{asset('/js/filterAjax.js')}}"></script>
+<script src="https://use.fontawesome.com/2c7a93b259.js"></script>
+
+@yield('pagescript')
 
 </body>
 

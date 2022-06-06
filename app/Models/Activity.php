@@ -1,7 +1,11 @@
 <?php
 namespace App\Models;
+use App\Scopes\CityScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+
 class Activity extends Model
 {
     use SoftDeletes;
@@ -49,14 +53,18 @@ class Activity extends Model
         return $this->belongsTo('App\Models\City', 'city_id');
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
         static::deleting(function($activity) {
-             // $activity->groups()->shedules()->delete();
+            // $activity->groups()->shedules()->delete();
             foreach ($activity->groups as $group) {
-                $group->delete(); }
-            });
+                $group->delete();
+            }
+        });
+
+        static::addGlobalScope(new CityScope);
     }
 
     public function isApproved()

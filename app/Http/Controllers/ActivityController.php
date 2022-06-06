@@ -51,7 +51,8 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(Request $request, $subdomain = null)
+    {
         //Be careful here :)
         //Changes affects front page
         $categories=Category::all();
@@ -64,29 +65,33 @@ class ActivityController extends Controller
 
         if($request->session()->get('free') > 0 ){
             $priceCondition = "price is NULL";
-        }
-        else{
+        } else {
             $priceCondition = true;
         }
         if($request->session()->get('age') > 0 ){
             $age = $request->session()->get('age');
             $ageCondition = 'GREATEST(GREATEST(IFNULL(min_age,0),'.$age.')-LEAST(IFNULL(max_age,110),'.$age.'),0)=0';
-        }else{
+        } else {
             $ageCondition = true;
         }
         if ($request->session()->get('cat')>0){
             $activities=$activities->where('category_id', $request->session()->get('cat'));
             $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
-        }else{
+        } else {
             $activities=$activities->OrderBy('order', 'DESC')->latest()->where('available',1)->whereRaw($priceCondition)->whereRaw($ageCondition)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->paginate(20)->onEachSide(3);
         }
         if ($request->ajax()){
             return view('activities.index', compact('activities', 'categories', 'continue'));
-        }else{
+        } else {
             $activities = new Activity;
-            // dd($activities=$activities->OrderBy('created_at', 'DESC')->latest()->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()+1) >= curdate()')->toSql());
 
-            $activities=$activities->OrderBy('order', 'DESC')->OrderBy('created_at','DESC')->where('available',1)->whereNotNull('approved_at')->whereNotNull('category_id')->whereRaw('IFNULL(end_date,curdate()) >= curdate()')->paginate(20)->onEachSide(3);
+            $activities=$activities->OrderBy('order', 'DESC')->OrderBy('created_at','DESC')->where('available',1)
+                ->where('city_id', 1)
+                ->whereNotNull('approved_at')
+                ->whereNotNull('category_id')
+                ->whereRaw('IFNULL(end_date,curdate()) >= curdate()')
+                ->paginate(20)
+                ->onEachSide(3);
 
             return view('activities.ajax', compact('activities', 'categories', 'continue'));
         }
@@ -123,18 +128,21 @@ class ActivityController extends Controller
     public function create()
     {
         $categories = [ 0 => 'Изберете Категория'] + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+
+        $cities = City::all();
+
         //in case of new user->organization->activity registration
         $newActivityFlag = 0;
         (session('newActivityFlag')) ? $newActivityFlag = session('newActivityFlag') : '';
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             $organizations = Organization::all();
-            return view('activities.create', compact('categories', 'subcategories', 'organizations','newActivityFlag'));
+            return view('activities.create', compact('categories', 'cities', 'organizations','newActivityFlag'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
             $organizations=Auth::user()->organizations()->get();
             if($organizations){
-                return view('activities.create', compact('categories', 'subcategories', 'organizations','newActivityFlag'));
+                return view('activities.create', compact('categories', 'cities', 'organizations','newActivityFlag'));
             }
         }
     }
@@ -146,8 +154,6 @@ class ActivityController extends Controller
      */
     public function store(ActivityFormRequest $request)
     {
-        //set default city
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
         $activity = new Activity;
         $activity->name = $request->get('name');
         $activity->description = $request->get('description');
@@ -160,6 +166,7 @@ class ActivityController extends Controller
         $activity->duration = $request->get('duration');
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
+
         if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
             $activity->category_id = $request->get('category_id');
         }
@@ -179,7 +186,7 @@ class ActivityController extends Controller
         }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
-        $activity->city_id = $default_city->city_id;
+        $activity->city_id = $request->get('city_id');
         $activity->updated_by = Auth::user()->email;
         $activity->save();
         // mine picture
@@ -264,15 +271,17 @@ class ActivityController extends Controller
         $gallery =  $activity->photos->where('purpose_id', $purpose->purpose_id);
         $haveCategory = (isset($activity->category->category_id) ? [$activity->category->category_id => $activity->category->name ] : [ 0 => 'Изберете Категория'] );
         $categories = $haveCategory + (Category::select('category_id','name')->pluck('name','category_id')->toArray());
+        $cities = City::all();
+
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')){
             $organizations = Organization::all();
-            return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations', 'gallery'));
+            return view('activities.edit', compact('activity', 'cities', 'categories', 'organizations', 'gallery'));
         }
         elseif(Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager'))
         {
             $organizations=Auth::user()->organizations()->get();
             if($organizations){
-                return view('activities.edit', compact('activity', 'categories', 'subcategories', 'organizations','gallery'));
+                return view('activities.edit', compact('activity', 'cities', 'categories', 'organizations','gallery'));
             }
         }
     }
@@ -285,7 +294,6 @@ class ActivityController extends Controller
      */
     public function update(ActivityFormRequest $request, $id)
     {
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
         $activity = Activity::findOrFail($id);
         $activity->name = $request->get('name');
         $activity->description = $request->get('description');
@@ -298,6 +306,7 @@ class ActivityController extends Controller
         $activity->duration = $request->get('duration');
         $activity->requirements = $request->get('requirements');
         $activity->organization_id = $request->get('organization_id');
+
         if(!empty($request->get('category_id')) && $request->get('category_id') != 0){
             $activity->category_id = $request->get('category_id');
         }
@@ -312,7 +321,7 @@ class ActivityController extends Controller
         }
         $activity->available = $request->get('available');
         $activity->fixed_start = $request->get('fixed_start');
-        $activity->city_id = $default_city->city_id;
+        $activity->city_id = $request->get('city_id');
         $purpose_mine = Purpose::select('purpose_id')->where('description','mine')->first();
         $mine =  $activity->photos->where('purpose_id', $purpose_mine->purpose_id);
         if(isset($request['photo'])) {

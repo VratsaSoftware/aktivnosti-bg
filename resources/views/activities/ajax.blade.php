@@ -3,7 +3,6 @@
 @section('pagelinks')
     <!-- range slider -->
     <link href="{{asset('css/rangeslider.css')}}" rel="stylesheet">
-
 @endsection
 
 @section('content')

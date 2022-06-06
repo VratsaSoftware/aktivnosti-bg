@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\CityScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,6 +12,13 @@ class Organization extends Model
 
     protected $primaryKey = 'organization_id';
     protected $guarded    = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new CityScope);
+    }
 
     public function users()
     {

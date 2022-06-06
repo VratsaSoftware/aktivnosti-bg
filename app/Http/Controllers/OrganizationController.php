@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ use App\Models\Activity;
 use App\Models\Subscription;
 use File;
 use Image;//crop image
+
 class OrganizationController extends Controller
 {
 
@@ -24,7 +27,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-      //Middleware organizations
+        //Middleware organizations
         $this->middleware('protect.organization')->except(['index','adminOrg','show','create','store','subscribe']);;
     }
 
@@ -77,7 +80,10 @@ class OrganizationController extends Controller
     {
         $newOrganizationFlag = NULL;
         (session('newOrganizationFlag')) ? $newOrganizationFlag = session('newOrganizationFlag') : '';
-        return view('organizations.create')->with('newOrganizationFlag',$newOrganizationFlag);
+
+        return view('organizations.create', [
+            'cities' => City::all(),
+        ])->with('newOrganizationFlag', $newOrganizationFlag);
     }
     /**
      * Store a newly created resource in storage.
@@ -87,9 +93,6 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationFormRequest $request)
     {
-        //set default city
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
-
         $organization = new Organization;
         $organization->name = $request->get('name');
         $organization->description = $request->get('description');
@@ -97,8 +100,9 @@ class OrganizationController extends Controller
         $organization->website = $request->get('website');
         $organization->address = $request->get('address');
         $organization->phone = $request->get('phone');
-        $organization->city_id = $default_city->city_id;
+        $organization->city_id = $request->get('city_id');
         $organization->save();
+
          //store organization image in public\user_files\images\organization
         if(isset($request['photo'])){
             $original_name = $request['photo']->getClientOriginalName();
@@ -205,7 +209,9 @@ class OrganizationController extends Controller
 
         //prepare approved options
         $approvals = ($organization->isApproved()) ? $approvals=['1'=> 'Одобрена']+['0' => 'Неодобрена'] : $approvals=['0' => 'Неодобрена']+ ['1'=> 'Одобрена'];
-        return view('organizations.edit')->with(compact(['organization','gallery','logo','approvals']));
+        return view('organizations.edit', [
+            'cities' => City::all(),
+        ])->with(compact(['organization','gallery','logo','approvals']));
     }
     /**
      * Update the specified resource in storage.
@@ -216,8 +222,6 @@ class OrganizationController extends Controller
      */
     public function update(OrganizationFormRequest $request, $id)
     {
-
-        $default_city = City::firstOrCreate(['name' => 'Враца', 'country_id' => '1']);
         $organization = Organization::find($id);;
         $organization->name = $request->get('name');
         $organization->description = $request->get('description');
@@ -225,8 +229,7 @@ class OrganizationController extends Controller
         $organization->website = $request->get('website');
         $organization->address = $request->get('address');
         $organization->phone = $request->get('phone');
-
-        $organization->city_id = $default_city->city_id;
+        $organization->city_id = $request->get('city_id');
 
         if(Auth::user()->hasAnyRole(['admin','moderator'])){
 

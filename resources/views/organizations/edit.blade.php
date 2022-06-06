@@ -121,7 +121,14 @@
                         <div class="form-group row">
                             <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Град') }}</label>
                             <div class="col-md-6">
-                                <input id="city" type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="Враца" required autofocus disabled>
+                                <select name="city_id" class="form-control" required>
+                                    <option value="">Град</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->city_id }}" {{ $organization->city_id == $city->city_id ? 'selected' : null }}>
+                                            {{ $city->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('city'))
                                     <span class="invalid-feedback" role="alert">
