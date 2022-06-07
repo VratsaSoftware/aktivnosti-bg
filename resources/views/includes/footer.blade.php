@@ -4,6 +4,9 @@
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
+                    @if(!isset($cityLocation))
+                        <div class="col-lg-1 col-md-5 col-sm-5"></div>
+                    @endif
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="widget company-intro-widget">
 							<a href="{{route('activities.index')}}" class="site-logo"><img src="{{asset('img/logo.png')}}" alt="logo"></a>
@@ -20,19 +23,23 @@
 								@endif
 							</ul>
 						</div>
-					</div><!-- widget end -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="widget course-links-widget">
-							<h5 class="widget-title">Популярни активности</h5>
-							<ul class="courses-link-list">
-								@foreach(App\Models\Activity::latest()->paginate(5) as $activity)
-									@if($activity->approved_at != null)
-								<li><a href="{{ route('activities.show', $activity->activity_id)}}"><i class="fas fa-long-arrow-alt-right"></i>{{$activity->name}}</a></li>
-									@endif
-								@endforeach
-							</ul>
-						</div>
-					</div><!-- widget end -->
+					</div>
+                    <!-- widget end -->
+                    @if(isset($cityLocation))
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="widget course-links-widget">
+                                <h5 class="widget-title">Популярни активности</h5>
+                                <ul class="courses-link-list">
+                                    @foreach(App\Models\Activity::latest()->paginate(5) as $activity)
+                                        @if($activity->approved_at != null)
+                                            <li><a href="{{ route('activities.show', $activity->activity_id)}}"><i class="fas fa-long-arrow-alt-right"></i>{{$activity->name}}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
+					<!-- widget end -->
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="widget latest-news-widget">
 							<h5 class="widget-title">Полезни връзки</h5>

@@ -80,7 +80,6 @@ class OrganizationController extends Controller
 
         return view('organizations.create', [
             'cities' => City::all(),
-            'cityLocation' => BaseService::findCityBySubdomain(),
         ])->with('newOrganizationFlag', $newOrganizationFlag);
     }
     /**

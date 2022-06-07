@@ -19,6 +19,8 @@ class CheckForCity
         $cityLocation = BaseService::findCityBySubdomain();
 
         if ($cityLocation) {
+            view()->share('cityLocation', $cityLocation);
+
             return $next($request);
         } else {
             return redirect()->route('static.cities-platforms');
