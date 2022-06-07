@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ActivityFormRequest;
@@ -135,17 +136,20 @@ class ActivityController extends Controller
         $categories = [0 => 'Изберете Категория'] + (Category::select('category_id', 'name')->pluck('name', 'category_id')->toArray());
 
         $cities = City::all();
+        $cityLocation = BaseService::findCityBySubdomain();
 
         //in case of new user->organization->activity registration
         $newActivityFlag = 0;
         (session('newActivityFlag')) ? $newActivityFlag = session('newActivityFlag') : '';
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('moderator')) {
             $organizations = Organization::all();
-            return view('activities.create', compact('categories', 'cities', 'organizations', 'newActivityFlag'));
+
+            return view('activities.create', compact('categories', 'cityLocation', 'cities', 'organizations', 'newActivityFlag'));
         } elseif (Auth::user()->hasRole('organization_member') || Auth::user()->hasRole('organization_manager')) {
             $organizations = Auth::user()->organizations()->get();
+
             if ($organizations) {
-                return view('activities.create', compact('categories', 'cities', 'organizations', 'newActivityFlag'));
+                return view('activities.create', compact('categories', 'cityLocation', 'cities', 'organizations', 'newActivityFlag'));
             }
         }
     }

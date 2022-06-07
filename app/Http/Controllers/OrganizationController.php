@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -83,6 +84,7 @@ class OrganizationController extends Controller
 
         return view('organizations.create', [
             'cities' => City::all(),
+            'cityLocation' => BaseService::findCityBySubdomain(),
         ])->with('newOrganizationFlag', $newOrganizationFlag);
     }
     /**

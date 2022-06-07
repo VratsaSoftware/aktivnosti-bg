@@ -156,7 +156,7 @@
                                 <select name="city_id" class="form-control" required>
                                     <option value="">Град</option>
                                     @foreach($cities as $city)
-                                        <option value="{{ $city->city_id }}" {{ old('city_id') && old('city_id') == $city->city_id ? 'selected' : null }}>
+                                        <option value="{{ $city->city_id }}" {{ $cityLocation && $cityLocation->city_id == $city->city_id ? 'selected' : null }}>
                                             {{ $city->name }}
                                         </option>
                                     @endforeach
