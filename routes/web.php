@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\URL;
 
 
 //authentication
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware(['auth', 'checkForCity'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     //logged users access control
@@ -100,20 +100,21 @@ Route::group(['middleware' => 'auth'], function () {
 
 Auth::routes();
 
-// Activities pages
-Route::get('/', 'ActivityController@index')->name('activities.index');
-Route::get('/activity/{id}', 'ActivityController@show')->name('activities.show');
-Route::post('/activity/subscribe', 'ActivityController@subscribe')->name('activities.subscribe');
+Route::middleware(['checkForCity'])->group(function () {
+    // Activities pages
+    Route::get('/', 'ActivityController@index')->name('activities.index');
+    Route::get('/activity/{id}', 'ActivityController@show')->name('activities.show');
+    Route::post('/activity/subscribe', 'ActivityController@subscribe')->name('activities.subscribe');
 
+    //Organization page
+    Route::get('/organizations', 'OrganizationController@index')->name('organizations.index');
+    Route::get('/organizations/{id}', 'OrganizationController@show')->name('organizations.show');
+    Route::post('/organizations/subscribe', 'OrganizationController@subscribe')->name('organizations.subscribe');
 
-//Organization page
-Route::get('/organizations', 'OrganizationController@index')->name('organizations.index');
-Route::get('/organizations/{id}', 'OrganizationController@show')->name('organizations.show');
-Route::post('/organizations/subscribe', 'OrganizationController@subscribe')->name('organizations.subscribe');
-
-// Route::resource('news', 'NewsController');
-Route::get('/news', 'NewsController@index')->name('news.index');
-Route::get('/news/{id}', 'NewsController@show')->name('news.show');
+    // Route::resource('news', 'NewsController');
+    Route::get('/news', 'NewsController@index')->name('news.index');
+    Route::get('/news/{id}', 'NewsController@show')->name('news.show');
+});
 
 //for test purposes, will be deleted later
 // Route::get('/test','TestController@index')->name('test.index');
@@ -128,3 +129,7 @@ Route::get('/team', 'TeamController@index')->name('team.index');
 Route::get('terms', function () {
     return view('static.terms');
 })->name('static.terms');
+
+//Terms and conditions
+Route::get('cities-platforms', 'HomeController@citiesPlatforms')
+    ->name('static.cities-platforms');

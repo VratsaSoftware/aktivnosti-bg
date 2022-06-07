@@ -145,7 +145,6 @@
                                         <strong>{{ $errors->first('requirements') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -175,7 +174,6 @@
                                         <strong>{{ $errors->first('address') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -192,7 +190,6 @@
                                         <strong>{{ $errors->first('price') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -207,7 +204,6 @@
                                         <strong>{{ $errors->first('price_visible') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
                         <hr>
@@ -223,7 +219,6 @@
                                         <strong>{{ $errors->first('min_age') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -238,7 +233,6 @@
                                         <strong>{{ $errors->first('max_age') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -288,7 +282,6 @@
                                         <strong>{{ $errors->first('start_date') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -305,13 +298,11 @@
                                         <strong>{{ $errors->first('end_date') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
                         {{-- fixed start --}}
                         <hr>
-
                         <div class="form-group row">
                             <label for="fixed_start" class="col-md-4 col-form-label text-md-right">{{ __('Фиксиран старт') }}<span class="required-fields">&ast;</span></label>
 
@@ -324,7 +315,6 @@
                                         <strong>{{ $errors->first('fixed_start') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                         </div>
 
@@ -361,7 +351,6 @@
                             <input name="available" type="hidden" value="1">
                         @endif
 
-
                         <div class="form-group row">
                             <div class="col-md-12 col-form-label required-fields-note text-left">
                                 Полетата означени с <span class="required-fields">&ast;</span> са задължителни, а полетата означени с  <span class="recommended-fields">&ast;</span> - препоръчителни!
@@ -370,26 +359,24 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 col-md-offset-2 text-center">
-                            @if($newActivityFlag === 1)
-                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-success">
-                                   {{ __('Завърши регистрацията') }}
-                                    &nbsp;
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                </button>
-                            @else
-                                <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
-                                    {{ __('Регистрирай') }}
-                                </button>
-                            @endif
+                                @if($newActivityFlag === 1)
+                                    <button id="button" onclick="submitForms()" type="submit" class="btn btn-success">
+                                       {{ __('Завърши регистрацията') }}
+                                        &nbsp;
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                @else
+                                    <button id="button" onclick="submitForms()" type="submit" class="btn btn-primary">
+                                        {{ __('Регистрирай') }}
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endif
 @endsection

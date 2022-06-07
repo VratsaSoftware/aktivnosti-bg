@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationFormRequest;
 use App\Http\Requests\SubscribeFormRequest;
 use App\Models\Organization;
 use App\Models\Photo;
-use App\Models\User;
 use App\Models\City;
 use App\Models\Purpose;
 use App\Models\Role;
@@ -21,7 +18,6 @@ use Image;//crop image
 
 class OrganizationController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *

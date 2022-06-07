@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'protect.group' => \App\Http\Middleware\ProtectGroupRoute::class,
         'protect.schedule' => \App\Http\Middleware\ProtectScheduleRoute::class,
         'protect.news' => \App\Http\Middleware\ProtectNewsRoute::class,
+        'checkForCity' => \App\Http\Middleware\CheckForCity::class,
     ];
 
     /**

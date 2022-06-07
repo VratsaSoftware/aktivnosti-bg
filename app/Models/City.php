@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class City extends Model
 {
@@ -28,5 +29,12 @@ class City extends Model
     public function activities()
     {
         return $this->hasMany('App\Models\Activity', 'activity_id');
+    }
+
+    public function getPlatformUrlAttribute()
+    {
+        $url = parse_url(URL::current());
+
+        return 'https://' . $this->subdomain . '.' . $url['host'];
     }
 }
