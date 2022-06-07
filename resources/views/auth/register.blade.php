@@ -8,7 +8,7 @@
         <div class="col-md-11">
             <div class="card">
                 <div class="card-body">
-                     <img src="{{ asset('/admin/img').'/registration_roadmap.png' }}" class="roadmap-image"> 
+                     <img src="{{ asset('/admin/img').'/registration_roadmap.png' }}" class="roadmap-image">
                 </div>
             </div>
         </div>
@@ -104,7 +104,14 @@
                             <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Град') }}</label>
 
                             <div class="col-md-6">
-                                <input id="city" type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="Враца" required autofocus disabled>
+                                <select name="city_id" class="form-control" required>
+                                    <option value="">Град</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->city_id }}" {{ $cityLocation && $cityLocation->city_id == $city->city_id ? 'selected' : null }}>
+                                            {{ $city->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">
@@ -131,13 +138,13 @@
                         <div class="form-group row">
                             <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Снимка') }}</label>
                              <div class="col-md-6">
-                                {!! Form::file('photo', array('class'=>'file', 'id'=>'photo')) !!} 
+                                {!! Form::file('photo', array('class'=>'file', 'id'=>'photo')) !!}
 
                                 @if ($errors->has('photo'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
-                                @endif  
+                                @endif
                             </div>
                         </div>
                         <hr>
@@ -149,7 +156,7 @@
                         <div class="form-group row">
                             <label for="organization" class="col-md-4 col-form-label text-md-right">{{ __('Организация') }}</label>
                             <div class="col-md-6">
-                                {!! Form::select('organization',(['0' => 'Създай нова организация']+$organizations),'',['class' => 'form-control']) !!}         
+                                {!! Form::select('organization',(['0' => 'Създай нова организация']+$organizations),'',['class' => 'form-control']) !!}
                                 @if ($errors->has('organization'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('organization') }}</strong>
@@ -157,7 +164,7 @@
                                 @endif
                             </div>
                         </div>
-                        <hr>  
+                        <hr>
                         <div class="form-group row">
                             <div class="col-md-10 col-form-label required-fields-note text-center">
                                 Полетата означени със звездичка (<span class="required-fields">&ast;</span>) са задължителни!
