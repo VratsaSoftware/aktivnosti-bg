@@ -90,7 +90,6 @@ class ActivityController extends Controller
             $activities = new Activity;
 
             $activities = $activities->OrderBy('order', 'DESC')->OrderBy('created_at', 'DESC')->where('available', 1)
-                ->where('city_id', 1)
                 ->whereNotNull('approved_at')
                 ->whereNotNull('category_id')
                 ->whereRaw('IFNULL(end_date,curdate()) >= curdate()')
