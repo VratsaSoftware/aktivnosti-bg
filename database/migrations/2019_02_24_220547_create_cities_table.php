@@ -17,8 +17,10 @@ class CreateCitiesTable extends Migration
             $table->increments('city_id');
             $table->string('name');
             $table->string('subdomain');
+            $table->string('photo_path');
             $table->unsignedInteger('country_id');
-            $table->foreign('country_id')->references('country_id')->on('countries')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('country_id')->references('country_id')->on('countries')
+                ->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }
