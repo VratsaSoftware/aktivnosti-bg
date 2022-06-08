@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ActivityFormRequest;
-use App\Http\Requests\SubscribeFormRequest;
 use App\Http\Requests\OrderMethodRequest;
 use App\Models\Activity;
 use App\Models\Organization;
@@ -14,14 +12,10 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Photo;
 use App\Models\Purpose;
-use App\Models\Group;
-use App\Models\Schedule;
 use App\Models\City;
-use App\Models\User;
 use App\Models\Subscription;
 use File;
 use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Schema;
 use Image;
 
@@ -32,7 +26,8 @@ class ActivityController extends Controller
     public function __construct()
     {
         //Middleware activities
-        $this->middleware('protect.activity')->except(['index', 'manage', 'getSucategories', 'show', 'create', 'store', 'subscribe']);
+        $this->middleware('protect.activity')
+            ->except(['index', 'manage', 'getSucategories', 'show', 'create', 'store', 'subscribe']);
     }
 
     public function getSucategories($category, $subcategory = NULL)
