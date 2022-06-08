@@ -3,7 +3,7 @@
 @section('title', 'Избери твоя град')
 
 @section('content')
-    <div class="text-center" style="font-size: 20px">
+    <div class="text-center" style="font-size: 26px">
         Целта на <b>aktivnosti.bg</b> е да събере на едно място възможностите за <br>
         практикуване на хобита като спорт, танци, изкуства и учене в малки градове на България.
     </div>
@@ -18,20 +18,19 @@
                     <div class="portfolio_item_hover">
                         <div class="portfolio-border clearfix">
                             <div class="item_info">
-                                <span>{{ $city->name }}</span>
-                                <em>Виж</em>
+                                <span style="font-size: 30px">{{ $city->name }}</span>
+                                <em style="font-size: 16px">Виж</em>
                             </div>
                         </div>
                         <!-- item logo-->
                         <div class="item_logo">
-                            <img src="{{ asset('img/cities/' . $city->photo_path) }}"
-                                alt="logo">
+                            <img src="{{ asset('img/cities/' . $city->photo_path) }}" alt="logo">
                         </div>
                         <!-- end item logo-->
                     </div>
                     <div class="item-description">
                         <i class="fas fa-eye"></i>
-                        <h5>{{ $city->name }}</h5>
+                        <h5 style="font-size: 30px">{{ $city->name }}</h5>
                     </div>
                 </a>
             </div>
